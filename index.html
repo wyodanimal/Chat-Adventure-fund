@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Adventure Fund</title>
+  <style>
+    body { font-family: system-ui; margin: 16px; }
+    .row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .card { border: 1px solid #3333; border-radius: 12px; padding: 12px; min-width: 220px; }
+    input, select, button { font-size: 16px; padding: 10px; }
+    button { cursor: pointer; }
+    .wide { width: 100%; }
+    pre { background: #1112; padding: 10px; border-radius: 10px; }
+  </style>
+</head>
+<body>
+  <h2>Adventure Fund</h2>
+
+  <div class="card">
+    <label>Apps Script Web App URL</label>
+    <input id="apiUrl" class="wide">
+    <label>API Key (optional)</label>
+    <input id="apiKey" class="wide">
+    <button onclick="saveConfig()">Save</button>
+    <button onclick="refreshBalances()">Refresh</button>
+  </div>
+
+  <h3>Balances</h3>
+  <div id="balances" class="row"></div>
+
+  <h3>Add Transaction</h3>
+  <div class="card">
+    <input id="amount" placeholder="Amount">
+    <input id="from" placeholder="From account">
+    <input id="to" placeholder="To account">
+    <button onclick="addTx()">Add</button>
+  </div>
+
+  <pre id="log"></pre>
+
+<script>
+function log(t){document.getElementById("log").textContent=t+"\n"+document.getElementById("log").textContent;}
+
+function saveConfig(){
+ localStorage.setItem("apiUrl",document.getElementById("apiUrl").value);
+ localStorage.setItem("apiKey",document.getElementById("apiKey").value);
+ log("saved");
+}
+
+async function refreshBalances(){
+ try{
+  const url=new URL(localStorage.getItem("apiUrl"));
+  url.searchParams.set("op","balances");
+  const k=localStorage.getItem("apiKey"); if(k) url.searchParams.set("api_key",k);
+  const r=await fetch(url); const j=await r.json();
+  if(!j.ok) throw new Error(j.error);
+  const wrap=document.getElementById("balances"); wrap.innerHTML="";
+  j.balances.forEach(a=>{
+    const d=document.createElement("div");
+    d.className="card";
+    d.innerHTML="<b>"+a.account_name+"</b><div>"+a.balance.toFixed(2)+"</div>";
+    wrap.appendChild(d);
+  });
+  log("balances updated");
+ }catch(e){log(e.message);}
+}
+
+async function addTx(){
+ try{
+  const payload={
+    op:"add_transaction",
+    amount:Number(document.getElementById("amount").value||0),
+    from_account:document.getElementById("from").value,
+    to_account:document.getElementById("to").value
+  };
+  payload.api_key=localStorage.getItem("apiKey")||"";
+  const r=await fetch(localStorage.getItem("apiUrl"),{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify(payload)
+  });
+  const j=await r.json();
+  if(!j.ok) throw new Error(j.error);
+  log("transaction added");
+  refreshBalances();
+ }catch(e){log(e.message);}
+}
+</script>
+</body>
+</html>
