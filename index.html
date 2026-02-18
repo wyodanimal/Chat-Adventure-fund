@@ -5,150 +5,92 @@
   <title>Adventure Fund</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    body {
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-      background: #0f172a;
-      color: #e2e8f0;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 40px auto;
-      padding: 20px;
-    }
-
-    h1 {
-      font-weight: 700;
-      font-size: 28px;
-      margin-bottom: 30px;
-    }
-
-    .totals {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-      margin-bottom: 40px;
-    }
-
-    .card {
-      background: #1e293b;
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-    }
-
-    .card-title {
-      font-size: 14px;
-      text-transform: uppercase;
-      opacity: 0.7;
-    }
-
-    .amount {
-      font-size: 32px;
-      font-weight: 700;
-      margin-top: 10px;
-    }
-
-    .table-card {
-      background: #1e293b;
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    th {
-      text-align: left;
-      font-size: 13px;
-      opacity: 0.6;
-      padding-bottom: 12px;
-    }
-
-    td {
-      padding: 14px 0;
-      border-bottom: 1px solid #334155;
-    }
-
-    tr:hover {
-      background: #111827;
-    }
+    body { margin:0; font-family:'Inter',sans-serif; background:#0f172a; color:#e2e8f0; }
+    .container { max-width:1200px; margin:40px auto; padding:20px; }
+    h1 { font-size:28px; margin-bottom:30px; }
+    .totals { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-bottom:40px; }
+    .card { background:#1e293b; padding:25px; border-radius:12px; }
+    .card-title { font-size:14px; opacity:.7; }
+    .amount { font-size:32px; font-weight:700; margin-top:10px; }
+    .table-card { background:#1e293b; padding:25px; border-radius:12px; }
+    table { width:100%; border-collapse:collapse; }
+    th { text-align:left; font-size:13px; opacity:.6; padding-bottom:12px; }
+    td { padding:14px 0; border-bottom:1px solid #334155; }
   </style>
 </head>
 <body>
 
 <div class="container">
 
-  <h1>Adventure Fund</h1>
+<h1>Adventure Fund</h1>
 
-  <div class="totals">
-    <div class="card">
-      <div class="card-title">Fuel Total</div>
-      <div id="fuelTotal" class="amount">$0</div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">Lodging Total</div>
-      <div id="lodgingTotal" class="amount">$0</div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">Projected Year</div>
-      <div id="yearTotal" class="amount">$0</div>
-    </div>
+<div class="totals">
+  <div class="card">
+    <div class="card-title">Fuel Total</div>
+    <div id="fuelTotal" class="amount">$0</div>
   </div>
-
-  <div class="table-card">
-    <h2 style="margin-top:0;">Trips</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Fuel</th>
-          <th>Lodging</th>
-          <th>Total</th>
-        </tr>
-      </thead>
-      <tbody id="tripTable"></tbody>
-    </table>
+  <div class="card">
+    <div class="card-title">Lodging Total</div>
+    <div id="lodgingTotal" class="amount">$0</div>
   </div>
+  <div class="card">
+    <div class="card-title">Projected Year</div>
+    <div id="yearTotal" class="amount">$0</div>
+  </div>
+</div>
+
+<div class="table-card">
+  <h2 style="margin-top:0;">Trips</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Fuel</th>
+        <th>Lodging</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody id="tripTable"></tbody>
+  </table>
+</div>
 
 </div>
 
 <script>
-  const SHEET_ID = "10WmVcz4zuOcGUmcu5_t8WCnwu4zjbo4OAdBvrlDn24o";
-  const SHEET_NAME = "Trips";
+const SHEET_ID = "10WmVcz4zuOcGUmcu5_t8WCnwu4zjbo4OAdBvrlDn24o";
+const SHEET_NAME = "Trips";
 
-  function money(n) {
-    return "$" + Number(n || 0).toLocaleString();
-  }
+function money(n) {
+  return "$" + Number(n || 0).toLocaleString();
+}
 
-  async function loadSheet() {
+async function loadSheet() {
+  try {
     const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`;
-    const response = await fetch(url);
-    const text = await response.text();
+    const res = await fetch(url);
+    const text = await res.text();
 
-    const json = JSON.parse(text.substring(47).slice(0, -2));
+    // Extract JSON safely
+    const start = text.indexOf("{");
+    const end = text.lastIndexOf("}");
+    const json = JSON.parse(text.substring(start, end + 1));
+
     const rows = json.table.rows;
-
-    const tableBody = document.getElementById("tripTable");
-    tableBody.innerHTML = "";
 
     let fuelTotal = 0;
     let lodgingTotal = 0;
     let yearTotal = 0;
 
+    const tableBody = document.getElementById("tripTable");
+    tableBody.innerHTML = "";
+
     rows.forEach(row => {
       if (!row.c || !row.c[0] || !row.c[0].v) return;
 
-      const name = row.c[0]?.v || "";
-      const fuel = Number(row.c[8]?.v || 0);       // Final Fuel Cost
-      const lodging = Number(row.c[12]?.v || 0);   // Lodging Cost
-      const total = Number(row.c[13]?.v || 0);     // Trip Total
+      const name = row.c[0].v;
+      const fuel = Number(row.c[8]?.v || 0);
+      const lodging = Number(row.c[12]?.v || 0);
+      const total = Number(row.c[13]?.v || 0);
 
       fuelTotal += fuel;
       lodgingTotal += lodging;
@@ -167,9 +109,13 @@
     document.getElementById("fuelTotal").innerText = money(fuelTotal);
     document.getElementById("lodgingTotal").innerText = money(lodgingTotal);
     document.getElementById("yearTotal").innerText = money(yearTotal);
-  }
 
-  loadSheet();
+  } catch (err) {
+    console.error("DATA LOAD FAILED:", err);
+  }
+}
+
+loadSheet();
 </script>
 
 </body>
