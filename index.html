@@ -1,91 +1,141 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Adventure Fund</title>
+  <meta charset="UTF-8">
+  <title>Adventure Fund Dashboard</title>
   <style>
-    body { font-family: system-ui; margin: 16px; }
-    .row { display: flex; gap: 12px; flex-wrap: wrap; }
-    .card { border: 1px solid #3333; border-radius: 12px; padding: 12px; min-width: 220px; }
-    input, select, button { font-size: 16px; padding: 10px; }
-    button { cursor: pointer; }
-    .wide { width: 100%; }
-    pre { background: #1112; padding: 10px; border-radius: 10px; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+    }
+
+    th {
+      background: #f0f2f5;
+    }
+
+    .totals {
+      display: flex;
+      gap: 20px;
+    }
+
+    .total-box {
+      flex: 1;
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+
+    .amount {
+      font-size: 24px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
-  <h2>Adventure Fund</h2>
 
-  <div class="card">
-    <label>Apps Script Web App URL</label>
-    <input id="apiUrl" class="wide">
-    <label>API Key (optional)</label>
-    <input id="apiKey" class="wide">
-    <button onclick="saveConfig()">Save</button>
-    <button onclick="refreshBalances()">Refresh</button>
+<h1>Adventure Fund Dashboard</h1>
+
+<div class="totals">
+  <div class="total-box">
+    <div>Fuel Total</div>
+    <div id="fuelTotal" class="amount">$0</div>
   </div>
 
-  <h3>Balances</h3>
-  <div id="balances" class="row"></div>
-
-  <h3>Add Transaction</h3>
-  <div class="card">
-    <input id="amount" placeholder="Amount">
-    <input id="from" placeholder="From account">
-    <input id="to" placeholder="To account">
-    <button onclick="addTx()">Add</button>
+  <div class="total-box">
+    <div>Lodging Total</div>
+    <div id="lodgingTotal" class="amount">$0</div>
   </div>
 
-  <pre id="log"></pre>
+  <div class="total-box">
+    <div>Projected Year Total</div>
+    <div id="yearTotal" class="amount">$0</div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>Trips</h2>
+  <table id="tripTable">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Fuel</th>
+        <th>Lodging</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+</div>
 
 <script>
-function log(t){document.getElementById("log").textContent=t+"\n"+document.getElementById("log").textContent;}
+  const API_BASE = "PASTE_YOUR_CLOUD_RUN_URL_HERE";
 
-function saveConfig(){
- localStorage.setItem("apiUrl",document.getElementById("apiUrl").value);
- localStorage.setItem("apiKey",document.getElementById("apiKey").value);
- log("saved");
-}
+  async function loadData() {
+    const tripsRes = await fetch(`${API_BASE}/trips`);
+    const totalsRes = await fetch(`${API_BASE}/totals`);
 
-async function refreshBalances(){
- try{
-  const url=new URL(localStorage.getItem("apiUrl"));
-  url.searchParams.set("op","balances");
-  const k=localStorage.getItem("apiKey"); if(k) url.searchParams.set("api_key",k);
-  const r=await fetch(url); const j=await r.json();
-  if(!j.ok) throw new Error(j.error);
-  const wrap=document.getElementById("balances"); wrap.innerHTML="";
-  j.balances.forEach(a=>{
-    const d=document.createElement("div");
-    d.className="card";
-    d.innerHTML="<b>"+a.account_name+"</b><div>"+a.balance.toFixed(2)+"</div>";
-    wrap.appendChild(d);
-  });
-  log("balances updated");
- }catch(e){log(e.message);}
-}
+    const trips = await tripsRes.json();
+    const totals = await totalsRes.json();
 
-async function addTx(){
- try{
-  const payload={
-    op:"add_transaction",
-    amount:Number(document.getElementById("amount").value||0),
-    from_account:document.getElementById("from").value,
-    to_account:document.getElementById("to").value
-  };
-  payload.api_key=localStorage.getItem("apiKey")||"";
-  const r=await fetch(localStorage.getItem("apiUrl"),{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify(payload)
-  });
-  const j=await r.json();
-  if(!j.ok) throw new Error(j.error);
-  log("transaction added");
-  refreshBalances();
- }catch(e){log(e.message);}
-}
+    // Update totals
+    document.getElementById("fuelTotal").innerText =
+      `$${totals.fuel.toLocaleString()}`;
+
+    document.getElementById("lodgingTotal").innerText =
+      `$${totals.lodging.toLocaleString()}`;
+
+    document.getElementById("yearTotal").innerText =
+      `$${totals.year.toLocaleString()}`;
+
+    // Populate trips
+    const tableBody = document.querySelector("#tripTable tbody");
+    tableBody.innerHTML = "";
+
+    trips.forEach(trip => {
+      const row = document.createElement("tr");
+
+      row.innerHTML = `
+        <td>${trip.name}</td>
+        <td>$${trip.fuel}</td>
+        <td>$${trip.lodging}</td>
+        <td>$${trip.total}</td>
+      `;
+
+      tableBody.appendChild(row);
+    });
+  }
+
+  loadData();
 </script>
+
 </body>
 </html>
