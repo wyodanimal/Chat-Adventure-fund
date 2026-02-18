@@ -1,167 +1,160 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>Adventure Fund</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-      background: #0f172a;
-      color: #e2e8f0;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 40px auto;
-      padding: 20px;
-    }
-
-    h1 {
-      font-weight: 700;
-      font-size: 28px;
-      margin-bottom: 30px;
-    }
-
-    .totals {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-      margin-bottom: 40px;
-    }
-
-    .card {
-      background: #1e293b;
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-    }
-
-    .card-title {
-      font-size: 14px;
-      text-transform: uppercase;
-      opacity: 0.7;
-    }
-
-    .amount {
-      font-size: 32px;
-      font-weight: 700;
-      margin-top: 10px;
-    }
-
-    .table-card {
-      background: #1e293b;
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    th {
-      text-align: left;
-      font-size: 13px;
-      opacity: 0.6;
-      padding-bottom: 12px;
-    }
-
-    td {
-      padding: 14px 0;
-      border-bottom: 1px solid #334155;
-    }
-  </style>
-</head>
-<body>
-
-<div class="container">
-
-  <h1>Adventure Fund</h1>
-
-  <div class="totals">
-    <div class="card">
-      <div class="card-title">Fuel Total</div>
-      <div id="fuelTotal" class="amount">$0</div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">Lodging Total</div>
-      <div id="lodgingTotal" class="amount">$0</div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">Projected Year</div>
-      <div id="yearTotal" class="amount">$0</div>
-    </div>
-  </div>
-
-  <div class="table-card">
-    <h2 style="margin-top:0;">Trips</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Fuel</th>
-          <th>Lodging</th>
-          <th>Total</th>
-        </tr>
-      </thead>
-      <tbody id="tripTable"></tbody>
-    </table>
-  </div>
-
-</div>
-
 <script>
+  // ====== CONFIG ======
   const SHEET_ID = "10WmVcz4zuOcGUmcu5_t8WCnwu4zjbo4OAdBvrlDn24o";
-  const SHEET_NAME = "Trips";
+  const TRIPS_TAB_NAME = "Trips"; // must match the tab name exactly
+  // ====================
 
-  async function loadSheet() {
-    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`;
-    const response = await fetch(url);
-    const text = await response.text();
+  function money(n) {
+    const num = Number(n || 0);
+    return `$${num.toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
+  }
 
-    const json = JSON.parse(text.substring(47).slice(0, -2));
-    const rows = json.table.rows;
+  // Google GViz wraps JSON in a function call. This extracts the JSON payload.
+  function parseGviz(text) {
+    const start = text.indexOf("{");
+    const end = text.lastIndexOf("}");
+    if (start === -1 || end === -1) throw new Error("GViz response did not contain JSON braces.");
+    const jsonStr = text.slice(start, end + 1);
+    return JSON.parse(jsonStr);
+  }
 
+  // Make a best-effort number parser (handles "$1,234", "1,234.56", etc.)
+  function toNumber(v) {
+    if (v === null || v === undefined) return 0;
+    if (typeof v === "number") return v;
+    if (typeof v === "string") {
+      const cleaned = v.replace(/[^0-9.\-]/g, "");
+      const num = Number(cleaned);
+      return Number.isFinite(num) ? num : 0;
+    }
+    return 0;
+  }
+
+  // Try to find columns by header keywords
+  function findColIndex(headers, keywords) {
+    const lower = headers.map(h => String(h || "").trim().toLowerCase());
+    for (const kw of keywords) {
+      const idx = lower.findIndex(h => h === kw || h.includes(kw));
+      if (idx !== -1) return idx;
+    }
+    return -1;
+  }
+
+  async function loadTripsFromSheet() {
+    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(TRIPS_TAB_NAME)}`;
+    const res = await fetch(url, { cache: "no-store" });
+    const text = await res.text();
+    const data = parseGviz(text);
+
+    const cols = data?.table?.cols || [];
+    const rows = data?.table?.rows || [];
+
+    // headers come from cols labels in GViz, BUT sometimes labels are blank.
+    // So we also read first row as header fallback.
+    let headers = cols.map(c => c.label);
+    const firstRowValues = rows[0]?.c?.map(cell => cell?.v) || [];
+
+    // If many headers are blank, use first row as header row.
+    const headerBlankCount = headers.filter(h => !h || String(h).trim() === "").length;
+    if (headerBlankCount > Math.floor(headers.length / 2) && firstRowValues.length) {
+      headers = firstRowValues.map(v => String(v || ""));
+      // Then treat remaining rows as data rows
+      rows.shift();
+    }
+
+    // Column mapping (flexible)
+    const nameIdx = findColIndex(headers, ["trip", "name", "title", "destination"]);
+    const fuelIdx = findColIndex(headers, ["fuel", "gas"]);
+    const lodgingIdx = findColIndex(headers, ["lodging", "hotel", "camp", "campsite"]);
+    const totalIdx = findColIndex(headers, ["total", "cost", "projected"]);
+
+    // If we still can't find at least a name column, we can't render safely.
+    if (nameIdx === -1) {
+      throw new Error(
+        `Couldn't find a Trip Name column in the Trips tab. Headers detected: ${JSON.stringify(headers)}`
+      );
+    }
+
+    const trips = [];
     let fuelTotal = 0;
     let lodgingTotal = 0;
+    let yearTotal = 0;
+
+    for (const r of rows) {
+      const cells = r.c || [];
+      const get = (i) => (i >= 0 ? cells[i]?.v : null);
+
+      const name = String(get(nameIdx) ?? "").trim();
+      if (!name) continue;
+
+      const fuel = toNumber(get(fuelIdx));
+      const lodging = toNumber(get(lodgingIdx));
+
+      // Prefer explicit Total column if present; otherwise compute fuel+lodging
+      const explicitTotal = toNumber(get(totalIdx));
+      const total = totalIdx !== -1 ? explicitTotal : (fuel + lodging);
+
+      trips.push({ name, fuel, lodging, total });
+
+      fuelTotal += fuel;
+      lodgingTotal += lodging;
+      yearTotal += total;
+    }
+
+    return { trips, fuelTotal, lodgingTotal, yearTotal, headers };
+  }
+
+  function render({ trips, fuelTotal, lodgingTotal, yearTotal }) {
+    document.getElementById("fuelTotal").innerText = money(fuelTotal);
+    document.getElementById("lodgingTotal").innerText = money(lodgingTotal);
+    document.getElementById("yearTotal").innerText = money(yearTotal);
 
     const tableBody = document.getElementById("tripTable");
     tableBody.innerHTML = "";
 
-    rows.forEach((row, index) => {
-      if (index === 0) return; // skip header row
-
-      const name = row.c[0]?.v || "";
-      const fuel = Number(row.c[1]?.v || 0);
-      const lodging = Number(row.c[2]?.v || 0);
-      const total = fuel + lodging;
-
-      fuelTotal += fuel;
-      lodgingTotal += lodging;
-
+    for (const t of trips) {
       const tr = document.createElement("tr");
       tr.innerHTML = `
-        <td>${name}</td>
-        <td>$${fuel.toLocaleString()}</td>
-        <td>$${lodging.toLocaleString()}</td>
-        <td>$${total.toLocaleString()}</td>
+        <td>${t.name}</td>
+        <td>${money(t.fuel)}</td>
+        <td>${money(t.lodging)}</td>
+        <td>${money(t.total)}</td>
       `;
       tableBody.appendChild(tr);
-    });
+    }
 
-    document.getElementById("fuelTotal").innerText = `$${fuelTotal.toLocaleString()}`;
-    document.getElementById("lodgingTotal").innerText = `$${lodgingTotal.toLocaleString()}`;
-    document.getElementById("yearTotal").innerText =
-      `$${(fuelTotal + lodgingTotal).toLocaleString()}`;
+    // If no trips, show a clear message in the table.
+    if (trips.length === 0) {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `<td colspan="4" style="opacity:.7;padding:18px 0;">No trips found in the Trips tab.</td>`;
+      tableBody.appendChild(tr);
+    }
   }
 
-  loadSheet();
-</script>
+  async function boot() {
+    try {
+      const result = await loadTripsFromSheet();
+      render(result);
+    } catch (err) {
+      // Show a visible error instead of silent zeros
+      console.error(err);
 
-</body>
-</html>
+      document.getElementById("fuelTotal").innerText = "$—";
+      document.getElementById("lodgingTotal").innerText = "$—";
+      document.getElementById("yearTotal").innerText = "$—";
+
+      const tableBody = document.getElementById("tripTable");
+      tableBody.innerHTML = `
+        <tr>
+          <td colspan="4" style="opacity:.85;padding:18px 0;line-height:1.4;">
+            <b>Data load failed.</b><br>
+            Open DevTools → Console for details.<br>
+            (Most common cause: Trips tab headers don’t include “fuel/lodging/total” or the sheet name doesn’t match.)
+          </td>
+        </tr>
+      `;
+    }
+  }
+
+  boot();
+</script>
