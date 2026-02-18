@@ -1,113 +1,195 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Adventure Fund</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    body { margin:0; font-family:'Inter',sans-serif; background:#0f172a; color:#e2e8f0; }
-    .container { max-width:1200px; margin:40px auto; padding:20px; }
-    h1 { font-size:28px; margin-bottom:30px; }
-    .totals { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-bottom:40px; }
-    .card { background:#1e293b; padding:25px; border-radius:12px; }
-    .card-title { font-size:14px; opacity:.7; }
-    .amount { font-size:32px; font-weight:700; margin-top:10px; }
-    .table-card { background:#1e293b; padding:25px; border-radius:12px; }
-    table { width:100%; border-collapse:collapse; }
-    th { text-align:left; font-size:13px; opacity:.6; padding-bottom:12px; }
-    td { padding:14px 0; border-bottom:1px solid #334155; }
+    :root{
+      --bg:#0f172a;
+      --card:#1e293b;
+      --muted:#94a3b8;
+      --text:#e2e8f0;
+      --line:#334155;
+      --chip:#111827;
+      --chipActive:#0b1220;
+    }
+    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);}
+    .container{max-width:1200px;margin:34px auto;padding:18px;}
+    .topbar{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:18px;}
+    h1{margin:0;font-size:26px;}
+    .sub{color:var(--muted);font-size:13px;margin-top:6px;}
+
+    .row{display:flex;gap:10px;flex-wrap:wrap;}
+    .chip{
+      background:var(--chip);
+      border:1px solid var(--line);
+      padding:8px 12px;
+      border-radius:999px;
+      font-size:13px;
+      cursor:pointer;
+    }
+    .chip.active{background:var(--chipActive);border-color:#475569;}
+
+    .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:16px 0 18px;}
+    .card{background:var(--card);border-radius:14px;padding:16px;}
+    .cardTitle{font-size:12px;text-transform:uppercase;color:var(--muted);}
+    .amount{font-size:30px;font-weight:700;margin-top:10px;}
+    .small{color:var(--muted);font-size:12px;margin-top:6px;}
+
+    .grid2{display:grid;grid-template-columns:1.2fr .8fr;gap:14px;}
+    @media (max-width: 980px){ .grid2{grid-template-columns:1fr;} .grid3{grid-template-columns:1fr;} }
+
+    table{width:100%;border-collapse:collapse;}
+    th{font-size:12px;color:var(--muted);text-align:left;padding:10px 0;border-bottom:1px solid var(--line);}
+    td{padding:12px 0;border-bottom:1px solid var(--line);font-size:14px;}
+    .right{text-align:right;}
+    .mono{font-size:12px;color:var(--muted);}
   </style>
 </head>
 <body>
+  <div class="container">
+    <div class="topbar">
+      <div>
+        <h1>Adventure Fund</h1>
+        <div class="sub" id="subtitle">Loading…</div>
+      </div>
+      <div class="mono" id="status"></div>
+    </div>
 
-<div class="container">
+    <div class="row" id="yearTabs"></div>
+    <div class="row" style="margin-top:10px" id="viewTabs"></div>
 
-<h1>Adventure Fund</h1>
+    <div class="grid3">
+      <div class="card">
+        <div class="cardTitle">Income</div>
+        <div class="amount" id="incomeTotal">$0</div>
+      </div>
+      <div class="card">
+        <div class="cardTitle">Expenses</div>
+        <div class="amount" id="expenseTotal">$0</div>
+      </div>
+      <div class="card">
+        <div class="cardTitle">Projected</div>
+        <div class="amount" id="projectedTotal">$0</div>
+      </div>
+    </div>
 
-<div class="totals">
-  <div class="card">
-    <div class="card-title">Fuel Total</div>
-    <div id="fuelTotal" class="amount">$0</div>
+    <div class="grid2">
+      <div class="card">
+        <div class="cardTitle">Account Balances</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Account</th>
+              <th class="right">Balance</th>
+            </tr>
+          </thead>
+          <tbody id="balanceTable"></tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <div class="cardTitle">Transactions</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Type</th>
+              <th>Acct</th>
+              <th class="right">Amount</th>
+            </tr>
+          </thead>
+          <tbody id="txnTable"></tbody>
+        </table>
+      </div>
+    </div>
   </div>
-  <div class="card">
-    <div class="card-title">Lodging Total</div>
-    <div id="lodgingTotal" class="amount">$0</div>
-  </div>
-  <div class="card">
-    <div class="card-title">Projected Year</div>
-    <div id="yearTotal" class="amount">$0</div>
-  </div>
-</div>
-
-<div class="table-card">
-  <h2 style="margin-top:0;">Trips</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Fuel</th>
-        <th>Lodging</th>
-        <th>Total</th>
-      </tr>
-    </thead>
-    <tbody id="tripTable"></tbody>
-  </table>
-</div>
-
-</div>
 
 <script>
-const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrEPrTSDI3CCwRpEKRifmZm4EIRxoq6n0meTIifGm2IApAWc4dsfZo-9QlLgIv_hp5TrcYBSwqflsh/pub?gid=2037449837&single=true&output=csv";
+const TRANSACTIONS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrEPrTSDI3CCwRpEKRifmZm4EIRxoq6n0meTIifGm2IApAWc4dsfZo-9QlLgIv_hp5TrcYBSwqflsh/pub?gid=1140620863&single=true&output=csv";
 
-function money(n) {
-  return "$" + Number(n || 0).toLocaleString();
+const YEARS = [2026, 2027, 2028];
+const VIEWS = ["summary","income","expense","forecast"];
+
+let state = { year: 2026, view: "summary", txns: [] };
+
+function money(n){ return "$" + Number(n||0).toLocaleString(undefined,{maximumFractionDigits:2}); }
+
+function parseDateMDY(s){
+  const m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if(!m) return null;
+  return new Date(m[3], m[1]-1, m[2]);
 }
 
-async function loadCSV() {
-  const response = await fetch(CSV_URL);
-  const text = await response.text();
+async function loadTransactions(){
+  const res = await fetch(TRANSACTIONS_CSV_URL);
+  const text = await res.text();
+  const lines = text.trim().split(/\r?\n/);
+  const header = lines.shift().split(",");
 
-  const rows = text.trim().split("\n").map(r => r.split(","));
+  const iDate = header.indexOf("date");
+  const iAcct = header.indexOf("account_id");
+  const iAmt  = header.indexOf("amount");
+  const iType = header.findIndex(h => h.trim() === "type");
+  const iProj = header.indexOf("projected");
 
-  // Skip header row
-  rows.shift();
+  state.txns = lines.map(l=>{
+    const c = l.split(",");
+    const d = parseDateMDY(c[iDate]);
+    return {
+      date: d,
+      date_raw: c[iDate],
+      year: d ? d.getFullYear() : null,
+      account_id: c[iAcct],
+      amount: Number(c[iAmt]),
+      type: c[iType].trim().toUpperCase(),
+      projected: c[iProj] === "TRUE"
+    };
+  }).filter(t=>t.date);
+}
 
-  let fuelTotal = 0;
-  let lodgingTotal = 0;
-  let yearTotal = 0;
+function render(){
+  const yearTxns = state.txns.filter(t=>t.year===state.year);
 
-  const tableBody = document.getElementById("tripTable");
-  tableBody.innerHTML = "";
+  const income = yearTxns.filter(t=>t.type==="DEPOSIT"&&!t.projected);
+  const projected = yearTxns.filter(t=>t.projected);
+  const expenses = yearTxns.filter(t=>t.type!=="OPENING"&&t.type!=="DEPOSIT"&&!t.projected);
 
-  rows.forEach(r => {
-    if (!r[0]) return;
+  document.getElementById("incomeTotal").textContent = money(income.reduce((s,t)=>s+t.amount,0));
+  document.getElementById("expenseTotal").textContent = money(expenses.reduce((s,t)=>s+t.amount,0));
+  document.getElementById("projectedTotal").textContent = money(projected.reduce((s,t)=>s+t.amount,0));
 
-    const name = r[0];
-    const fuel = Number(r[8] || 0);     // Final Fuel Cost
-    const lodging = Number(r[12] || 0); // Lodging Cost
-    const total = Number(r[13] || 0);   // Trip Total
+  const balMap = {};
+  yearTxns.forEach(t=>{ balMap[t.account_id]=(balMap[t.account_id]||0)+t.amount; });
 
-    fuelTotal += fuel;
-    lodgingTotal += lodging;
-    yearTotal += total;
-
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td>${name}</td>
-      <td>${money(fuel)}</td>
-      <td>${money(lodging)}</td>
-      <td>${money(total)}</td>
-    `;
-    tableBody.appendChild(tr);
+  const balBody=document.getElementById("balanceTable");
+  balBody.innerHTML="";
+  Object.entries(balMap).forEach(([acct,val])=>{
+    balBody.innerHTML+=`<tr><td>${acct}</td><td class="right">${money(val)}</td></tr>`;
   });
 
-  document.getElementById("fuelTotal").innerText = money(fuelTotal);
-  document.getElementById("lodgingTotal").innerText = money(lodgingTotal);
-  document.getElementById("yearTotal").innerText = money(yearTotal);
+  const txnBody=document.getElementById("txnTable");
+  txnBody.innerHTML="";
+  yearTxns.forEach(t=>{
+    txnBody.innerHTML+=`
+      <tr>
+        <td>${t.date_raw}</td>
+        <td>${t.type}${t.projected?" (P)":""}</td>
+        <td>${t.account_id}</td>
+        <td class="right">${money(t.amount)}</td>
+      </tr>`;
+  });
+
+  document.getElementById("subtitle").textContent=`Year ${state.year}`;
+  document.getElementById("status").textContent=`Loaded ${state.txns.length} transactions`;
 }
 
-loadCSV();
+(async function(){
+  await loadTransactions();
+  render();
+})();
 </script>
-
 </body>
 </html>
