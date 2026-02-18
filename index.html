@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Adventure Fund Control Panel</title>
+<title>Adventure Fund OS</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 body{
@@ -11,192 +11,257 @@ body{
   background:#0f1419;
   color:#e6edf3;
 }
-.wrap{max-width:1100px;margin:0 auto;padding:30px;}
-h1{margin:0 0 20px 0;}
+.wrap{max-width:1200px;margin:0 auto;padding:25px;}
+h1{margin-bottom:15px;}
+.nav{
+  display:flex;
+  gap:10px;
+  margin-bottom:20px;
+}
+.nav button{
+  background:#161b22;
+  border:1px solid #30363d;
+  color:#e6edf3;
+  padding:8px 14px;
+  border-radius:8px;
+  cursor:pointer;
+}
+.nav button.active{
+  background:#238636;
+}
 .panel{
   background:#161b22;
-  border:1px solid #2a2f36;
+  border:1px solid #30363d;
   border-radius:16px;
-  padding:20px;
+  padding:18px;
   margin-bottom:20px;
 }
 .big{
-  font-size:34px;
+  font-size:32px;
   font-weight:800;
 }
 .good{color:#3fb950;}
 .bad{color:#f85149;}
+.row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:8px 0;
+  border-bottom:1px solid #2a2f36;
+}
 button{
   background:#21262d;
   border:1px solid #30363d;
   color:#e6edf3;
   padding:6px 12px;
-  border-radius:8px;
+  border-radius:6px;
   cursor:pointer;
 }
-button.active{
-  background:#238636;
-}
-.trip{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:10px 0;
-  border-bottom:1px solid #2a2f36;
-}
+button.green{background:#238636;}
 input{
   background:#0d1117;
   border:1px solid #30363d;
   color:white;
   padding:6px;
   border-radius:6px;
-  width:120px;
 }
-.sim{
-  display:flex;
-  gap:10px;
-  margin-top:10px;
-}
+.hidden{display:none;}
 </style>
 </head>
 
 <body>
 <div class="wrap">
 
-<h1>Adventure Fund – Control Panel</h1>
+<h1>Adventure Fund OS</h1>
 
-<div class="panel">
-  <div>Year End Projection</div>
-  <div class="big" id="projection">$0</div>
-  <div id="goalLine"></div>
+<div class="nav">
+  <button onclick="setView('dashboard')" id="tab-dashboard">Dashboard</button>
+  <button onclick="setView('income')" id="tab-income">Income</button>
+  <button onclick="setView('expenses')" id="tab-expenses">Expenses</button>
+  <button onclick="setView('trips')" id="tab-trips">Trips</button>
 </div>
 
-<div class="panel">
-  <div style="font-weight:700;margin-bottom:10px;">Trip Commitments (toggle on/off)</div>
-  <div id="tripList"></div>
+<div id="dashboard" class="view">
+  <div class="panel">
+    <div>Projected Year-End</div>
+    <div class="big" id="projVal">$0</div>
+    <div id="goalLine"></div>
+  </div>
 </div>
 
-<div class="panel">
-  <div style="font-weight:700;">Quick Simulation</div>
-  <div class="sim">
-    <input id="simAmount" placeholder="$ Amount">
-    <button onclick="addSimulation()">Add Temp Cost</button>
-    <button onclick="clearSimulation()">Clear</button>
+<div id="income" class="view hidden">
+  <div class="panel">
+    <h3>Income Sources</h3>
+    <div id="incomeList"></div>
+    <div style="margin-top:10px;">
+      <input id="newIncomeDesc" placeholder="Description">
+      <input id="newIncomeAmt" placeholder="Amount">
+      <button onclick="addIncome()">Add</button>
+    </div>
+  </div>
+</div>
+
+<div id="expenses" class="view hidden">
+  <div class="panel">
+    <h3>Expense Categories</h3>
+    <div id="expenseList"></div>
+    <div style="margin-top:10px;">
+      <input id="newExpenseDesc" placeholder="Category">
+      <input id="newExpenseBudget" placeholder="Budget">
+      <button onclick="addCategory()">Add</button>
+    </div>
+  </div>
+</div>
+
+<div id="trips" class="view hidden">
+  <div class="panel">
+    <h3>Trips</h3>
+    <div id="tripList"></div>
+    <div style="margin-top:10px;">
+      <input id="newTripDesc" placeholder="Trip Name">
+      <input id="newTripCost" placeholder="Cost">
+      <button onclick="addTrip()">Add</button>
+    </div>
   </div>
 </div>
 
 </div>
 
 <script>
-const TXN = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrEPrTSDI3CCwRpEKRifmZm4EIRxoq6n0meTIifGm2IApAWc4dsfZo-9QlLgIv_hp5TrcYBSwqflsh/pub?gid=1140620863&single=true&output=csv";
-const TRIPS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrEPrTSDI3CCwRpEKRifmZm4EIRxoq6n0meTIifGm2IApAWc4dsfZo-9QlLgIv_hp5TrcYBSwqflsh/pub?gid=2037449837&single=true&output=csv";
-const GOALS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrEPrTSDI3CCwRpEKRifmZm4EIRxoq6n0meTIifGm2IApAWc4dsfZo-9QlLgIv_hp5TrcYBSwqflsh/pub?gid=948171494&single=true&output=csv";
-
-let state={
-  year:new Date().getFullYear(),
-  balance:0,
-  goal:0,
-  trips:[],
-  simulation:0
+let state = JSON.parse(localStorage.getItem("af_state")) || {
+  goal:9500,
+  income:[],
+  expenses:[],
+  trips:[]
 };
 
-function money(n){return "$"+Number(n).toLocaleString();}
+function save(){ localStorage.setItem("af_state", JSON.stringify(state)); }
 
-async function load(){
-  const [t1,t2,t3]=await Promise.all([
-    fetch(TXN).then(r=>r.text()),
-    fetch(TRIPS).then(r=>r.text()),
-    fetch(GOALS).then(r=>r.text())
-  ]);
-
-  // Transactions
-  let rows=t1.trim().split("\n");
-  let head=rows.shift().split(",");
-  let dateIndex=head.indexOf("date");
-  let amtIndex=head.indexOf("amount");
-  rows.forEach(r=>{
-    let cols=r.split(",");
-    let d=new Date(cols[dateIndex]);
-    if(d.getFullYear()===state.year){
-      state.balance+=Number(cols[amtIndex]);
-    }
-  });
-
-  // Trips
-  let tripRows=t2.trim().split("\n");
-  tripRows.shift();
-  tripRows.forEach(r=>{
-    let cols=r.split(",");
-    if(cols[0]){
-      state.trips.push({
-        name:cols[0],
-        cost:Number(cols[13]||0),
-        active:true
-      });
-    }
-  });
-
-  // Goals
-  let goalRows=t3.trim().split("\n");
-  goalRows.shift();
-  goalRows.forEach(r=>{
-    let cols=r.split(",");
-    if(Number(cols[0])===state.year){
-      state.goal=Number(cols[1]);
-    }
-  });
-
-  render();
+function setView(v){
+  document.querySelectorAll(".view").forEach(el=>el.classList.add("hidden"));
+  document.getElementById(v).classList.remove("hidden");
+  document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));
+  document.getElementById("tab-"+v).classList.add("active");
 }
 
-function render(){
-  let committed=state.trips.filter(t=>t.active).reduce((s,t)=>s+t.cost,0);
-  let projected=state.balance-committed-state.simulation;
+function money(n){return "$"+Number(n||0).toLocaleString();}
 
-  document.getElementById("projection").textContent=money(projected);
+function calculate(){
+  let incomeTotal = state.income.filter(i=>i.received).reduce((s,i)=>s+i.amount,0);
+  let expenseTotal = state.expenses.reduce((s,e)=>s+e.spent,0);
+  let tripTotal = state.trips.filter(t=>t.active).reduce((s,t)=>s+t.cost,0);
+  let projected = incomeTotal - expenseTotal - tripTotal;
 
-  let delta=projected-state.goal;
-  let goalLine=document.getElementById("goalLine");
+  document.getElementById("projVal").textContent = money(projected);
+
+  let delta = projected - state.goal;
+  let line = document.getElementById("goalLine");
   if(delta>=0){
-    goalLine.innerHTML="<span class='good'>Above floor by "+money(delta)+"</span>";
-  }else{
-    goalLine.innerHTML="<span class='bad'>Below floor by "+money(Math.abs(delta))+"</span>";
+    line.innerHTML = "<span class='good'>Above floor by "+money(delta)+"</span>";
+  } else {
+    line.innerHTML = "<span class='bad'>Below floor by "+money(Math.abs(delta))+"</span>";
   }
+}
 
-  let list=document.getElementById("tripList");
+function renderIncome(){
+  let list = document.getElementById("incomeList");
   list.innerHTML="";
-  state.trips.forEach((t,i)=>{
-    list.innerHTML+=`
-      <div class="trip">
-        <div>${t.name} – ${money(t.cost)}</div>
-        <button class="${t.active?'active':''}" onclick="toggleTrip(${i})">
-          ${t.active?'Included':'Excluded'}
-        </button>
+  state.income.forEach((i,idx)=>{
+    list.innerHTML += `
+      <div class="row">
+        <div>${i.desc} – ${money(i.amount)}</div>
+        <div>
+          <button onclick="toggleIncome(${idx})" class="${i.received?'green':''}">
+            ${i.received?'Received':'Pending'}
+          </button>
+        </div>
       </div>
     `;
   });
 }
 
-function toggleTrip(i){
-  state.trips[i].active=!state.trips[i].active;
-  render();
+function renderExpenses(){
+  let list = document.getElementById("expenseList");
+  list.innerHTML="";
+  state.expenses.forEach((e,idx)=>{
+    list.innerHTML += `
+      <div class="row">
+        <div>${e.desc} – Budget ${money(e.budget)} | Spent ${money(e.spent)}</div>
+        <div>
+          <button onclick="logExpense(${idx})">+ Log</button>
+        </div>
+      </div>
+    `;
+  });
 }
 
-function addSimulation(){
-  let val=Number(document.getElementById("simAmount").value);
-  if(!isNaN(val)){
-    state.simulation+=val;
-    render();
+function renderTrips(){
+  let list = document.getElementById("tripList");
+  list.innerHTML="";
+  state.trips.forEach((t,idx)=>{
+    list.innerHTML += `
+      <div class="row">
+        <div>${t.desc} – ${money(t.cost)}</div>
+        <div>
+          <button onclick="toggleTrip(${idx})" class="${t.active?'green':''}">
+            ${t.active?'Included':'Excluded'}
+          </button>
+        </div>
+      </div>
+    `;
+  });
+}
+
+function addIncome(){
+  let d=document.getElementById("newIncomeDesc").value;
+  let a=Number(document.getElementById("newIncomeAmt").value);
+  if(d && a){
+    state.income.push({desc:d, amount:a, received:false});
+    save(); renderIncome(); calculate();
   }
 }
 
-function clearSimulation(){
-  state.simulation=0;
-  document.getElementById("simAmount").value="";
-  render();
+function toggleIncome(i){
+  state.income[i].received=!state.income[i].received;
+  save(); renderIncome(); calculate();
 }
 
-load();
+function addCategory(){
+  let d=document.getElementById("newExpenseDesc").value;
+  let b=Number(document.getElementById("newExpenseBudget").value);
+  if(d && b){
+    state.expenses.push({desc:d, budget:b, spent:0});
+    save(); renderExpenses(); calculate();
+  }
+}
+
+function logExpense(i){
+  let amt=Number(prompt("Amount?"));
+  if(!isNaN(amt)){
+    state.expenses[i].spent+=amt;
+    save(); renderExpenses(); calculate();
+  }
+}
+
+function addTrip(){
+  let d=document.getElementById("newTripDesc").value;
+  let c=Number(document.getElementById("newTripCost").value);
+  if(d && c){
+    state.trips.push({desc:d, cost:c, active:true});
+    save(); renderTrips(); calculate();
+  }
+}
+
+function toggleTrip(i){
+  state.trips[i].active=!state.trips[i].active;
+  save(); renderTrips(); calculate();
+}
+
+setView("dashboard");
+renderIncome();
+renderExpenses();
+renderTrips();
+calculate();
 </script>
 </body>
 </html>
