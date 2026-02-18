@@ -1,195 +1,810 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Adventure Fund</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
   <style>
     :root{
-      --bg:#0f172a;
-      --card:#1e293b;
-      --muted:#94a3b8;
-      --text:#e2e8f0;
-      --line:#334155;
-      --chip:#111827;
-      --chipActive:#0b1220;
+      --bg:#0b1220;
+      --panel:#111b2e;
+      --card:#13203a;
+      --card2:#0f1a32;
+      --text:#e6edf7;
+      --muted:#a8b3c7;
+      --line:rgba(168,179,199,.18);
+      --accent:#48d18b;        /* pine */
+      --accent2:#51a7ff;       /* glacier */
+      --warn:#ffd166;          /* campfire */
+      --bad:#ff6b6b;           /* red */
+      --shadow:0 18px 45px rgba(0,0,0,.35);
+      --radius:18px;
+      --chip:#0c152a;
+      --chipActive:#0a2a21;
+      --chipBorder:rgba(168,179,199,.18);
+      --heroGrad:radial-gradient(1200px 400px at 15% 0%, rgba(72,209,139,.18), transparent 55%),
+                 radial-gradient(900px 360px at 80% 10%, rgba(81,167,255,.16), transparent 60%),
+                 radial-gradient(700px 300px at 55% 85%, rgba(255,209,102,.10), transparent 55%);
     }
-    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);}
-    .container{max-width:1200px;margin:34px auto;padding:18px;}
-    .topbar{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:18px;}
-    h1{margin:0;font-size:26px;}
-    .sub{color:var(--muted);font-size:13px;margin-top:6px;}
 
-    .row{display:flex;gap:10px;flex-wrap:wrap;}
-    .chip{
-      background:var(--chip);
+    /* Light theme overrides */
+    [data-theme="light"]{
+      --bg:#f4f7fb;
+      --panel:#ffffff;
+      --card:#ffffff;
+      --card2:#ffffff;
+      --text:#0f172a;
+      --muted:#52617a;
+      --line:rgba(15,23,42,.12);
+      --chip:#eef2f7;
+      --chipActive:#e6fff2;
+      --chipBorder:rgba(15,23,42,.12);
+      --shadow:0 18px 45px rgba(15,23,42,.10);
+      --heroGrad:radial-gradient(1200px 420px at 15% 0%, rgba(72,209,139,.20), transparent 55%),
+                 radial-gradient(900px 380px at 80% 10%, rgba(81,167,255,.18), transparent 60%),
+                 radial-gradient(700px 320px at 55% 85%, rgba(255,209,102,.12), transparent 55%);
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:var(--bg);
+      color:var(--text);
+    }
+    .wrap{
+      max-width:1200px;
+      margin:0 auto;
+      padding:22px 18px 60px;
+    }
+
+    /* Header */
+    .hero{
+      background:var(--heroGrad);
       border:1px solid var(--line);
+      border-radius:24px;
+      padding:18px 18px 14px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .topbar{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    .brand{
+      display:flex; gap:12px; align-items:center;
+    }
+    .logo{
+      width:42px;height:42px;border-radius:14px;
+      background:linear-gradient(145deg, rgba(72,209,139,.35), rgba(81,167,255,.25));
+      border:1px solid var(--line);
+      display:grid;place-items:center;
+      font-size:20px;
+    }
+    .title h1{
+      margin:0;
+      font-size:20px;
+      font-weight:800;
+      letter-spacing:.2px;
+    }
+    .title .sub{
+      margin-top:5px;
+      font-size:12px;
+      color:var(--muted);
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .pill{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.04);
+      padding:5px 10px;
+      border-radius:999px;
+      font-size:12px;
+      color:var(--muted);
+    }
+    [data-theme="light"] .pill{ background:rgba(15,23,42,.03); }
+
+    .controls{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .btn{
+      cursor:pointer;
+      user-select:none;
+      border:1px solid var(--chipBorder);
+      background:var(--chip);
+      color:var(--text);
+      padding:9px 12px;
+      border-radius:999px;
+      font-size:13px;
+      font-weight:600;
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+    }
+    .btn:hover{ filter:brightness(1.05); }
+    .btn:active{ transform:translateY(1px); }
+
+    .tabsRow{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:14px;
+    }
+    .chip{
+      cursor:pointer;
+      user-select:none;
+      border:1px solid var(--chipBorder);
+      background:var(--chip);
       padding:8px 12px;
       border-radius:999px;
       font-size:13px;
-      cursor:pointer;
+      color:var(--text);
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      font-weight:600;
     }
-    .chip.active{background:var(--chipActive);border-color:#475569;}
+    .chip.active{
+      background:var(--chipActive);
+      border-color:rgba(72,209,139,.45);
+    }
 
-    .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:16px 0 18px;}
-    .card{background:var(--card);border-radius:14px;padding:16px;}
-    .cardTitle{font-size:12px;text-transform:uppercase;color:var(--muted);}
-    .amount{font-size:30px;font-weight:700;margin-top:10px;}
-    .small{color:var(--muted);font-size:12px;margin-top:6px;}
+    /* Main grid */
+    .grid{
+      display:grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap:14px;
+      margin-top:14px;
+    }
+    @media (max-width:980px){ .grid{ grid-template-columns:1fr; } }
 
-    .grid2{display:grid;grid-template-columns:1.2fr .8fr;gap:14px;}
-    @media (max-width: 980px){ .grid2{grid-template-columns:1fr;} .grid3{grid-template-columns:1fr;} }
+    .panel{
+      border:1px solid var(--line);
+      background:var(--panel);
+      border-radius:var(--radius);
+      padding:14px;
+      box-shadow:var(--shadow);
+    }
 
-    table{width:100%;border-collapse:collapse;}
-    th{font-size:12px;color:var(--muted);text-align:left;padding:10px 0;border-bottom:1px solid var(--line);}
-    td{padding:12px 0;border-bottom:1px solid var(--line);font-size:14px;}
-    .right{text-align:right;}
-    .mono{font-size:12px;color:var(--muted);}
+    /* KPI cards */
+    .kpis{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:12px;
+    }
+    @media (max-width:980px){ .kpis{ grid-template-columns:repeat(2,1fr);} }
+    @media (max-width:520px){ .kpis{ grid-template-columns:1fr;} }
+
+    .kpi{
+      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:12px 12px 10px;
+      min-height:88px;
+    }
+    [data-theme="light"] .kpi{
+      background:linear-gradient(180deg, rgba(15,23,42,.02), rgba(15,23,42,.01));
+    }
+    .kpi .label{
+      font-size:12px;
+      color:var(--muted);
+      display:flex;
+      align-items:center;
+      gap:8px;
+      font-weight:600;
+    }
+    .kpi .value{
+      margin-top:8px;
+      font-size:22px;
+      font-weight:800;
+      letter-spacing:.2px;
+    }
+    .kpi .hint{
+      margin-top:6px;
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    /* Account cards */
+    .acctGrid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:12px;
+      margin-top:12px;
+    }
+    @media (max-width:520px){ .acctGrid{ grid-template-columns:1fr; } }
+
+    .acct{
+      border:1px solid var(--line);
+      background:var(--card);
+      border-radius:16px;
+      padding:12px;
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:flex-start;
+    }
+    .acct .left{
+      display:flex; gap:10px; align-items:flex-start;
+    }
+    .icon{
+      width:36px;height:36px;border-radius:14px;
+      border:1px solid var(--line);
+      display:grid;place-items:center;
+      background:rgba(255,255,255,.03);
+      font-size:18px;
+    }
+    [data-theme="light"] .icon{ background:rgba(15,23,42,.03); }
+    .acct .name{
+      font-weight:800;
+      margin-top:2px;
+    }
+    .acct .id{
+      margin-top:4px;
+      font-size:12px;
+      color:var(--muted);
+    }
+    .acct .bal{
+      font-weight:900;
+      font-size:18px;
+      text-align:right;
+    }
+
+    /* Trips section */
+    .sectionTitle{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      margin-bottom:8px;
+    }
+    .sectionTitle h2{
+      margin:0;
+      font-size:14px;
+      letter-spacing:.3px;
+      font-weight:800;
+      text-transform:uppercase;
+      color:var(--muted);
+    }
+
+    .tripList{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:10px;
+      margin-top:10px;
+    }
+    .trip{
+      border:1px solid var(--line);
+      background:var(--card2);
+      border-radius:16px;
+      padding:12px;
+      display:flex;
+      justify-content:space-between;
+      gap:14px;
+      align-items:flex-start;
+    }
+    .trip .tname{
+      font-weight:800;
+      margin:0;
+      font-size:14px;
+    }
+    .trip .meta{
+      margin-top:6px;
+      color:var(--muted);
+      font-size:12px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .trip .tot{
+      font-weight:900;
+      font-size:16px;
+      text-align:right;
+      white-space:nowrap;
+    }
+
+    /* Transactions */
+    .collapseHeader{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      cursor:pointer;
+      user-select:none;
+      padding:10px 12px;
+      border:1px solid var(--line);
+      border-radius:16px;
+      background:rgba(255,255,255,.02);
+    }
+    [data-theme="light"] .collapseHeader{ background:rgba(15,23,42,.02); }
+    .collapseHeader .left{
+      display:flex; gap:10px; align-items:center;
+      font-weight:800;
+    }
+    .collapseHeader .right{
+      color:var(--muted);
+      font-size:12px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      margin-top:10px;
+      font-size:13px;
+    }
+    th{
+      text-align:left;
+      color:var(--muted);
+      font-weight:800;
+      text-transform:uppercase;
+      font-size:11px;
+      letter-spacing:.9px;
+      padding:10px 0;
+      border-bottom:1px solid var(--line);
+    }
+    td{
+      padding:10px 0;
+      border-bottom:1px solid var(--line);
+    }
+    td.r, th.r{ text-align:right; }
+    .muted{ color:var(--muted); }
+
+    .footerNote{
+      margin-top:12px;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.35;
+    }
   </style>
 </head>
+
 <body>
-  <div class="container">
-    <div class="topbar">
-      <div>
-        <h1>Adventure Fund</h1>
-        <div class="sub" id="subtitle">Loading…</div>
+  <div class="wrap" id="app" data-theme="dark">
+
+    <div class="hero">
+      <div class="topbar">
+        <div class="brand">
+          <div class="logo">⛰️</div>
+          <div class="title">
+            <h1>Adventure Fund</h1>
+            <div class="sub">
+              <span class="pill" id="pYear">Year: —</span>
+              <span class="pill" id="pLoaded">Loading…</span>
+              <span class="pill" id="pMode">Mode: Overview</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="controls">
+          <div class="btn" id="themeBtn">🌙 Dark</div>
+          <div class="btn" id="refreshBtn">🔄 Refresh</div>
+        </div>
       </div>
-      <div class="mono" id="status"></div>
+
+      <div class="tabsRow" id="yearTabs"></div>
+      <div class="tabsRow" id="viewTabs" style="margin-top:10px"></div>
     </div>
 
-    <div class="row" id="yearTabs"></div>
-    <div class="row" style="margin-top:10px" id="viewTabs"></div>
+    <div class="grid">
+      <!-- Left: Overview -->
+      <div class="panel">
+        <div class="sectionTitle">
+          <h2>Year Snapshot</h2>
+          <div class="pill" id="snapHint">Adventure budget view</div>
+        </div>
 
-    <div class="grid3">
-      <div class="card">
-        <div class="cardTitle">Income</div>
-        <div class="amount" id="incomeTotal">$0</div>
+        <div class="kpis">
+          <div class="kpi">
+            <div class="label">🧭 Adventure Balance</div>
+            <div class="value" id="kBalance">$0</div>
+            <div class="hint">Sum of transactions this year</div>
+          </div>
+          <div class="kpi">
+            <div class="label">💰 Income</div>
+            <div class="value" id="kIncome">$0</div>
+            <div class="hint">Deposits (non-projected)</div>
+          </div>
+          <div class="kpi">
+            <div class="label">🧾 Expenses</div>
+            <div class="value" id="kExpense">$0</div>
+            <div class="hint">Will be $0 until you log expenses</div>
+          </div>
+          <div class="kpi">
+            <div class="label">🏕️ Trips Planned</div>
+            <div class="value" id="kTrips">$0</div>
+            <div class="hint">From Trips sheet totals</div>
+          </div>
+        </div>
+
+        <div class="sectionTitle" style="margin-top:16px;">
+          <h2>Accounts</h2>
+          <div class="pill">Quick view (cards)</div>
+        </div>
+        <div class="acctGrid" id="acctGrid"></div>
+
+        <div class="footerNote">
+          This UI is read-only (GitHub Pages + published CSV). Logging expenses or transfers still happens in your sheet for now.
+        </div>
       </div>
-      <div class="card">
-        <div class="cardTitle">Expenses</div>
-        <div class="amount" id="expenseTotal">$0</div>
-      </div>
-      <div class="card">
-        <div class="cardTitle">Projected</div>
-        <div class="amount" id="projectedTotal">$0</div>
+
+      <!-- Right: Trips + Transactions -->
+      <div class="panel">
+        <div class="sectionTitle">
+          <h2>Trips</h2>
+          <div class="pill" id="tripCount">—</div>
+        </div>
+        <div id="tripList" class="tripList"></div>
+
+        <div style="margin-top:16px;">
+          <div class="collapseHeader" id="txnToggle">
+            <div class="left">📜 Transactions</div>
+            <div class="right">
+              <span id="txnCount">—</span>
+              <span id="txnChevron">▾</span>
+            </div>
+          </div>
+
+          <div id="txnBox">
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Type</th>
+                  <th>Acct</th>
+                  <th class="r">Amount</th>
+                </tr>
+              </thead>
+              <tbody id="txnTable"></tbody>
+            </table>
+          </div>
+
+          <div class="footerNote" id="txnNote"></div>
+        </div>
       </div>
     </div>
 
-    <div class="grid2">
-      <div class="card">
-        <div class="cardTitle">Account Balances</div>
-        <table>
-          <thead>
-            <tr>
-              <th>Account</th>
-              <th class="right">Balance</th>
-            </tr>
-          </thead>
-          <tbody id="balanceTable"></tbody>
-        </table>
-      </div>
-
-      <div class="card">
-        <div class="cardTitle">Transactions</div>
-        <table>
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Type</th>
-              <th>Acct</th>
-              <th class="right">Amount</th>
-            </tr>
-          </thead>
-          <tbody id="txnTable"></tbody>
-        </table>
-      </div>
-    </div>
   </div>
 
 <script>
+/* ====== DATA SOURCES (WORKING) ====== */
 const TRANSACTIONS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrEPrTSDI3CCwRpEKRifmZm4EIRxoq6n0meTIifGm2IApAWc4dsfZo-9QlLgIv_hp5TrcYBSwqflsh/pub?gid=1140620863&single=true&output=csv";
+const TRIPS_CSV_URL        = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrEPrTSDI3CCwRpEKRifmZm4EIRxoq6n0meTIifGm2IApAWc4dsfZo-9QlLgIv_hp5TrcYBSwqflsh/pub?gid=2037449837&single=true&output=csv";
 
+/* ====== APP STATE ====== */
 const YEARS = [2026, 2027, 2028];
-const VIEWS = ["summary","income","expense","forecast"];
+const VIEWS = [
+  { key:"overview", label:"Overview", icon:"🧭" },
+  { key:"income",   label:"Income",   icon:"💰" },
+  { key:"expense",  label:"Expenses", icon:"🧾" },
+  { key:"forecast", label:"Forecast", icon:"📅" }
+];
 
-let state = { year: 2026, view: "summary", txns: [] };
+const storage = {
+  get(k, d){ try{ const v = localStorage.getItem(k); return v ?? d; }catch{ return d; } },
+  set(k, v){ try{ localStorage.setItem(k, v); }catch{} }
+};
 
-function money(n){ return "$" + Number(n||0).toLocaleString(undefined,{maximumFractionDigits:2}); }
+let state = {
+  theme: storage.get("af_theme", "dark"),
+  year: Number(storage.get("af_year", "2026")) || 2026,
+  view: storage.get("af_view", "overview"),
+  txns: [],
+  trips: []
+};
 
-function parseDateMDY(s){
-  const m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
-  if(!m) return null;
-  return new Date(m[3], m[1]-1, m[2]);
+/* ====== UTIL ====== */
+function money(n){
+  const num = Number(n || 0);
+  return "$" + num.toLocaleString(undefined, { maximumFractionDigits: 2 });
 }
+function parseBool(v){
+  return String(v||"").trim().toUpperCase() === "TRUE";
+}
+function parseDateMDY(s){
+  const t = String(s||"").trim();
+  const m = t.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if(!m) return null;
+  const d = new Date(Number(m[3]), Number(m[1])-1, Number(m[2]));
+  return isNaN(d.getTime()) ? null : d;
+}
+/* Minimal CSV parser that handles quotes/commas */
+function csvSplitLine(line){
+  const out = [];
+  let cur = "", inQ = false;
+  for(let i=0;i<line.length;i++){
+    const ch = line[i];
+    if(ch === '"'){
+      if(inQ && line[i+1] === '"'){ cur += '"'; i++; }
+      else inQ = !inQ;
+    } else if(ch === ',' && !inQ){
+      out.push(cur); cur = "";
+    } else {
+      cur += ch;
+    }
+  }
+  out.push(cur);
+  return out;
+}
+function sum(arr, fn){ return arr.reduce((s,x)=>s + (fn?fn(x):x), 0); }
 
+/* Account “friendly” labels/icons (can upgrade later with Accounts CSV) */
+const acctMeta = {
+  "CHK": { name:"Checking", icon:"💳" },
+  "SAV": { name:"Savings",  icon:"🏦" },
+  "GFT": { name:"Gift",     icon:"🎁" },
+  "CSH": { name:"Cash",     icon:"💵" }
+};
+
+/* ====== FETCH + PARSE ====== */
 async function loadTransactions(){
-  const res = await fetch(TRANSACTIONS_CSV_URL);
+  const res = await fetch(TRANSACTIONS_CSV_URL, { cache:"no-store" });
   const text = await res.text();
   const lines = text.trim().split(/\r?\n/);
-  const header = lines.shift().split(",");
+  const header = csvSplitLine(lines.shift()).map(h => h.trim());
 
-  const iDate = header.indexOf("date");
-  const iAcct = header.indexOf("account_id");
-  const iAmt  = header.indexOf("amount");
-  const iType = header.findIndex(h => h.trim() === "type");
-  const iProj = header.indexOf("projected");
+  const idx = (name) => header.findIndex(h => h === name);
+  const iTxn  = idx("txn_id");
+  const iDate = idx("date");
+  const iAcct = idx("account_id");
+  const iAmt  = idx("amount");
+  const iType = header.findIndex(h => h.replace(/\s+/g," ").trim().toLowerCase() === "type"); // handles " type"
+  const iProj = idx("projected");
 
-  state.txns = lines.map(l=>{
-    const c = l.split(",");
-    const d = parseDateMDY(c[iDate]);
-    return {
-      date: d,
-      date_raw: c[iDate],
-      year: d ? d.getFullYear() : null,
-      account_id: c[iAcct],
-      amount: Number(c[iAmt]),
-      type: c[iType].trim().toUpperCase(),
-      projected: c[iProj] === "TRUE"
-    };
-  }).filter(t=>t.date);
+  const txns = lines
+    .map(line => csvSplitLine(line))
+    .filter(cols => cols.length >= header.length)
+    .map(cols => {
+      const d = parseDateMDY(cols[iDate]);
+      return {
+        txn_id: cols[iTxn],
+        date_raw: cols[iDate],
+        date: d,
+        year: d ? d.getFullYear() : null,
+        account_id: String(cols[iAcct]||"").trim(),
+        amount: Number(cols[iAmt] || 0),
+        type: String(cols[iType]||"").trim().toUpperCase(),
+        projected: parseBool(cols[iProj])
+      };
+    })
+    .filter(t => t.date && t.year);
+
+  state.txns = txns;
+}
+
+async function loadTrips(){
+  const res = await fetch(TRIPS_CSV_URL, { cache:"no-store" });
+  const text = await res.text();
+  const lines = text.trim().split(/\r?\n/);
+  const header = csvSplitLine(lines.shift());
+
+  // Trips sheet columns we validated:
+  // 0 Trip Name
+  // 8 Final Fuel Cost
+  // 12 Lodging Cost
+  // 13 Trip Total
+  const trips = lines
+    .map(l => csvSplitLine(l))
+    .filter(r => r.length >= 14)
+    .map(r => ({
+      name: String(r[0]||"").trim(),
+      fuel: Number(String(r[8]||"0").replace(/[^0-9.\-]/g,"")) || 0,
+      lodging: Number(String(r[12]||"0").replace(/[^0-9.\-]/g,"")) || 0,
+      total: Number(String(r[13]||"0").replace(/[^0-9.\-]/g,"")) || 0
+    }))
+    .filter(t => t.name);
+
+  state.trips = trips;
+}
+
+/* ====== UI BUILDERS ====== */
+function setTheme(theme){
+  state.theme = theme;
+  storage.set("af_theme", theme);
+  document.getElementById("app").setAttribute("data-theme", theme);
+  const btn = document.getElementById("themeBtn");
+  btn.textContent = theme === "dark" ? "🌙 Dark" : "☀️ Light";
+}
+
+function renderTabs(){
+  const yearTabs = document.getElementById("yearTabs");
+  yearTabs.innerHTML = "";
+  YEARS.forEach(y => {
+    const el = document.createElement("div");
+    el.className = "chip" + (state.year === y ? " active" : "");
+    el.innerHTML = `🏔️ ${y}`;
+    el.onclick = () => { state.year = y; storage.set("af_year", String(y)); render(); };
+    yearTabs.appendChild(el);
+  });
+
+  const viewTabs = document.getElementById("viewTabs");
+  viewTabs.innerHTML = "";
+  VIEWS.forEach(v => {
+    const el = document.createElement("div");
+    el.className = "chip" + (state.view === v.key ? " active" : "");
+    el.innerHTML = `${v.icon} ${v.label}`;
+    el.onclick = () => { state.view = v.key; storage.set("af_view", v.key); render(); };
+    viewTabs.appendChild(el);
+  });
 }
 
 function render(){
-  const yearTxns = state.txns.filter(t=>t.year===state.year);
+  renderTabs();
 
-  const income = yearTxns.filter(t=>t.type==="DEPOSIT"&&!t.projected);
-  const projected = yearTxns.filter(t=>t.projected);
-  const expenses = yearTxns.filter(t=>t.type!=="OPENING"&&t.type!=="DEPOSIT"&&!t.projected);
+  // Header pills
+  document.getElementById("pYear").textContent = `Year: ${state.year}`;
+  const modeLabel = (VIEWS.find(v=>v.key===state.view)?.label) || "Overview";
+  document.getElementById("pMode").textContent = `Mode: ${modeLabel}`;
 
-  document.getElementById("incomeTotal").textContent = money(income.reduce((s,t)=>s+t.amount,0));
-  document.getElementById("expenseTotal").textContent = money(expenses.reduce((s,t)=>s+t.amount,0));
-  document.getElementById("projectedTotal").textContent = money(projected.reduce((s,t)=>s+t.amount,0));
+  const yearTxns = state.txns.filter(t => t.year === state.year);
 
-  const balMap = {};
-  yearTxns.forEach(t=>{ balMap[t.account_id]=(balMap[t.account_id]||0)+t.amount; });
+  // Ledger logic (current dataset has OPENING + DEPOSIT; expenses come later)
+  const opening   = yearTxns.filter(t => t.type === "OPENING" && !t.projected);
+  const income    = yearTxns.filter(t => t.type === "DEPOSIT" && !t.projected);
+  const projected = yearTxns.filter(t => t.projected);
 
-  const balBody=document.getElementById("balanceTable");
-  balBody.innerHTML="";
-  Object.entries(balMap).forEach(([acct,val])=>{
-    balBody.innerHTML+=`<tr><td>${acct}</td><td class="right">${money(val)}</td></tr>`;
+  // “Expenses” definition: anything not OPENING/DEPOSIT (when you start adding them)
+  const expenses  = yearTxns.filter(t => t.type !== "OPENING" && t.type !== "DEPOSIT" && !t.projected);
+
+  const openingTotal   = sum(opening, t => t.amount);
+  const incomeTotal    = sum(income, t => t.amount);
+  const expenseTotal   = sum(expenses, t => t.amount);
+  const projectedTotal = sum(projected, t => t.amount);
+
+  // Balance = sum of all txns this year
+  const balanceTotal = sum(yearTxns, t => t.amount);
+
+  // Trips (planned) total
+  const tripsTotal = sum(state.trips, t => t.total);
+
+  // KPIs
+  document.getElementById("kBalance").textContent = money(balanceTotal);
+  document.getElementById("kIncome").textContent  = money(incomeTotal);
+  document.getElementById("kExpense").textContent = money(expenseTotal);
+  document.getElementById("kTrips").textContent   = money(tripsTotal);
+
+  // Loaded pill
+  document.getElementById("pLoaded").textContent = `Loaded: ${state.txns.length} txns • ${state.trips.length} trips`;
+
+  // Accounts -> card view (by account within selected year)
+  const byAcct = new Map();
+  yearTxns.forEach(t => byAcct.set(t.account_id, (byAcct.get(t.account_id) || 0) + t.amount));
+  const acctGrid = document.getElementById("acctGrid");
+  acctGrid.innerHTML = "";
+
+  [...byAcct.entries()]
+    .sort((a,b)=> b[1]-a[1])
+    .forEach(([acct, bal])=>{
+      const meta = acctMeta[acct] || { name:"Account", icon:"🧾" };
+      const card = document.createElement("div");
+      card.className = "acct";
+      card.innerHTML = `
+        <div class="left">
+          <div class="icon">${meta.icon}</div>
+          <div>
+            <div class="name">${meta.name}</div>
+            <div class="id">${acct}</div>
+          </div>
+        </div>
+        <div class="bal">${money(bal)}</div>
+      `;
+      acctGrid.appendChild(card);
+    });
+
+  if(byAcct.size === 0){
+    acctGrid.innerHTML = `<div class="muted">No transactions found for ${state.year}.</div>`;
+  }
+
+  // Trips list (show top 6 by cost)
+  const tripList = document.getElementById("tripList");
+  const tripCount = document.getElementById("tripCount");
+  tripList.innerHTML = "";
+
+  const topTrips = state.trips.slice().sort((a,b)=> b.total - a.total).slice(0, 6);
+  tripCount.textContent = `${state.trips.length} planned`;
+
+  topTrips.forEach(t=>{
+    const el = document.createElement("div");
+    el.className = "trip";
+    el.innerHTML = `
+      <div>
+        <div class="tname">${t.name}</div>
+        <div class="meta">
+          <span>⛽ ${money(t.fuel)}</span>
+          <span>🛏️ ${money(t.lodging)}</span>
+        </div>
+      </div>
+      <div class="tot">${money(t.total)}</div>
+    `;
+    tripList.appendChild(el);
   });
 
-  const txnBody=document.getElementById("txnTable");
-  txnBody.innerHTML="";
-  yearTxns.forEach(t=>{
-    txnBody.innerHTML+=`
-      <tr>
-        <td>${t.date_raw}</td>
-        <td>${t.type}${t.projected?" (P)":""}</td>
-        <td>${t.account_id}</td>
-        <td class="right">${money(t.amount)}</td>
-      </tr>`;
+  if(state.trips.length === 0){
+    tripList.innerHTML = `<div class="muted">No trips found.</div>`;
+  }
+
+  // Transactions (collapsed)
+  const txnTable = document.getElementById("txnTable");
+  const txnCount = document.getElementById("txnCount");
+  const txnNote  = document.getElementById("txnNote");
+
+  // Filter by view
+  let shown = yearTxns;
+  if(state.view === "income") shown = income;
+  if(state.view === "expense") shown = expenses;
+  if(state.view === "forecast") shown = projected;
+
+  shown = shown.slice().sort((a,b)=> a.date - b.date);
+
+  txnCount.textContent = `${shown.length} rows`;
+  txnTable.innerHTML = "";
+  shown.slice(0, 24).forEach(t=>{
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${t.date_raw}</td>
+      <td>${t.type}${t.projected ? " (P)" : ""}</td>
+      <td>${t.account_id}</td>
+      <td class="r">${money(t.amount)}</td>
+    `;
+    txnTable.appendChild(tr);
   });
 
-  document.getElementById("subtitle").textContent=`Year ${state.year}`;
-  document.getElementById("status").textContent=`Loaded ${state.txns.length} transactions`;
+  txnNote.textContent =
+    shown.length > 24
+      ? `Showing first 24 rows. (${shown.length} total in this view.)`
+      : (shown.length === 0 ? `No rows for this view.` : ``);
 }
 
-(async function(){
-  await loadTransactions();
+/* ====== INTERACTION ====== */
+function wireUI(){
+  document.getElementById("themeBtn").onclick = () => {
+    setTheme(state.theme === "dark" ? "light" : "dark");
+  };
+  document.getElementById("refreshBtn").onclick = async () => {
+    await boot();
+  };
+
+  const txnToggle = document.getElementById("txnToggle");
+  const txnBox = document.getElementById("txnBox");
+  const chev = document.getElementById("txnChevron");
+
+  // default collapsed on mobile-ish feel
+  let open = true;
+  txnToggle.onclick = () => {
+    open = !open;
+    txnBox.style.display = open ? "block" : "none";
+    chev.textContent = open ? "▾" : "▸";
+  };
+}
+
+/* ====== BOOT ====== */
+async function boot(){
+  document.getElementById("pLoaded").textContent = "Loading…";
+  await Promise.all([loadTransactions(), loadTrips()]);
   render();
+}
+
+(function init(){
+  // enforce supported years
+  if(!YEARS.includes(state.year)) state.year = 2026;
+
+  setTheme(state.theme);
+  wireUI();
+  boot();
 })();
 </script>
+
 </body>
 </html>
