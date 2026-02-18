@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Adventure Fund OS</title>
+<title>Adventure Fund</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 body{
@@ -11,53 +11,71 @@ body{
   background:#0f1419;
   color:#e6edf3;
 }
-.wrap{max-width:1200px;margin:0 auto;padding:25px;}
-h1{margin-bottom:15px;}
-.nav{
+.wrap{
+  max-width:1200px;
+  margin:0 auto;
+  padding:30px;
+}
+h1{margin:0 0 20px 0;}
+.topbar{
   display:flex;
-  gap:10px;
+  justify-content:space-between;
+  align-items:center;
   margin-bottom:20px;
 }
-.nav button{
+.year-tabs button{
+  margin-right:6px;
+}
+button{
   background:#161b22;
   border:1px solid #30363d;
   color:#e6edf3;
-  padding:8px 14px;
+  padding:6px 12px;
   border-radius:8px;
   cursor:pointer;
 }
-.nav button.active{
+button.active{
   background:#238636;
+}
+.nav{
+  margin-bottom:20px;
+}
+.nav button{
+  margin-right:8px;
 }
 .panel{
   background:#161b22;
   border:1px solid #30363d;
   border-radius:16px;
-  padding:18px;
+  padding:20px;
   margin-bottom:20px;
 }
 .big{
-  font-size:32px;
+  font-size:36px;
   font-weight:800;
 }
 .good{color:#3fb950;}
 .bad{color:#f85149;}
+.progress{
+  height:12px;
+  background:#2a2f36;
+  border-radius:999px;
+  overflow:hidden;
+  margin-top:10px;
+}
+.progress-bar{
+  height:100%;
+  width:0%;
+  background:#3fb950;
+  transition:width .3s ease;
+}
 .row{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  padding:8px 0;
+  padding:10px 0;
   border-bottom:1px solid #2a2f36;
 }
-button{
-  background:#21262d;
-  border:1px solid #30363d;
-  color:#e6edf3;
-  padding:6px 12px;
-  border-radius:6px;
-  cursor:pointer;
-}
-button.green{background:#238636;}
 input{
   background:#0d1117;
   border:1px solid #30363d;
@@ -66,13 +84,34 @@ input{
   border-radius:6px;
 }
 .hidden{display:none;}
+.section-title{
+  font-weight:700;
+  margin-bottom:10px;
+}
+.small{
+  font-size:12px;
+  color:#8b949e;
+}
+.inline{
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
 </style>
 </head>
 
 <body>
 <div class="wrap">
 
-<h1>Adventure Fund OS</h1>
+<h1>Adventure Fund</h1>
+
+<div class="topbar">
+  <div class="year-tabs" id="yearTabs"></div>
+  <div class="inline">
+    <span class="small">Goal Floor:</span>
+    <input id="goalInput" style="width:120px;">
+  </div>
+</div>
 
 <div class="nav">
   <button onclick="setView('dashboard')" id="tab-dashboard">Dashboard</button>
@@ -81,19 +120,24 @@ input{
   <button onclick="setView('trips')" id="tab-trips">Trips</button>
 </div>
 
+<!-- DASHBOARD -->
 <div id="dashboard" class="view">
   <div class="panel">
-    <div>Projected Year-End</div>
+    <div class="section-title">Projected Year-End</div>
     <div class="big" id="projVal">$0</div>
-    <div id="goalLine"></div>
+    <div id="goalStatus"></div>
+    <div class="progress">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
   </div>
 </div>
 
+<!-- INCOME -->
 <div id="income" class="view hidden">
   <div class="panel">
-    <h3>Income Sources</h3>
+    <div class="section-title">Income Sources</div>
     <div id="incomeList"></div>
-    <div style="margin-top:10px;">
+    <div style="margin-top:12px;">
       <input id="newIncomeDesc" placeholder="Description">
       <input id="newIncomeAmt" placeholder="Amount">
       <button onclick="addIncome()">Add</button>
@@ -101,11 +145,12 @@ input{
   </div>
 </div>
 
+<!-- EXPENSES -->
 <div id="expenses" class="view hidden">
   <div class="panel">
-    <h3>Expense Categories</h3>
+    <div class="section-title">Expense Categories</div>
     <div id="expenseList"></div>
-    <div style="margin-top:10px;">
+    <div style="margin-top:12px;">
       <input id="newExpenseDesc" placeholder="Category">
       <input id="newExpenseBudget" placeholder="Budget">
       <button onclick="addCategory()">Add</button>
@@ -113,11 +158,12 @@ input{
   </div>
 </div>
 
+<!-- TRIPS -->
 <div id="trips" class="view hidden">
   <div class="panel">
-    <h3>Trips</h3>
+    <div class="section-title">Trips</div>
     <div id="tripList"></div>
-    <div style="margin-top:10px;">
+    <div style="margin-top:12px;">
       <input id="newTripDesc" placeholder="Trip Name">
       <input id="newTripCost" placeholder="Cost">
       <button onclick="addTrip()">Add</button>
@@ -128,52 +174,95 @@ input{
 </div>
 
 <script>
+const CURRENT_YEAR = new Date().getFullYear();
+
 let state = JSON.parse(localStorage.getItem("af_state")) || {
-  goal:9500,
-  income:[],
-  expenses:[],
-  trips:[]
+  year: CURRENT_YEAR,
+  goals: {},
+  income: [],
+  expenses: [],
+  trips: []
 };
 
-function save(){ localStorage.setItem("af_state", JSON.stringify(state)); }
+if(!state.goals[state.year]){
+  state.goals[state.year] = 9500;
+}
+
+function save(){
+  localStorage.setItem("af_state", JSON.stringify(state));
+}
+
+function money(n){
+  return "$" + Number(n || 0).toLocaleString();
+}
 
 function setView(v){
-  document.querySelectorAll(".view").forEach(el=>el.classList.add("hidden"));
+  document.querySelectorAll(".view").forEach(el => el.classList.add("hidden"));
   document.getElementById(v).classList.remove("hidden");
-  document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));
+  document.querySelectorAll(".nav button").forEach(b => b.classList.remove("active"));
   document.getElementById("tab-"+v).classList.add("active");
 }
 
-function money(n){return "$"+Number(n||0).toLocaleString();}
+function renderYearTabs(){
+  const container = document.getElementById("yearTabs");
+  container.innerHTML="";
+  [CURRENT_YEAR, CURRENT_YEAR+1, CURRENT_YEAR+2].forEach(y=>{
+    const btn=document.createElement("button");
+    btn.textContent=y;
+    if(state.year===y) btn.classList.add("active");
+    btn.onclick=()=>{
+      state.year=y;
+      if(!state.goals[y]) state.goals[y]=0;
+      save();
+      renderAll();
+    };
+    container.appendChild(btn);
+  });
+}
 
 function calculate(){
-  let incomeTotal = state.income.filter(i=>i.received).reduce((s,i)=>s+i.amount,0);
-  let expenseTotal = state.expenses.reduce((s,e)=>s+e.spent,0);
-  let tripTotal = state.trips.filter(t=>t.active).reduce((s,t)=>s+t.cost,0);
-  let projected = incomeTotal - expenseTotal - tripTotal;
+  const incomeTotal = state.income
+    .filter(i=>i.received)
+    .reduce((s,i)=>s+i.amount,0);
+
+  const expenseTotal = state.expenses
+    .reduce((s,e)=>s+e.spent,0);
+
+  const tripTotal = state.trips
+    .filter(t=>t.active)
+    .reduce((s,t)=>s+t.cost,0);
+
+  const projected = incomeTotal - expenseTotal - tripTotal;
+  const goal = state.goals[state.year] || 0;
+  const delta = projected - goal;
 
   document.getElementById("projVal").textContent = money(projected);
 
-  let delta = projected - state.goal;
-  let line = document.getElementById("goalLine");
-  if(delta>=0){
-    line.innerHTML = "<span class='good'>Above floor by "+money(delta)+"</span>";
+  const status = document.getElementById("goalStatus");
+  if(delta >= 0){
+    status.innerHTML = `<span class="good">Above floor by ${money(delta)}</span>`;
   } else {
-    line.innerHTML = "<span class='bad'>Below floor by "+money(Math.abs(delta))+"</span>";
+    status.innerHTML = `<span class="bad">Below floor by ${money(Math.abs(delta))}</span>`;
   }
+
+  const percent = goal > 0 ? Math.max(0, Math.min(100, (projected / goal) * 100)) : 0;
+  const bar = document.getElementById("progressBar");
+  bar.style.width = percent + "%";
+  bar.style.background = delta >= 0 ? "#3fb950" : "#f85149";
 }
 
 function renderIncome(){
-  let list = document.getElementById("incomeList");
+  const list = document.getElementById("incomeList");
   list.innerHTML="";
   state.income.forEach((i,idx)=>{
-    list.innerHTML += `
+    list.innerHTML+=`
       <div class="row">
         <div>${i.desc} – ${money(i.amount)}</div>
-        <div>
-          <button onclick="toggleIncome(${idx})" class="${i.received?'green':''}">
+        <div class="inline">
+          <button onclick="toggleIncome(${idx})" class="${i.received?'active':''}">
             ${i.received?'Received':'Pending'}
           </button>
+          <button onclick="deleteIncome(${idx})">✕</button>
         </div>
       </div>
     `;
@@ -181,14 +270,17 @@ function renderIncome(){
 }
 
 function renderExpenses(){
-  let list = document.getElementById("expenseList");
+  const list = document.getElementById("expenseList");
   list.innerHTML="";
   state.expenses.forEach((e,idx)=>{
-    list.innerHTML += `
+    list.innerHTML+=`
       <div class="row">
-        <div>${e.desc} – Budget ${money(e.budget)} | Spent ${money(e.spent)}</div>
         <div>
+          ${e.desc} – Budget ${money(e.budget)} | Spent ${money(e.spent)}
+        </div>
+        <div class="inline">
           <button onclick="logExpense(${idx})">+ Log</button>
+          <button onclick="deleteCategory(${idx})">✕</button>
         </div>
       </div>
     `;
@@ -196,72 +288,113 @@ function renderExpenses(){
 }
 
 function renderTrips(){
-  let list = document.getElementById("tripList");
+  const list = document.getElementById("tripList");
   list.innerHTML="";
   state.trips.forEach((t,idx)=>{
-    list.innerHTML += `
+    list.innerHTML+=`
       <div class="row">
         <div>${t.desc} – ${money(t.cost)}</div>
-        <div>
-          <button onclick="toggleTrip(${idx})" class="${t.active?'green':''}">
+        <div class="inline">
+          <button onclick="toggleTrip(${idx})" class="${t.active?'active':''}">
             ${t.active?'Included':'Excluded'}
           </button>
+          <button onclick="deleteTrip(${idx})">✕</button>
         </div>
       </div>
     `;
   });
 }
 
+function renderGoal(){
+  const input=document.getElementById("goalInput");
+  input.value=state.goals[state.year]||0;
+  input.onchange=()=>{
+    state.goals[state.year]=Number(input.value)||0;
+    save();
+    calculate();
+  };
+}
+
+function renderAll(){
+  renderYearTabs();
+  renderGoal();
+  renderIncome();
+  renderExpenses();
+  renderTrips();
+  calculate();
+}
+
 function addIncome(){
-  let d=document.getElementById("newIncomeDesc").value;
-  let a=Number(document.getElementById("newIncomeAmt").value);
+  const d=document.getElementById("newIncomeDesc").value;
+  const a=Number(document.getElementById("newIncomeAmt").value);
   if(d && a){
     state.income.push({desc:d, amount:a, received:false});
-    save(); renderIncome(); calculate();
+    save();
+    renderAll();
   }
 }
 
 function toggleIncome(i){
   state.income[i].received=!state.income[i].received;
-  save(); renderIncome(); calculate();
+  save();
+  renderAll();
+}
+
+function deleteIncome(i){
+  state.income.splice(i,1);
+  save();
+  renderAll();
 }
 
 function addCategory(){
-  let d=document.getElementById("newExpenseDesc").value;
-  let b=Number(document.getElementById("newExpenseBudget").value);
+  const d=document.getElementById("newExpenseDesc").value;
+  const b=Number(document.getElementById("newExpenseBudget").value);
   if(d && b){
     state.expenses.push({desc:d, budget:b, spent:0});
-    save(); renderExpenses(); calculate();
+    save();
+    renderAll();
   }
 }
 
 function logExpense(i){
-  let amt=Number(prompt("Amount?"));
+  const amt=Number(prompt("Amount?"));
   if(!isNaN(amt)){
     state.expenses[i].spent+=amt;
-    save(); renderExpenses(); calculate();
+    save();
+    renderAll();
   }
 }
 
+function deleteCategory(i){
+  state.expenses.splice(i,1);
+  save();
+  renderAll();
+}
+
 function addTrip(){
-  let d=document.getElementById("newTripDesc").value;
-  let c=Number(document.getElementById("newTripCost").value);
+  const d=document.getElementById("newTripDesc").value;
+  const c=Number(document.getElementById("newTripCost").value);
   if(d && c){
     state.trips.push({desc:d, cost:c, active:true});
-    save(); renderTrips(); calculate();
+    save();
+    renderAll();
   }
 }
 
 function toggleTrip(i){
   state.trips[i].active=!state.trips[i].active;
-  save(); renderTrips(); calculate();
+  save();
+  renderAll();
+}
+
+function deleteTrip(i){
+  state.trips.splice(i,1);
+  save();
+  renderAll();
 }
 
 setView("dashboard");
-renderIncome();
-renderExpenses();
-renderTrips();
-calculate();
+renderAll();
 </script>
 </body>
 </html>
