@@ -1,259 +1,202 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Adventure Fund</title>
+<meta charset="UTF-8">
+<title>Adventure Fund Control Panel</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-
 <style>
-:root{
-  --bg:#0b1220;
-  --panel:#111b2e;
-  --card:#13203a;
-  --text:#e6edf7;
-  --muted:#9fb0c9;
-  --line:rgba(168,179,199,.18);
-  --good:#48d18b;
-  --bad:#ff6b6b;
-  --accent:#51a7ff;
-  --radius:18px;
-}
-[data-theme="light"]{
-  --bg:#f4f7fb;
-  --panel:#ffffff;
-  --card:#ffffff;
-  --text:#0f172a;
-  --muted:#4b5563;
-  --line:rgba(15,23,42,.12);
-}
 body{
   margin:0;
-  font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-  background:var(--bg);
-  color:var(--text);
+  font-family:Inter, sans-serif;
+  background:#0f1419;
+  color:#e6edf3;
 }
-.wrap{max-width:1100px;margin:0 auto;padding:24px;}
+.wrap{max-width:1100px;margin:0 auto;padding:30px;}
+h1{margin:0 0 20px 0;}
 .panel{
-  background:var(--panel);
-  border:1px solid var(--line);
-  border-radius:var(--radius);
-  padding:18px;
-  margin-bottom:16px;
+  background:#161b22;
+  border:1px solid #2a2f36;
+  border-radius:16px;
+  padding:20px;
+  margin-bottom:20px;
 }
-.kpi{
+.big{
+  font-size:34px;
+  font-weight:800;
+}
+.good{color:#3fb950;}
+.bad{color:#f85149;}
+button{
+  background:#21262d;
+  border:1px solid #30363d;
+  color:#e6edf3;
+  padding:6px 12px;
+  border-radius:8px;
+  cursor:pointer;
+}
+button.active{
+  background:#238636;
+}
+.trip{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  padding:12px 0;
+  padding:10px 0;
+  border-bottom:1px solid #2a2f36;
 }
-.big{
-  font-size:28px;
-  font-weight:800;
+input{
+  background:#0d1117;
+  border:1px solid #30363d;
+  color:white;
+  padding:6px;
+  border-radius:6px;
+  width:120px;
 }
-.good{color:var(--good);}
-.bad{color:var(--bad);}
-.progress{
-  height:10px;
-  background:rgba(255,255,255,.08);
-  border-radius:999px;
-  overflow:hidden;
-  margin-top:8px;
+.sim{
+  display:flex;
+  gap:10px;
+  margin-top:10px;
 }
-[data-theme="light"] .progress{background:rgba(0,0,0,.08);}
-.bar{
-  height:100%;
-  background:var(--good);
-  width:0%;
-  transition:width .4s ease;
-}
-.tabs{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;}
-.tab{
-  padding:8px 12px;
-  border-radius:999px;
-  border:1px solid var(--line);
-  cursor:pointer;
-  font-size:13px;
-}
-.tab.active{background:rgba(81,167,255,.15);}
-button{
-  padding:8px 12px;
-  border-radius:999px;
-  border:1px solid var(--line);
-  background:none;
-  color:var(--text);
-  cursor:pointer;
-}
-table{width:100%;border-collapse:collapse;margin-top:10px;}
-th,td{padding:8px 0;border-bottom:1px solid var(--line);font-size:13px;}
-th{text-align:left;color:var(--muted);}
-td.r{text-align:right;}
 </style>
 </head>
 
 <body>
-<div class="wrap" id="app" data-theme="dark">
+<div class="wrap">
+
+<h1>Adventure Fund – Control Panel</h1>
 
 <div class="panel">
-  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;">
-    <div>
-      <div style="font-weight:800;font-size:18px;">Adventure Fund</div>
-      <div id="yearLabel" style="font-size:12px;color:var(--muted);"></div>
-    </div>
-    <button id="themeBtn">🌙 Dark</button>
-  </div>
-
-  <div class="tabs" id="yearTabs"></div>
+  <div>Year End Projection</div>
+  <div class="big" id="projection">$0</div>
+  <div id="goalLine"></div>
 </div>
 
 <div class="panel">
-  <div class="kpi">
-    <div>
-      <div style="font-size:12px;color:var(--muted);">Projected Year-End</div>
-      <div class="big" id="projVal">$0</div>
-    </div>
-    <div style="text-align:right;">
-      <div style="font-size:12px;color:var(--muted);">Goal Floor</div>
-      <div class="big" id="goalVal">$0</div>
-    </div>
-  </div>
-
-  <div id="statusLine" style="font-size:14px;font-weight:700;margin-top:6px;"></div>
-  <div class="progress">
-    <div class="bar" id="progressBar"></div>
-  </div>
+  <div style="font-weight:700;margin-bottom:10px;">Trip Commitments (toggle on/off)</div>
+  <div id="tripList"></div>
 </div>
 
 <div class="panel">
-  <div style="font-weight:800;margin-bottom:6px;">Balances</div>
-  <table>
-    <thead><tr><th>Account</th><th class="r">Balance</th></tr></thead>
-    <tbody id="acctTable"></tbody>
-  </table>
-</div>
-
-<div class="panel">
-  <div style="font-weight:800;margin-bottom:6px;">Trips Planned</div>
-  <table>
-    <thead><tr><th>Name</th><th class="r">Total</th></tr></thead>
-    <tbody id="tripTable"></tbody>
-  </table>
+  <div style="font-weight:700;">Quick Simulation</div>
+  <div class="sim">
+    <input id="simAmount" placeholder="$ Amount">
+    <button onclick="addSimulation()">Add Temp Cost</button>
+    <button onclick="clearSimulation()">Clear</button>
+  </div>
 </div>
 
 </div>
 
 <script>
-const TRANSACTIONS_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrEPrTSDI3CCwRpEKRifmZm4EIRxoq6n0meTIifGm2IApAWc4dsfZo-9QlLgIv_hp5TrcYBSwqflsh/pub?gid=1140620863&single=true&output=csv";
-const TRIPS_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrEPrTSDI3CCwRpEKRifmZm4EIRxoq6n0meTIifGm2IApAWc4dsfZo-9QlLgIv_hp5TrcYBSwqflsh/pub?gid=2037449837&single=true&output=csv";
-const GOALS_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrEPrTSDI3CCwRpEKRifmZm4EIRxoq6n0meTIifGm2IApAWc4dsfZo-9QlLgIv_hp5TrcYBSwqflsh/pub?gid=948171494&single=true&output=csv";
+const TXN = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrEPrTSDI3CCwRpEKRifmZm4EIRxoq6n0meTIifGm2IApAWc4dsfZo-9QlLgIv_hp5TrcYBSwqflsh/pub?gid=1140620863&single=true&output=csv";
+const TRIPS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrEPrTSDI3CCwRpEKRifmZm4EIRxoq6n0meTIifGm2IApAWc4dsfZo-9QlLgIv_hp5TrcYBSwqflsh/pub?gid=2037449837&single=true&output=csv";
+const GOALS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrEPrTSDI3CCwRpEKRifmZm4EIRxoq6n0meTIifGm2IApAWc4dsfZo-9QlLgIv_hp5TrcYBSwqflsh/pub?gid=948171494&single=true&output=csv";
 
-let state = { year:new Date().getFullYear(), txns:[], trips:[], goals:{} };
+let state={
+  year:new Date().getFullYear(),
+  balance:0,
+  goal:0,
+  trips:[],
+  simulation:0
+};
 
-function money(n){return "$"+Number(n||0).toLocaleString();}
-function parseCSV(text){return text.trim().split(/\r?\n/).map(r=>r.split(","));}
+function money(n){return "$"+Number(n).toLocaleString();}
 
-async function loadData(){
-  const [t1,t2,t3] = await Promise.all([
-    fetch(TRANSACTIONS_CSV).then(r=>r.text()),
-    fetch(TRIPS_CSV).then(r=>r.text()),
-    fetch(GOALS_CSV).then(r=>r.text())
+async function load(){
+  const [t1,t2,t3]=await Promise.all([
+    fetch(TXN).then(r=>r.text()),
+    fetch(TRIPS).then(r=>r.text()),
+    fetch(GOALS).then(r=>r.text())
   ]);
 
   // Transactions
-  const rows=parseCSV(t1); const head=rows.shift();
-  const iDate=head.indexOf("date");
-  const iAcct=head.indexOf("account_id");
-  const iAmt=head.indexOf("amount");
-  const iType=head.findIndex(h=>h.trim()=="type");
+  let rows=t1.trim().split("\n");
+  let head=rows.shift().split(",");
+  let dateIndex=head.indexOf("date");
+  let amtIndex=head.indexOf("amount");
   rows.forEach(r=>{
-    const d=new Date(r[iDate]);
-    if(!isNaN(d)){
-      state.txns.push({
-        year:d.getFullYear(),
-        acct:r[iAcct],
-        amt:Number(r[iAmt]),
-        type:r[iType]
-      });
+    let cols=r.split(",");
+    let d=new Date(cols[dateIndex]);
+    if(d.getFullYear()===state.year){
+      state.balance+=Number(cols[amtIndex]);
     }
   });
 
   // Trips
-  const trips=parseCSV(t2); trips.shift();
-  trips.forEach(r=>{
-    if(r[0]) state.trips.push({name:r[0],total:Number(r[13]||0)});
+  let tripRows=t2.trim().split("\n");
+  tripRows.shift();
+  tripRows.forEach(r=>{
+    let cols=r.split(",");
+    if(cols[0]){
+      state.trips.push({
+        name:cols[0],
+        cost:Number(cols[13]||0),
+        active:true
+      });
+    }
   });
 
   // Goals
-  const goals=parseCSV(t3); goals.shift();
-  goals.forEach(r=>{
-    state.goals[Number(r[0])] = Number(r[1]);
+  let goalRows=t3.trim().split("\n");
+  goalRows.shift();
+  goalRows.forEach(r=>{
+    let cols=r.split(",");
+    if(Number(cols[0])===state.year){
+      state.goal=Number(cols[1]);
+    }
   });
-}
 
-function renderYears(){
-  const tabs=document.getElementById("yearTabs");
-  tabs.innerHTML="";
-  const base=new Date().getFullYear();
-  [base,base+1,base+2].forEach(y=>{
-    const t=document.createElement("div");
-    t.className="tab"+(state.year===y?" active":"");
-    t.textContent=y;
-    t.onclick=()=>{state.year=y;render();};
-    tabs.appendChild(t);
-  });
+  render();
 }
 
 function render(){
-  renderYears();
-  document.getElementById("yearLabel").textContent="Viewing "+state.year;
+  let committed=state.trips.filter(t=>t.active).reduce((s,t)=>s+t.cost,0);
+  let projected=state.balance-committed-state.simulation;
 
-  const yearTx=state.txns.filter(t=>t.year===state.year);
-  const balance=yearTx.reduce((s,t)=>s+t.amt,0);
-  const tripTotal=state.trips.reduce((s,t)=>s+t.total,0);
-  const projected=balance-tripTotal;
-  const goal=state.goals[state.year]||0;
-  const delta=projected-goal;
+  document.getElementById("projection").textContent=money(projected);
 
-  document.getElementById("projVal").textContent=money(projected);
-  document.getElementById("goalVal").textContent=money(goal);
+  let delta=projected-state.goal;
+  let goalLine=document.getElementById("goalLine");
+  if(delta>=0){
+    goalLine.innerHTML="<span class='good'>Above floor by "+money(delta)+"</span>";
+  }else{
+    goalLine.innerHTML="<span class='bad'>Below floor by "+money(Math.abs(delta))+"</span>";
+  }
 
-  const status=document.getElementById("statusLine");
-  status.className=delta>=0?"good":"bad";
-  status.textContent=delta>=0?
-    "On Track: "+money(delta)+" above floor":
-    "Below Goal: "+money(Math.abs(delta))+" short";
-
-  const pct=goal>0?Math.min((projected/goal)*100,100):0;
-  const bar=document.getElementById("progressBar");
-  bar.style.width=Math.max(pct,0)+"%";
-  bar.style.background=delta>=0?"var(--good)":"var(--bad)";
-
-  // Accounts
-  const acct=document.getElementById("acctTable");
-  acct.innerHTML="";
-  const map={};
-  yearTx.forEach(t=>map[t.acct]=(map[t.acct]||0)+t.amt);
-  Object.entries(map).forEach(([a,v])=>{
-    acct.innerHTML+=`<tr><td>${a}</td><td class="r">${money(v)}</td></tr>`;
-  });
-
-  // Trips
-  const tripTable=document.getElementById("tripTable");
-  tripTable.innerHTML="";
-  state.trips.forEach(t=>{
-    tripTable.innerHTML+=`<tr><td>${t.name}</td><td class="r">${money(t.total)}</td></tr>`;
+  let list=document.getElementById("tripList");
+  list.innerHTML="";
+  state.trips.forEach((t,i)=>{
+    list.innerHTML+=`
+      <div class="trip">
+        <div>${t.name} – ${money(t.cost)}</div>
+        <button class="${t.active?'active':''}" onclick="toggleTrip(${i})">
+          ${t.active?'Included':'Excluded'}
+        </button>
+      </div>
+    `;
   });
 }
 
-document.getElementById("themeBtn").onclick=()=>{
-  const app=document.getElementById("app");
-  const mode=app.getAttribute("data-theme")==="dark"?"light":"dark";
-  app.setAttribute("data-theme",mode);
-  document.getElementById("themeBtn").textContent=
-    mode==="dark"?"🌙 Dark":"☀️ Light";
-};
+function toggleTrip(i){
+  state.trips[i].active=!state.trips[i].active;
+  render();
+}
 
-loadData().then(render);
+function addSimulation(){
+  let val=Number(document.getElementById("simAmount").value);
+  if(!isNaN(val)){
+    state.simulation+=val;
+    render();
+  }
+}
+
+function clearSimulation(){
+  state.simulation=0;
+  document.getElementById("simAmount").value="";
+  render();
+}
+
+load();
 </script>
 </body>
 </html>
