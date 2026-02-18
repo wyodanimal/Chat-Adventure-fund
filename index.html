@@ -57,65 +57,56 @@
 </div>
 
 <script>
-const SHEET_ID = "10WmVcz4zuOcGUmcu5_t8WCnwu4zjbo4OAdBvrlDn24o";
-const SHEET_NAME = "Trips";
+const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrEPrTSDI3CCwRpEKRifmZm4EIRxoq6n0meTIifGm2IApAWc4dsfZo-9QlLgIv_hp5TrcYBSwqflsh/pub?gid=2037449837&single=true&output=csv";
 
 function money(n) {
   return "$" + Number(n || 0).toLocaleString();
 }
 
-async function loadSheet() {
-  try {
-    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${SHEET_NAME}`;
-    const res = await fetch(url);
-    const text = await res.text();
+async function loadCSV() {
+  const response = await fetch(CSV_URL);
+  const text = await response.text();
 
-    // Extract JSON safely
-    const start = text.indexOf("{");
-    const end = text.lastIndexOf("}");
-    const json = JSON.parse(text.substring(start, end + 1));
+  const rows = text.trim().split("\n").map(r => r.split(","));
 
-    const rows = json.table.rows;
+  // Skip header row
+  rows.shift();
 
-    let fuelTotal = 0;
-    let lodgingTotal = 0;
-    let yearTotal = 0;
+  let fuelTotal = 0;
+  let lodgingTotal = 0;
+  let yearTotal = 0;
 
-    const tableBody = document.getElementById("tripTable");
-    tableBody.innerHTML = "";
+  const tableBody = document.getElementById("tripTable");
+  tableBody.innerHTML = "";
 
-    rows.forEach(row => {
-      if (!row.c || !row.c[0] || !row.c[0].v) return;
+  rows.forEach(r => {
+    if (!r[0]) return;
 
-      const name = row.c[0].v;
-      const fuel = Number(row.c[8]?.v || 0);
-      const lodging = Number(row.c[12]?.v || 0);
-      const total = Number(row.c[13]?.v || 0);
+    const name = r[0];
+    const fuel = Number(r[8] || 0);     // Final Fuel Cost
+    const lodging = Number(r[12] || 0); // Lodging Cost
+    const total = Number(r[13] || 0);   // Trip Total
 
-      fuelTotal += fuel;
-      lodgingTotal += lodging;
-      yearTotal += total;
+    fuelTotal += fuel;
+    lodgingTotal += lodging;
+    yearTotal += total;
 
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td>${name}</td>
-        <td>${money(fuel)}</td>
-        <td>${money(lodging)}</td>
-        <td>${money(total)}</td>
-      `;
-      tableBody.appendChild(tr);
-    });
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${name}</td>
+      <td>${money(fuel)}</td>
+      <td>${money(lodging)}</td>
+      <td>${money(total)}</td>
+    `;
+    tableBody.appendChild(tr);
+  });
 
-    document.getElementById("fuelTotal").innerText = money(fuelTotal);
-    document.getElementById("lodgingTotal").innerText = money(lodgingTotal);
-    document.getElementById("yearTotal").innerText = money(yearTotal);
-
-  } catch (err) {
-    console.error("DATA LOAD FAILED:", err);
-  }
+  document.getElementById("fuelTotal").innerText = money(fuelTotal);
+  document.getElementById("lodgingTotal").innerText = money(lodgingTotal);
+  document.getElementById("yearTotal").innerText = money(yearTotal);
 }
 
-loadSheet();
+loadCSV();
 </script>
 
 </body>
