@@ -12,7 +12,7 @@
       --bg:#0b1117;
       --panel:#101823;
       --card:#121c2a;
-      --line:rgba(255,255,255,.08);
+      --line:rgba(255,255,255,.10);
       --text:#e8eef7;
       --muted:#9fb0c9;
       --muted2:#7f8aa3;
@@ -32,20 +32,19 @@
       margin:0;
       font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       background: radial-gradient(1200px 800px at 20% 0%, rgba(125,211,252,.10), transparent 60%),
-                  radial-gradient(900px 700px at 80% 10%, rgba(125,211,252,.06), transparent 55%),
+                  radial-gradient(900px 700px at 80% 10%, rgba(154,230,180,.08), transparent 55%),
                   var(--bg);
       color:var(--text);
     }
-    .wrap{max-width:1200px;margin:0 auto;padding:26px 22px 42px;}
+    .wrap{max-width:1280px;margin:0 auto;padding:26px 22px 42px;}
     .top{
       display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap;
       margin-bottom:14px;
     }
     .title{display:flex;flex-direction:column;gap:6px;}
-    .title h1{margin:0;font-weight:900;letter-spacing:-.02em;font-size:28px}
-    .subtitle{color:var(--muted);font-size:13px;line-height:1.35;max-width:820px}
+    .title h1{margin:0;font-weight:800;letter-spacing:-.02em;font-size:28px}
+    .subtitle{color:var(--muted);font-size:13px}
 
-    .yearRow{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
     .pillRow{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
     .pill{
       border:1px solid var(--line);
@@ -67,7 +66,7 @@
 
     .layout{
       display:grid;
-      grid-template-columns: 240px 1fr;
+      grid-template-columns: 250px 1fr;
       gap:14px;
       margin-top:14px;
     }
@@ -92,6 +91,7 @@
       cursor:pointer;
       transition:.15s ease;
       margin-bottom:8px;
+      text-align:left;
     }
     .navBtn:hover{background:rgba(255,255,255,.04)}
     .navBtn.active{
@@ -102,10 +102,9 @@
     .dot{
       width:10px;height:10px;border-radius:999px;background:rgba(255,255,255,.18);
       box-shadow: 0 0 0 3px rgba(255,255,255,.04);
-      flex:0 0 auto;
     }
-    .navBtn.active .dot{background:rgba(125,211,252,.85); box-shadow:0 0 0 3px rgba(125,211,252,.15)}
-    .navLabel{font-weight:900;font-size:13px}
+    .navBtn.active .dot{background:rgba(125,211,252,.7); box-shadow:0 0 0 3px rgba(125,211,252,.15)}
+    .navLabel{font-weight:800;font-size:13px}
     .navHint{color:var(--muted2);font-size:12px}
 
     .main{min-width:0;}
@@ -117,16 +116,16 @@
       box-shadow:var(--shadow);
     }
 
-    .grid5{
+    .grid3{
       display:grid;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap:12px;
       margin-bottom:12px;
     }
-    @media (max-width: 980px){
+    @media (max-width: 1020px){
       .layout{grid-template-columns: 1fr}
       .nav{position:relative;top:auto}
-      .grid5{grid-template-columns: 1fr}
+      .grid3{grid-template-columns: 1fr}
     }
 
     .card{
@@ -134,22 +133,13 @@
       border:1px solid var(--line);
       border-radius:var(--r2);
       padding:14px;
-      min-height:108px;
-      overflow:hidden; /* fixes bleed */
+      min-width:0;
     }
     .kLabel{color:var(--muted);font-size:12px;letter-spacing:.02em;text-transform:uppercase}
-    .kVal{font-size:30px;font-weight:900;margin-top:6px;letter-spacing:-.02em}
-    .kSub{margin-top:6px;color:var(--muted2);font-size:12px;line-height:1.35}
+    /* Fix the cut-off: clamp prevents huge numbers from overflowing */
+    .kVal{font-weight:900;margin-top:6px;letter-spacing:-.02em;font-size:clamp(22px, 3.2vw, 34px);line-height:1.05;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .kSub{margin-top:6px;color:var(--muted2);font-size:12px}
     .good{color:var(--good)} .bad{color:var(--bad)} .warn{color:var(--warn)}
-
-    .barWrap{
-      margin-top:10px;
-      height:12px;border-radius:999px;
-      background:rgba(255,255,255,.06);
-      overflow:hidden;
-      border:1px solid rgba(255,255,255,.08);
-    }
-    .bar{height:100%;width:0%;background:var(--good);transition:width .25s ease;}
 
     .row{
       display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
@@ -157,8 +147,8 @@
       border-bottom:1px solid rgba(255,255,255,.06);
     }
     .row:last-child{border-bottom:none}
-    .rowTitle{font-weight:900;font-size:14px}
-    .rowMeta{color:var(--muted2);font-size:12px;margin-top:2px;line-height:1.35}
+    .rowTitle{font-weight:800;font-size:14px}
+    .rowMeta{color:var(--muted2);font-size:12px;margin-top:2px}
     .rowRight{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
 
     .btn{
@@ -174,9 +164,18 @@
       white-space:nowrap;
     }
     .btn:hover{transform:translateY(-1px);background:rgba(255,255,255,.06)}
-    .btn.primary{border-color:rgba(125,211,252,.35);background:rgba(125,211,252,.12);}
-    .btn.good{border-color:rgba(63,210,140,.35);background:rgba(63,210,140,.10);}
-    .btn.bad{border-color:rgba(255,93,93,.35);background:rgba(255,93,93,.10);}
+    .btn.primary{
+      border-color:rgba(125,211,252,.35);
+      background:rgba(125,211,252,.12);
+    }
+    .btn.good{
+      border-color:rgba(63,210,140,.35);
+      background:rgba(63,210,140,.10);
+    }
+    .btn.bad{
+      border-color:rgba(255,93,93,.35);
+      background:rgba(255,93,93,.10);
+    }
 
     .tag{
       font-family:var(--mono);
@@ -186,19 +185,12 @@
       border:1px solid var(--line);
       color:var(--muted);
       background:rgba(255,255,255,.02);
-      max-width:100%;
-      overflow:hidden;
-      text-overflow:ellipsis;
       white-space:nowrap;
     }
-
-    .twoCol{
-      display:grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap:12px;
-      margin-top:12px;
-    }
-    @media (max-width:980px){.twoCol{grid-template-columns:1fr}}
+    .tag.strong{color:var(--text)}
+    .tag.good{color:var(--good);border-color:rgba(63,210,140,.35);background:rgba(63,210,140,.08)}
+    .tag.bad{color:var(--bad);border-color:rgba(255,93,93,.35);background:rgba(255,93,93,.08)}
+    .tag.warn{color:var(--warn);border-color:rgba(255,204,102,.35);background:rgba(255,204,102,.08)}
 
     .fieldRow{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px}
     input, select{
@@ -212,20 +204,78 @@
       min-width: 140px;
     }
     input:focus, select:focus{border-color:rgba(125,211,252,.35)}
+
     .miniHelp{color:var(--muted2);font-size:12px;margin-top:8px;line-height:1.45}
 
-    .toast{
-      position:fixed;left:50%;bottom:18px;transform:translateX(-50%);
-      background:rgba(0,0,0,.55);
+    /* Category accordion */
+    .catCard{
       border:1px solid rgba(255,255,255,.10);
-      padding:10px 12px;border-radius:12px;
-      box-shadow:var(--shadow);
-      display:none;
-      max-width: min(740px, calc(100vw - 30px));
-      font-size:13px;
-      line-height:1.35;
+      border-radius:16px;
+      background:rgba(0,0,0,.18);
+      overflow:hidden;
+      margin-top:10px;
     }
-    .toast b{font-weight:900}
+    .catCard.badgeRed{border-color:rgba(255,93,93,.45); box-shadow:0 0 0 1px rgba(255,93,93,.18) inset;}
+    .catHead{
+      padding:12px 12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      cursor:pointer;
+      user-select:none;
+      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+    }
+    .catHead:hover{background:rgba(255,255,255,.04)}
+    .catTitleWrap{min-width:0}
+    .catName{font-weight:900;letter-spacing:-.01em}
+    .catSmall{margin-top:3px;color:var(--muted2);font-size:12px}
+    .catBadges{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+    .catBody{
+      display:none;
+      border-top:1px solid rgba(255,255,255,.06);
+      padding:12px 12px 10px;
+      background:rgba(0,0,0,.15);
+    }
+    .catBody.open{display:block}
+    .groupTitle{
+      margin:12px 0 6px;
+      font-weight:900;
+      font-size:12px;
+      letter-spacing:.08em;
+      color:var(--muted);
+    }
+    .itemRow{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      padding:8px 8px;
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:12px;
+      margin-bottom:8px;
+      background:rgba(255,255,255,.02);
+    }
+    .itemLeft{min-width:0}
+    .itemName{font-weight:800; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:520px;}
+    .itemMeta{color:var(--muted2); font-size:12px; margin-top:3px}
+    .itemRight{display:flex; align-items:center; gap:8px; flex-wrap:wrap; justify-content:flex-end}
+    .strike{ text-decoration: line-through; opacity:.85 }
+    .fade{ opacity:.85 }
+
+    .toast{
+      position:fixed;
+      right:14px;
+      bottom:14px;
+      background:rgba(0,0,0,.70);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:14px;
+      padding:10px 12px;
+      box-shadow:var(--shadow);
+      font-size:13px;
+      color:var(--text);
+      display:none;
+      max-width: 420px;
+    }
+    .toast.show{display:block}
+    .toast .t2{color:var(--muted2);font-size:12px;margin-top:4px}
   </style>
 </head>
 
@@ -234,113 +284,82 @@
     <div class="top">
       <div class="title">
         <h1>Adventure Fund</h1>
-        <div class="subtitle">
-          Accounts + Category Allocation Engine (sheet-backed). Transfers are intentional. Accurizer corrects reality drift.
-        </div>
+        <div class="subtitle">Sheet-backed fund + category planning (deterministic)</div>
       </div>
 
-      <div class="yearRow">
+      <div class="pillRow">
         <div class="pillRow" id="yearPills"></div>
-        <div class="pillRow">
-          <button class="btn primary" id="refreshBtn">Refresh Sheet</button>
-        </div>
+        <span class="tag">Target (Goal Floor)</span>
+        <input id="goalInput" type="number" step="1" style="width:150px" />
+        <button class="btn primary" id="refreshBtn">Refresh</button>
       </div>
     </div>
 
     <div class="layout">
       <div class="nav">
-        <button class="navBtn active" data-view="dashboard">
-          <div class="navLeft"><span class="dot"></span><div><div class="navLabel">Dashboard</div><div class="navHint">Fund • reserved • buffer</div></div></div>
+        <button class="navBtn" data-view="dashboard">
+          <div class="navLeft"><span class="dot"></span><div><div class="navLabel">Dashboard</div><div class="navHint">Totals + target gap</div></div></div>
         </button>
         <button class="navBtn" data-view="accounts">
-          <div class="navLeft"><span class="dot"></span><div><div class="navLabel">Accounts</div><div class="navHint">Balances • transfers</div></div></div>
+          <div class="navLeft"><span class="dot"></span><div><div class="navLabel">Accounts</div><div class="navHint">Balances + transfer</div></div></div>
         </button>
-        <button class="navBtn" data-view="categories">
-          <div class="navLeft"><span class="dot"></span><div><div class="navLabel">Categories</div><div class="navHint">Budgets (editable)</div></div></div>
+        <button class="navBtn active" data-view="categories">
+          <div class="navLeft"><span class="dot"></span><div><div class="navLabel">Categories</div><div class="navHint">Budget + items</div></div></div>
         </button>
         <button class="navBtn" data-view="trips">
-          <div class="navLeft"><span class="dot"></span><div><div class="navLabel">Trips</div><div class="navHint">Rollups only</div></div></div>
-        </button>
-        <button class="navBtn" data-view="accurizer">
-          <div class="navLeft"><span class="dot"></span><div><div class="navLabel">Accurizer</div><div class="navHint">Set actual balances</div></div></div>
+          <div class="navLeft"><span class="dot"></span><div><div class="navLabel">Trips</div><div class="navHint">Fuel + lodging</div></div></div>
         </button>
 
         <div style="height:10px"></div>
         <div class="miniHelp">
-          <b>Rule:</b> Transfers do not change Total Fund. Accurizer can.
+          <b>Rule:</b> if <b>Commit + Purchased</b> exceeds the category budget, the category turns <span class="bad"><b>RED</b></span> (allowed, not blocked).
         </div>
       </div>
 
       <div class="main">
         <!-- DASHBOARD -->
-        <div class="panel" data-panel="dashboard">
-          <div class="grid5">
+        <div class="panel" data-panel="dashboard" style="display:none">
+          <div class="grid3">
             <div class="card">
               <div class="kLabel">Total Fund</div>
               <div class="kVal" id="k_total">$0</div>
-              <div class="kSub">Sum of included accounts (Actual_Balances)</div>
+              <div class="kSub">sum of all account balances</div>
             </div>
-
             <div class="card">
               <div class="kLabel">Reserved</div>
               <div class="kVal" id="k_reserved">$0</div>
-              <div class="kSub">Sum of category budgets (Category_Budgets)</div>
+              <div class="kSub">sum of category budgets (selected year)</div>
             </div>
-
             <div class="card">
-              <div class="kLabel">Free Liquidity</div>
+              <div class="kLabel">Available (Unallocated)</div>
               <div class="kVal" id="k_free">$0</div>
               <div class="kSub">Total Fund − Reserved</div>
             </div>
+          </div>
 
+          <div class="grid3">
             <div class="card">
-              <div class="kLabel">Projected Year-End</div>
-              <div class="kVal" id="k_yearEnd">$0</div>
-              <div class="kSub" id="k_yearEnd_sub">Total + Remaining Income − Reserved</div>
+              <div class="kLabel">Target Gap</div>
+              <div class="kVal" id="k_gap">$0</div>
+              <div class="kSub" id="k_gap_sub">Projected − Target</div>
             </div>
-
             <div class="card">
-              <div class="kLabel">Goal Floor + Buffer</div>
-              <div class="kVal" id="k_floor">$0</div>
-              <div class="kSub" id="k_buffer">—</div>
-              <div class="barWrap"><div class="bar" id="goalBar"></div></div>
+              <div class="kLabel">Category Items</div>
+              <div class="kVal" id="k_items">0</div>
+              <div class="kSub">total items (all categories)</div>
+            </div>
+            <div class="card">
+              <div class="kLabel">Trip Total (Projected)</div>
+              <div class="kVal" id="k_trip_total">$0</div>
+              <div class="kSub">sum of Trip Total (Trips tab)</div>
             </div>
           </div>
 
-          <div class="twoCol">
-            <div class="card">
-              <div class="kLabel">Remaining Income</div>
-              <div class="miniHelp">Biweekly auto-deposit is deterministic by date. Gifts/incentive count if not received.</div>
-              <div id="income_box"></div>
-            </div>
-
-            <div class="card">
-              <div class="kLabel">Trip Rollups (planned only)</div>
-              <div class="miniHelp">Trips are planning visibility. Budget impact is via Categories (Fuel/Lodging).</div>
-
-              <div class="row">
-                <div>
-                  <div class="rowTitle">Planned Trips Total</div>
-                  <div class="rowMeta">Sum Trip Total where Status=planned (Trips)</div>
-                </div>
-                <div class="rowRight"><span class="tag" id="t_total">$0</span></div>
-              </div>
-
-              <div class="row">
-                <div>
-                  <div class="rowTitle">Projected Fuel</div>
-                  <div class="rowMeta">Sum Final Fuel Cost where Status=planned</div>
-                </div>
-                <div class="rowRight"><span class="tag" id="t_fuel">$0</span></div>
-              </div>
-
-              <div class="row">
-                <div>
-                  <div class="rowTitle">Projected Lodging</div>
-                  <div class="rowMeta">Sum Lodging Cost where Status=planned</div>
-                </div>
-                <div class="rowRight"><span class="tag" id="t_lodging">$0</span></div>
-              </div>
+          <div class="card">
+            <div class="kLabel">Notes</div>
+            <div class="miniHelp">
+              This dashboard is intentionally simple: <b>Total Fund</b>, <b>Reserved</b>, <b>Available</b>, and your <b>Target Gap</b>.
+              Your primary workflow is <b>Categories → Items</b>.
             </div>
           </div>
         </div>
@@ -348,385 +367,327 @@
         <!-- ACCOUNTS -->
         <div class="panel" data-panel="accounts" style="display:none">
           <div class="card">
-            <div class="kLabel">Accounts</div>
-            <div class="miniHelp">Transfers write back immediately to Actual_Balances. Total Fund will not change.</div>
+            <div class="kLabel">Account Balances</div>
             <div id="acct_list"></div>
+          </div>
 
-            <div style="height:12px"></div>
+          <div style="height:12px"></div>
 
+          <div class="card">
             <div class="kLabel">Transfer</div>
             <div class="fieldRow">
-              <select id="x_from"></select>
-              <select id="x_to"></select>
-              <input id="x_amt" type="number" step="0.01" placeholder="Amount" style="width:160px" />
-              <button class="btn primary" id="x_go">Transfer</button>
+              <select id="xfer_from" style="min-width:180px"></select>
+              <select id="xfer_to" style="min-width:180px"></select>
+              <input id="xfer_amt" type="number" step="0.01" placeholder="Amount" style="width:160px" />
+              <input id="xfer_memo" placeholder="Memo (optional)" style="min-width:240px" />
+              <button class="btn primary" id="xfer_btn">Transfer</button>
             </div>
-            <div class="miniHelp">This is intentional planning. It is not “drift correction”.</div>
+            <div class="miniHelp">
+              Transfers move money between accounts and should not change Total Fund.
+              (If your backend is configured to also write transaction rows, it will.)
+            </div>
+          </div>
+
+          <div style="height:12px"></div>
+
+          <div class="card">
+            <div class="kLabel">Accurizer (Set Actual Balances)</div>
+            <div class="miniHelp">
+              Enter what you actually have right now. This corrects small drift (interest, rounding, unplanned small deltas).
+            </div>
+            <div id="accu_list"></div>
+            <div class="fieldRow">
+              <button class="btn good" id="accu_save">Set Actual</button>
+            </div>
           </div>
         </div>
 
         <!-- CATEGORIES -->
-        <div class="panel" data-panel="categories" style="display:none">
+        <div class="panel" data-panel="categories">
           <div class="card">
-            <div class="kLabel">Category Budgets (Year: <span id="catYearLabel"></span>)</div>
-            <div class="miniHelp">Editing a budget immediately changes projection (Reserved). Writes back immediately.</div>
-            <div id="cat_list"></div>
+            <div class="kLabel">Categories</div>
+            <div class="miniHelp">
+              Click a category to expand. Items are grouped by <b>commit</b>, <b>purchased</b>, <b>consider</b>.
+              Remaining is calculated as: <b>Budget − (Commit + Purchased)</b>.
+            </div>
+
+            <div class="fieldRow">
+              <input id="cat_new_name" placeholder="New category name" />
+              <input id="cat_new_budget" type="number" step="1" placeholder="Annual budget" style="width:160px" />
+              <button class="btn primary" id="cat_add_btn">Add Category</button>
+            </div>
+
+            <div id="cat_host" style="margin-top:10px"></div>
           </div>
         </div>
 
         <!-- TRIPS -->
         <div class="panel" data-panel="trips" style="display:none">
           <div class="card">
-            <div class="kLabel">Trips (Year: <span id="tripYearLabel"></span>)</div>
-            <div class="miniHelp">Trips here are visibility + rollup. Budget impact is via Categories.</div>
-            <div id="trip_list"></div>
-          </div>
-        </div>
-
-        <!-- ACCURIZER -->
-        <div class="panel" data-panel="accurizer" style="display:none">
-          <div class="card">
-            <div class="kLabel">Accurizer (Set Actual Balances)</div>
+            <div class="kLabel">Trips (Sheet)</div>
             <div class="miniHelp">
-              Use this when reality drift happens (interest, unexpected cash, correction). Writes back immediately.
+              This view reads your Trips sheet. Trip creation/editing can be added next (Phase 3).
             </div>
-            <div id="acc_list"></div>
+            <div id="trip_host"></div>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="toast" id="toast"></div>
+  <div class="toast" id="toast"><div id="toast_t1"></div><div class="t2" id="toast_t2"></div></div>
 
 <script>
 /* =========================
    CONFIG
    ========================= */
-const SHEET_BASE =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrEPrTSDI3CCwRpEKRifmZm4EIRxoq6n0meTIifGm2IApAWc4dsfZo-9QlLgIv_hp5TrcYBSwqflsh/pub?gid=";
 
-const ACTUAL_BALANCES_CSV  = SHEET_BASE + "0&single=true&output=csv";
-const INCOME_CSV           = SHEET_BASE + "1567617658&single=true&output=csv";
-const CATEGORY_BUDGETS_CSV = SHEET_BASE + "1140620863&single=true&output=csv";
-const TRIPS_CSV            = SHEET_BASE + "2037449837&single=true&output=csv";
-const YEAR_SETTINGS_CSV    = SHEET_BASE + "1350021405&single=true&output=csv";
-
-// WRITE ENDPOINT (Apps Script Web App)
+/** Your Apps Script Web App endpoint (write-back) */
 const WRITEBACK_URL = "https://script.google.com/macros/s/AKfycbwV7C7i2Dj0lepZAGz3jxbRV8gMJT1tLYFJ8Gu_xI0c-HaJ4ehzpPfXxQ5_zAyM3kG9/exec";
 
+/**
+ * Google Sheets published CSV endpoints (read)
+ * NOTE: gids below are best-effort from what you provided earlier.
+ * If any panel says "No data", only THAT gid needs adjusting.
+ */
+const SHEET_CSV = (gid) => `https://docs.google.com/spreadsheets/d/e/2PACX-1vRrEPrTSDI3CCwRpEKRifmZm4EIRxoq6n0meTIifGm2IApAWc4dsfZo-9QlLgIv_hp5TrcYBSwqflsh/pub?gid=${gid}&single=true&output=csv`;
 
-  
+// You provided these gids in chat.
+// We keep them as constants so it's deterministic and obvious.
+const GID_ACTUAL_BALANCES = 1567617658;  // Actual_Balances
+const GID_CATEGORY_BUDGETS = 832851607;  // Category_Budgets
+const GID_CATEGORY_ITEMS  = 1613648940;  // Category_Items
+const GID_TRIPS           = 2037449837;  // Trips
+const GID_GOALS           = 1350021405;  // Year_Settings or Goals (depends on your sheet)
+
+const ACTUAL_BALANCES_CSV = SHEET_CSV(GID_ACTUAL_BALANCES);
+const CATEGORY_BUDGETS_CSV = SHEET_CSV(GID_CATEGORY_BUDGETS);
+const CATEGORY_ITEMS_CSV = SHEET_CSV(GID_CATEGORY_ITEMS);
+const TRIPS_CSV = SHEET_CSV(GID_TRIPS);
+const GOALS_CSV = SHEET_CSV(GID_GOALS);
 
 /* =========================
    STATE
    ========================= */
-const LS_KEY = "af_live_v3";
-const today = new Date();
-const TODAY_ISO = isoDate(today);
+const LS_KEY = "af_ui_v2";
+const now = new Date();
+const BASE_YEAR = now.getFullYear();
 
 const state = loadState() || {
-  year: 2026,
-  // sheet data
-  accounts: [],
-  income: [],
-  budgets: [],
-  trips: [],
-  yearSettings: [],
-  // health
-  loadedAt: null,
-  lastError: null
+  year: BASE_YEAR,
+  goalByYear: {},
+
+  accounts: [],      // {account_id, name, current_balance}
+  categories: [],    // {category_id, category_name, annual_budget, year}
+  items: [],         // {item_id, category_id, description, planned_cost, year, status}
+  trips: [],         // best-effort parsed from sheet
+
+  ui: { openCats: {} } // category_id => bool
 };
 
 function loadState(){ try { return JSON.parse(localStorage.getItem(LS_KEY)); } catch { return null; } }
 function saveState(){ localStorage.setItem(LS_KEY, JSON.stringify(state)); }
 
-/* =========================
-   UTIL
-   ========================= */
-const $ = (s)=>document.querySelector(s);
-const $$ = (s)=>Array.from(document.querySelectorAll(s));
+const $ = (sel) => document.querySelector(sel);
+const $$ = (sel) => Array.from(document.querySelectorAll(sel));
 
-function isoDate(d){
-  const z = new Date(d.getTime() - d.getTimezoneOffset()*60000);
-  return z.toISOString().slice(0,10);
-}
+function uid(){ return Math.random().toString(16).slice(2) + Date.now().toString(16); }
+
 function money(n){
   const v = Number(n||0);
   const sign = v < 0 ? "-" : "";
   return sign + "$" + Math.abs(v).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
 }
-function safeNum(x){ const n = Number(x); return Number.isFinite(n) ? n : 0; }
-function escapeHtml(s){
-  return String(s||"")
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;");
-}
-function toast(msg, kind=""){
-  const t = $("#toast");
-  t.style.display="block";
-  t.innerHTML = (kind ? `<b>${escapeHtml(kind)}:</b> ` : "") + escapeHtml(msg);
-  clearTimeout(toast._t);
-  toast._t = setTimeout(()=>{ t.style.display="none"; }, 3200);
+function toNum(x){
+  const v = Number(String(x ?? "").replace(/[$,]/g,"").trim());
+  return Number.isFinite(v) ? v : 0;
 }
 
 /* =========================
-   CSV (quoted safe)
+   CSV parsing (robust enough for quoted commas)
    ========================= */
 function parseCSV(text){
   const rows = [];
-  let row = [], cur = "", inQ = false;
+  let row = [], cur = "", inQuotes = false;
   for(let i=0;i<text.length;i++){
-    const ch = text[i], next = text[i+1];
-    if(inQ){
-      if(ch === '"' && next === '"'){ cur += '"'; i++; }
-      else if(ch === '"'){ inQ = false; }
-      else cur += ch;
-    }else{
-      if(ch === '"'){ inQ = true; }
-      else if(ch === ','){ row.push(cur); cur=""; }
-      else if(ch === '\n'){ row.push(cur); rows.push(row); row=[]; cur=""; }
-      else if(ch === '\r'){ /* ignore */ }
-      else cur += ch;
+    const c = text[i];
+    const n = text[i+1];
+
+    if(c === '"' && inQuotes && n === '"'){ cur += '"'; i++; continue; }
+    if(c === '"'){ inQuotes = !inQuotes; continue; }
+
+    if(!inQuotes && (c === ",")){
+      row.push(cur); cur = ""; continue;
     }
+    if(!inQuotes && (c === "\n")){
+      row.push(cur);
+      rows.push(row);
+      row = []; cur = ""; continue;
+    }
+    if(c === "\r") continue;
+
+    cur += c;
   }
-  row.push(cur); rows.push(row);
-  while(rows.length && rows[rows.length-1].every(c => String(c||"").trim()==="")) rows.pop();
-  return rows;
+  if(cur.length || row.length){ row.push(cur); rows.push(row); }
+  // trim empty tail
+  return rows.filter(r => r.some(cell => String(cell||"").trim().length));
 }
-function headMap(head){
-  const m = {};
-  head.forEach((h,i)=> m[String(h||"").trim()] = i);
-  return m;
-}
+
 async function fetchCSV(url){
   const res = await fetch(url, { cache:"no-store" });
-  if(!res.ok) throw new Error("Fetch failed: " + res.status);
+  if(!res.ok) throw new Error(`CSV fetch failed (${res.status}) for ${url}`);
   return res.text();
 }
 
 /* =========================
-   WRITEBACK
+   Write-back helper
    ========================= */
-async function postWrite(payload){
+async function postJSON(payload){
   const res = await fetch(WRITEBACK_URL, {
     method: "POST",
-    headers: { "Content-Type":"text/plain;charset=utf-8" },
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
     body: JSON.stringify(payload)
   });
-  const text = await res.text();
-  let data;
-  try{ data = JSON.parse(text); } catch { data = { ok:false, error:text }; }
-  if(!res.ok || !data.ok){
-    throw new Error(data.error || ("Write failed: HTTP " + res.status));
-  }
+  const txt = await res.text();
+  let data = null;
+  try{ data = JSON.parse(txt); } catch { data = { ok:false, error: txt }; }
   return data;
 }
 
 /* =========================
-   LOAD SHEET DATA
+   Load Sheet Data
    ========================= */
-async function loadSheetData(){
-  state.lastError = null;
-  const pulls = await Promise.allSettled([
-    fetchCSV(ACTUAL_BALANCES_CSV),
-    fetchCSV(INCOME_CSV),
-    fetchCSV(CATEGORY_BUDGETS_CSV),
-    fetchCSV(TRIPS_CSV),
-    fetchCSV(YEAR_SETTINGS_CSV)
+async function loadAll(){
+  const [tAccts, tCats, tItems, tTrips, tGoals] = await Promise.all([
+    fetchCSV(ACTUAL_BALANCES_CSV).catch(()=> ""),
+    fetchCSV(CATEGORY_BUDGETS_CSV).catch(()=> ""),
+    fetchCSV(CATEGORY_ITEMS_CSV).catch(()=> ""),
+    fetchCSV(TRIPS_CSV).catch(()=> ""),
+    fetchCSV(GOALS_CSV).catch(()=> "")
   ]);
 
-  const get = (idx, label) => {
-    const p = pulls[idx];
-    if(p.status !== "fulfilled"){
-      throw new Error(label + " failed: " + (p.reason?.message || "unknown error"));
-    }
-    return p.value;
-  };
-
-  // Actual_Balances: account_id, account_name, current_balance, include_in_projection
-  {
-    const rows = parseCSV(get(0,"Actual_Balances"));
-    const head = rows.shift() || [];
-    const hm = headMap(head);
-    state.accounts = rows
-      .filter(r => String(r[hm.account_id]||"").trim())
-      .map(r => ({
-        account_id: String(r[hm.account_id]||"").trim(),
-        account_name: String(r[hm.account_name]||"").trim(),
-        current_balance: safeNum(r[hm.current_balance]),
-        include_in_projection: String(r[hm.include_in_projection]||"TRUE").trim().toUpperCase() !== "FALSE"
-      }));
+  // Accounts
+  if(tAccts){
+    const rows = parseCSV(tAccts);
+    const head = rows.shift().map(h=>h.trim());
+    const idxId = head.indexOf("account_id");
+    const idxName = head.indexOf("name");
+    const idxBal = head.indexOf("current_balance");
+    state.accounts = rows.map(r => ({
+      account_id: (r[idxId]||"").trim(),
+      name: (r[idxName]||"").trim(),
+      current_balance: toNum(r[idxBal])
+    })).filter(a => a.account_id && a.name);
   }
 
-  // Income: income_id,income_type,description,amount,recurrence,start_date,year,received
-  {
-    const rows = parseCSV(get(1,"Income"));
-    const head = rows.shift() || [];
-    const hm = headMap(head);
-    state.income = rows
-      .filter(r => String(r[hm.income_id]||"").trim())
-      .map(r => ({
-        income_id: String(r[hm.income_id]||"").trim(),
-        income_type: String(r[hm.income_type]||"").trim(),
-        description: String(r[hm.description]||"").trim(),
-        amount: safeNum(r[hm.amount]),
-        recurrence: String(r[hm.recurrence]||"").trim().toLowerCase(),
-        start_date: String(r[hm.start_date]||"").trim(),
-        year: safeNum(r[hm.year]),
-        received: String(r[hm.received]||"FALSE").trim().toUpperCase() === "TRUE"
-      }));
+  // Category Budgets
+  if(tCats){
+    const rows = parseCSV(tCats);
+    const head = rows.shift().map(h=>h.trim());
+    const idxId = head.indexOf("category_id");
+    const idxName = head.indexOf("category_name");
+    const idxBud = head.indexOf("annual_budget");
+    const idxYear = head.indexOf("year");
+    state.categories = rows.map(r => ({
+      category_id: (r[idxId]||"").trim(),
+      category_name: (r[idxName]||"").trim(),
+      annual_budget: toNum(r[idxBud]),
+      year: Number((r[idxYear]||"").trim() || 0)
+    })).filter(c => c.category_id && c.category_name);
   }
 
-  // Category_Budgets: category_id,category_name,annual_budget,year
-  {
-    const rows = parseCSV(get(2,"Category_Budgets"));
-    const head = rows.shift() || [];
-    const hm = headMap(head);
-    state.budgets = rows
-      .filter(r => String(r[hm.category_id]||"").trim())
-      .map(r => ({
-        category_id: String(r[hm.category_id]||"").trim(),
-        category_name: String(r[hm.category_name]||"").trim(),
-        annual_budget: safeNum(r[hm.annual_budget]),
-        year: safeNum(r[hm.year])
-      }));
+  // Category Items
+  if(tItems){
+    const rows = parseCSV(tItems);
+    const head = rows.shift().map(h=>h.trim());
+    const idxItem = head.indexOf("item_id");
+    const idxCat  = head.indexOf("category_id");
+    const idxDesc = head.indexOf("description");
+    const idxCost = head.indexOf("planned_cost");
+    const idxYear = head.indexOf("year");
+    const idxStat = head.indexOf("status");
+    state.items = rows.map(r => ({
+      item_id: (r[idxItem]||"").trim(),
+      category_id: (r[idxCat]||"").trim(),
+      description: (r[idxDesc]||"").trim(),
+      planned_cost: toNum(r[idxCost]),
+      year: Number((r[idxYear]||"").trim() || 0),
+      status: ((r[idxStat]||"").trim() || "commit").toLowerCase()
+    })).filter(it => it.item_id && it.category_id && it.description);
   }
 
-  // Trips: (supports your current layout) include year + status if present; default planned
-  {
-    const rows = parseCSV(get(3,"Trips"));
-    const head = (rows.shift() || []).map(h=>String(h||"").trim());
-    const hm = headMap(head);
-
-    const idx = (name, fallback) => (hm[name]!==undefined ? hm[name] : fallback);
-
-    state.trips = rows
-      .filter(r => String(r[idx("Trip Name",0)]||"").trim())
-      .map(r => ({
-        name: String(r[idx("Trip Name",0)]||"").trim(),
-        plannedMiles: safeNum(r[idx("Planned Miles",1)]),
-        vehicle: String(r[idx("Vehicle",2)]||"").trim(),
-        finalFuel: safeNum(r[idx("Final Fuel Cost",8)]),
-        lodging: safeNum(r[idx("Lodging Cost",9)]),
-        total: safeNum(r[idx("Trip Total",10)]),
-        year: safeNum(r[idx("Year",11)]),
-        status: String(r[idx("Status",12)] || "planned").trim().toLowerCase()
-      }));
+  // Trips (best effort: use Trip Name + Trip Total if present)
+  if(tTrips){
+    const rows = parseCSV(tTrips);
+    const head = rows.shift().map(h=>h.trim());
+    const idxName = head.indexOf("Trip Name") >= 0 ? head.indexOf("Trip Name") : head.indexOf("trip_name");
+    const idxTotal = head.indexOf("Trip Total") >= 0 ? head.indexOf("Trip Total") : head.indexOf("trip_total");
+    state.trips = rows.map(r => ({
+      name: (r[idxName]||"").trim(),
+      total: toNum(r[idxTotal])
+    })).filter(t => t.name);
   }
 
-  // Year_Settings: year,minimum_balance,auto_increment
-  {
-    const rows = parseCSV(get(4,"Year_Settings"));
-    const head = rows.shift() || [];
-    const hm = headMap(head);
-    state.yearSettings = rows
-      .filter(r => safeNum(r[hm.year]))
-      .map(r => ({
-        year: safeNum(r[hm.year]),
-        minimum_balance: safeNum(r[hm.minimum_balance]),
-        auto_increment: safeNum(r[hm.auto_increment])
-      }))
-      .sort((a,b)=>a.year-b.year);
-
-    if(state.yearSettings.length){
-      const years = state.yearSettings.map(x=>x.year);
-      if(!years.includes(state.year)) state.year = years[0];
+  // Goals (best effort: expects year,goal_floor OR year,target)
+  if(tGoals){
+    const rows = parseCSV(tGoals);
+    const head = rows.shift().map(h=>h.trim().toLowerCase());
+    const yIdx = head.indexOf("year");
+    const gIdx = head.indexOf("goal_floor") >= 0 ? head.indexOf("goal_floor") :
+                 head.indexOf("target") >= 0 ? head.indexOf("target") :
+                 head.indexOf("goal") >= 0 ? head.indexOf("goal") : -1;
+    if(yIdx >= 0 && gIdx >= 0){
+      for(const r of rows){
+        const y = Number((r[yIdx]||"").trim()||0);
+        const g = toNum(r[gIdx]);
+        if(y) state.goalByYear[y] = g;
+      }
     }
   }
 
-  state.loadedAt = TODAY_ISO;
+  // ensure year + goal
+  if(!state.year) state.year = BASE_YEAR;
+  if(state.goalByYear[state.year] == null) state.goalByYear[state.year] = state.goalByYear[state.year] ?? 0;
+
   saveState();
 }
 
 /* =========================
-   ENGINE
+   Computations
    ========================= */
-function sumIncludedAccounts(){
-  return state.accounts.filter(a=>a.include_in_projection).reduce((s,a)=>s+safeNum(a.current_balance),0);
+function totalFund(){
+  return state.accounts.reduce((s,a)=> s + toNum(a.current_balance), 0);
 }
-function reservedBudgets(year){
-  return state.budgets.filter(b=>b.year===year).reduce((s,b)=>s+safeNum(b.annual_budget),0);
+function categoriesForYear(year){
+  return state.categories.filter(c => Number(c.year) === Number(year));
 }
-function goalFloor(year){
-  const y = state.yearSettings.find(x=>x.year===year);
-  return y ? safeNum(y.minimum_balance) : 0;
+function itemsForYear(year){
+  return state.items.filter(i => Number(i.year) === Number(year));
 }
-
-function incomeRemaining(year){
-  // Biweekly: deterministic occurrences within year that are >= today if year is current; all occurrences if future; none if past.
-  // One-time: counts if year matches and received=false.
-  const yearNow = (new Date()).getFullYear();
-  const jan1 = new Date(`${year}-01-01T00:00:00`);
-  const dec31 = new Date(`${year}-12-31T00:00:00`);
-  const todayD = new Date(TODAY_ISO + "T00:00:00");
-
-  let total = 0;
-  const lines = [];
-
-  for(const inc of state.income){
-    if(inc.year !== year) continue;
-
-    if(inc.recurrence === "biweekly"){
-      const start = new Date(String(inc.start_date||"") + "T00:00:00");
-      if(isNaN(start)) continue;
-
-      // align to first occurrence in-year
-      let d = new Date(start);
-      while(d < jan1) d.setDate(d.getDate()+14);
-      while(d > dec31) d.setDate(d.getDate()-14);
-
-      let count = 0;
-      while(d.getFullYear() === year){
-        const isPastYear = year < yearNow;
-        const include =
-          isPastYear ? false :
-          (year > yearNow) ? true :
-          (d >= todayD);
-
-        if(include) count++;
-        d.setDate(d.getDate()+14);
-      }
-
-      const add = count * safeNum(inc.amount);
-      total += add;
-      lines.push({ label: inc.description || "Biweekly deposit", amount: add, meta: `${count} remaining` });
-    } else {
-      if(inc.received) continue;
-      const add = safeNum(inc.amount);
-      total += add;
-      lines.push({ label: inc.description || inc.income_type, amount: add, meta: "pending" });
-    }
+function itemsForCategory(year, category_id){
+  return itemsForYear(year).filter(i => i.category_id === category_id);
+}
+function catTotals(year, category_id){
+  const its = itemsForCategory(year, category_id);
+  let commit=0, purchased=0, consider=0;
+  for(const it of its){
+    const cost = toNum(it.planned_cost);
+    const st = (it.status||"").toLowerCase();
+    if(st === "purchased") purchased += cost;
+    else if(st === "consider") consider += cost;
+    else commit += cost; // default commit
   }
-
-  // show top items; total is what matters
-  lines.sort((a,b)=>b.amount-a.amount);
-  return { total, lines };
+  return { commit, purchased, consider, count: its.length };
 }
-
-function tripRollup(year){
-  const planned = state.trips.filter(t=>t.year===year && (t.status||"planned")==="planned");
-  return {
-    total: planned.reduce((s,t)=>s+safeNum(t.total),0),
-    fuel: planned.reduce((s,t)=>s+safeNum(t.finalFuel),0),
-    lodging: planned.reduce((s,t)=>s+safeNum(t.lodging),0)
-  };
+function reservedTotal(year){
+  return categoriesForYear(year).reduce((s,c)=> s + toNum(c.annual_budget), 0);
 }
-
-function computeDashboard(year){
-  const fund = sumIncludedAccounts();
-  const reserved = reservedBudgets(year);
-  const income = incomeRemaining(year).total;
-  const yearEnd = fund + income - reserved;
-  const floor = goalFloor(year);
-  const buffer = yearEnd - floor;
-  const free = fund - reserved;
-  return { fund, reserved, free, income, yearEnd, floor, buffer };
+function tripsTotal(){
+  return state.trips.reduce((s,t)=> s + toNum(t.total), 0);
 }
 
 /* =========================
-   RENDER
+   UI / Views
    ========================= */
 function setView(view){
   $$(".navBtn").forEach(b=> b.classList.toggle("active", b.dataset.view===view));
@@ -734,347 +695,517 @@ function setView(view){
 }
 
 function renderYears(){
+  const years = [BASE_YEAR, BASE_YEAR+1, BASE_YEAR+2];
   const host = $("#yearPills");
   host.innerHTML = "";
-  const years = state.yearSettings.length ? state.yearSettings.map(x=>x.year) : [2026,2027,2028];
-
-  for(const y of years.slice(0,5)){
+  for(const y of years){
     const b = document.createElement("button");
     b.className = "pill" + (state.year===y ? " active" : "");
     b.textContent = y;
-    b.onclick = ()=>{ state.year=y; saveState(); renderAll(); };
+    b.onclick = () => { state.year = y; if(state.goalByYear[y]==null) state.goalByYear[y]=0; saveState(); renderAll(); };
     host.appendChild(b);
   }
 }
 
-function renderDashboard(){
-  const y = state.year;
-  const d = computeDashboard(y);
-  const inc = incomeRemaining(y);
-  const tr = tripRollup(y);
-
-  $("#k_total").textContent = money(d.fund);
-  $("#k_reserved").textContent = money(d.reserved);
-  $("#k_free").textContent = money(d.free);
-  $("#k_yearEnd").textContent = money(d.yearEnd);
-  $("#k_floor").textContent = money(d.floor);
-
-  const buf = $("#k_buffer");
-  if(d.floor<=0){
-    buf.innerHTML = `<span class="warn">Set Year_Settings minimum_balance for ${y}</span>`;
-  } else if(d.buffer>=0){
-    buf.innerHTML = `<span class="good">Above floor by ${money(d.buffer)}</span>`;
-  } else {
-    buf.innerHTML = `<span class="bad">Below floor by ${money(Math.abs(d.buffer))}</span>`;
-  }
-
-  const pct = d.floor>0 ? Math.max(0, Math.min(100, (d.yearEnd/d.floor)*100)) : 0;
-  $("#goalBar").style.width = pct + "%";
-  $("#goalBar").style.background = (d.floor>0 && d.buffer<0) ? "var(--bad)" : "var(--good)";
-
-  // income box
-  const ib = $("#income_box");
-  ib.innerHTML = "";
-  ib.appendChild(rowKV("Remaining Income Total", money(inc.total), "Total expected income still to come in this year"));
-
-  if(!inc.lines.length){
-    ib.innerHTML += `<div class="miniHelp">No remaining income entries found for ${y}.</div>`;
-  } else {
-    for(const l of inc.lines.slice(0,10)){
-      ib.appendChild(rowKV(l.label, money(l.amount), l.meta));
-    }
-    if(inc.lines.length>10){
-      ib.innerHTML += `<div class="miniHelp">+ ${inc.lines.length-10} more…</div>`;
-    }
-  }
-
-  // trip rollups
-  $("#t_total").textContent = money(tr.total);
-  $("#t_fuel").textContent = money(tr.fuel);
-  $("#t_lodging").textContent = money(tr.lodging);
+function renderGoal(){
+  $("#goalInput").value = Number(state.goalByYear[state.year]||0);
 }
 
-function rowKV(title, val, meta){
-  const row = document.createElement("div");
-  row.className = "row";
-  row.innerHTML = `
-    <div>
-      <div class="rowTitle">${escapeHtml(title)}</div>
-      <div class="rowMeta">${escapeHtml(meta||"")}</div>
-    </div>
-    <div class="rowRight"><span class="tag">${escapeHtml(val)}</span></div>
-  `;
-  return row;
+function renderDashboard(){
+  const t = totalFund();
+  const r = reservedTotal(state.year);
+  const free = t - r;
+
+  $("#k_total").textContent = money(t);
+  $("#k_reserved").textContent = money(r);
+  $("#k_free").textContent = money(free);
+
+  const goal = Number(state.goalByYear[state.year]||0);
+  // "Projected" for now = Total Fund - Reserved (since income engine wiring is separate)
+  const projected = free; // deterministic & honest (no pretending)
+  const gap = projected - goal;
+
+  $("#k_gap").textContent = money(gap);
+  $("#k_gap_sub").innerHTML = goal>0
+    ? (gap>=0 ? `<span class="good">Above target by ${money(gap)}</span>` : `<span class="bad">Below target by ${money(Math.abs(gap))}</span>`)
+    : `<span class="warn">Set Target (Goal Floor)</span>`;
+
+  const itemCount = itemsForYear(state.year).length;
+  $("#k_items").textContent = String(itemCount);
+  $("#k_trip_total").textContent = money(tripsTotal());
 }
 
 function renderAccounts(){
   const host = $("#acct_list");
   host.innerHTML = "";
 
-  const from = $("#x_from");
-  const to = $("#x_to");
-  from.innerHTML = ""; to.innerHTML = "";
-
-  for(const a of state.accounts){
-    const opt1 = document.createElement("option");
-    opt1.value = a.account_id;
-    opt1.textContent = `${a.account_name}`;
-    const opt2 = opt1.cloneNode(true);
-    from.appendChild(opt1);
-    to.appendChild(opt2);
+  if(!state.accounts.length){
+    host.innerHTML = `<div class="miniHelp">No accounts loaded. Check Actual_Balances CSV gid.</div>`;
+  } else {
+    for(const a of state.accounts){
+      const row = document.createElement("div");
+      row.className = "row";
+      row.innerHTML = `
+        <div>
+          <div class="rowTitle">${escapeHtml(a.name)}</div>
+          <div class="rowMeta">${escapeHtml(a.account_id)}</div>
+        </div>
+        <div class="rowRight">
+          <span class="tag strong">${money(a.current_balance)}</span>
+        </div>
+      `;
+      host.appendChild(row);
+    }
   }
-  if(state.accounts.length>=2) to.selectedIndex = 1;
 
+  // transfer dropdowns
+  const from = $("#xfer_from");
+  const to = $("#xfer_to");
+  from.innerHTML = ""; to.innerHTML = "";
+  for(const a of state.accounts){
+    const o1 = document.createElement("option");
+    o1.value = a.account_id; o1.textContent = `${a.name} (${a.account_id})`;
+    const o2 = document.createElement("option");
+    o2.value = a.account_id; o2.textContent = `${a.name} (${a.account_id})`;
+    from.appendChild(o1); to.appendChild(o2);
+  }
+
+  // accurizer inputs
+  const accu = $("#accu_list");
+  accu.innerHTML = "";
   for(const a of state.accounts){
     const row = document.createElement("div");
     row.className = "row";
     row.innerHTML = `
       <div>
-        <div class="rowTitle">${escapeHtml(a.account_name)} <span class="tag" style="margin-left:6px">${escapeHtml(a.account_id)}</span></div>
-        <div class="rowMeta">Included in projection: <b>${a.include_in_projection ? "TRUE" : "FALSE"}</b></div>
+        <div class="rowTitle">${escapeHtml(a.name)}</div>
+        <div class="rowMeta">Current: ${money(a.current_balance)}</div>
       </div>
       <div class="rowRight">
-        <span class="tag">${money(a.current_balance)}</span>
+        <input data-accu="${escapeAttr(a.account_id)}" type="number" step="0.01" style="width:160px" placeholder="Set actual">
       </div>
     `;
-    host.appendChild(row);
+    accu.appendChild(row);
   }
-}
-
-function renderCategories(){
-  const y = state.year;
-  $("#catYearLabel").textContent = y;
-
-  const host = $("#cat_list");
-  host.innerHTML = "";
-
-  const list = state.budgets.filter(b=>b.year===y);
-  if(!list.length){
-    host.innerHTML = `<div class="miniHelp">No category budgets found for ${y}.</div>`;
-    return;
-  }
-
-  for(const b of list){
-    const row = document.createElement("div");
-    row.className = "row";
-    row.innerHTML = `
-      <div style="min-width:0;flex:1">
-        <div class="rowTitle">${escapeHtml(b.category_name)} <span class="tag" style="margin-left:6px">${escapeHtml(b.category_id)}</span></div>
-        <div class="rowMeta">Budget reserved against year projection.</div>
-      </div>
-      <div class="rowRight">
-        <input data-bid="${escapeHtml(b.category_id)}" type="number" step="1" style="width:160px" value="${b.annual_budget}">
-        <button class="btn primary" data-save="${escapeHtml(b.category_id)}">Save</button>
-      </div>
-    `;
-    host.appendChild(row);
-  }
-
-  host.querySelectorAll("button[data-save]").forEach(btn=>{
-    btn.onclick = async ()=>{
-      const id = btn.getAttribute("data-save");
-      const inp = host.querySelector(`input[data-bid="${CSS.escape(id)}"]`);
-      const val = safeNum(inp?.value);
-      if(val < 0) return;
-
-      btn.textContent = "Saving…";
-      btn.disabled = true;
-
-      try{
-        await postWrite({
-          action: "updateCategoryBudgets",
-          updates: [{ category_id: id, year: state.year, annual_budget: val }]
-        });
-        toast("Category budget saved.", "Saved");
-        await loadSheetData();
-        renderAll();
-      }catch(e){
-        toast(e.message || "Save failed", "Error");
-      } finally {
-        btn.textContent = "Save";
-        btn.disabled = false;
-      }
-    };
-  });
 }
 
 function renderTrips(){
-  const y = state.year;
-  $("#tripYearLabel").textContent = y;
-
-  const host = $("#trip_list");
+  const host = $("#trip_host");
   host.innerHTML = "";
-
-  const list = state.trips.filter(t=>t.year===y);
-  if(!list.length){
-    host.innerHTML = `<div class="miniHelp">No trips found for ${y}.</div>`;
+  if(!state.trips.length){
+    host.innerHTML = `<div class="miniHelp">No trips loaded from Trips CSV gid.</div>`;
     return;
   }
-
-  for(const t of list){
-    const planned = (t.status||"planned")==="planned";
+  for(const t of state.trips){
     const row = document.createElement("div");
     row.className = "row";
     row.innerHTML = `
       <div>
-        <div class="rowTitle">${escapeHtml(t.name)} <span class="tag" style="margin-left:6px">${escapeHtml(t.status||"planned")}</span></div>
-        <div class="rowMeta">${escapeHtml(t.vehicle)} • ${t.plannedMiles} mi • Fuel ${money(t.finalFuel)} • Lodging ${money(t.lodging)}</div>
+        <div class="rowTitle">${escapeHtml(t.name)}</div>
+        <div class="rowMeta">Trip Total (sheet)</div>
       </div>
       <div class="rowRight">
-        <span class="tag">${money(t.total)}</span>
-        <span class="tag" style="border-color:${planned?'rgba(63,210,140,.35)':'rgba(255,93,93,.35)'};color:${planned?'var(--good)':'var(--muted)'}">
-          ${planned ? "Counts in rollup" : "Complete (ignored)"}
-        </span>
+        <span class="tag strong">${money(t.total)}</span>
       </div>
     `;
     host.appendChild(row);
   }
 }
 
-function renderAccurizer(){
-  const host = $("#acc_list");
+/* =========================
+   Categories UI (NEW ENGINE)
+   ========================= */
+function renderCategories(){
+  const host = $("#cat_host");
   host.innerHTML = "";
 
-  for(const a of state.accounts){
-    const row = document.createElement("div");
-    row.className = "row";
-    row.innerHTML = `
-      <div>
-        <div class="rowTitle">${escapeHtml(a.account_name)} <span class="tag" style="margin-left:6px">${escapeHtml(a.account_id)}</span></div>
-        <div class="rowMeta">Sheet balance: ${money(a.current_balance)}</div>
-      </div>
-      <div class="rowRight">
-        <input data-acc="${escapeHtml(a.account_id)}" type="number" step="0.01" style="width:170px" placeholder="Actual now">
-        <button class="btn primary" data-set="${escapeHtml(a.account_id)}">Set Actual</button>
-      </div>
-    `;
-    host.appendChild(row);
+  const cats = categoriesForYear(state.year);
+  if(!cats.length){
+    host.innerHTML = `<div class="miniHelp">No categories loaded for ${state.year}. Check Category_Budgets CSV gid.</div>`;
+    return;
   }
 
-  host.querySelectorAll("button[data-set]").forEach(btn=>{
+  for(const c of cats){
+    const { commit, purchased, consider, count } = catTotals(state.year, c.category_id);
+    const budget = toNum(c.annual_budget);
+    const usedHard = commit + purchased;
+    const remaining = budget - usedHard;
+    const potentialRemaining = budget - (usedHard + consider);
+    const over = usedHard > budget;
+
+    const card = document.createElement("div");
+    card.className = "catCard" + (over ? " badgeRed" : "");
+    const open = !!state.ui.openCats[c.category_id];
+
+    card.innerHTML = `
+      <div class="catHead" data-cat-toggle="${escapeAttr(c.category_id)}">
+        <div class="catTitleWrap">
+          <div class="catName">${escapeHtml(c.category_name)}</div>
+          <div class="catSmall">${escapeHtml(c.category_id)} • Items: ${count}</div>
+        </div>
+        <div class="catBadges">
+          <span class="tag strong">Budget ${money(budget)}</span>
+          <span class="tag ${over ? "bad" : "good"}">Remaining ${money(remaining)}</span>
+          <span class="tag warn">Potential ${money(potentialRemaining)}</span>
+          <span class="tag ${over ? "bad" : ""}">${over ? "OVER" : "OK"}</span>
+          <span class="tag">${open ? "▲" : "▼"}</span>
+        </div>
+      </div>
+      <div class="catBody ${open ? "open" : ""}" data-cat-body="${escapeAttr(c.category_id)}">
+        <div class="row" style="border-bottom:none">
+          <div>
+            <div class="rowTitle">Summary</div>
+            <div class="rowMeta">Remaining = Budget − (Commit + Purchased). Potential includes Consider.</div>
+          </div>
+          <div class="rowRight">
+            <span class="tag">Commit ${money(commit)}</span>
+            <span class="tag good">Purchased ${money(purchased)}</span>
+            <span class="tag warn">Consider ${money(consider)}</span>
+          </div>
+        </div>
+
+        <div class="groupTitle">COMMIT</div>
+        <div data-group="commit" data-cat="${escapeAttr(c.category_id)}"></div>
+
+        <div class="groupTitle">PURCHASED</div>
+        <div data-group="purchased" data-cat="${escapeAttr(c.category_id)}"></div>
+
+        <div class="groupTitle">CONSIDER</div>
+        <div data-group="consider" data-cat="${escapeAttr(c.category_id)}"></div>
+
+        <div class="groupTitle">ADD ITEM</div>
+        <div class="itemRow">
+          <div class="itemLeft" style="flex:1;min-width:0">
+            <div class="itemName"><input data-new-desc="${escapeAttr(c.category_id)}" placeholder="Description" style="width:100%"></div>
+            <div class="itemMeta">This auto-fills category_id = <span class="tag">${escapeHtml(c.category_id)}</span></div>
+          </div>
+          <div class="itemRight">
+            <input data-new-cost="${escapeAttr(c.category_id)}" type="number" step="1" placeholder="Cost" style="width:140px">
+            <select data-new-status="${escapeAttr(c.category_id)}" style="width:150px">
+              <option value="commit" selected>commit</option>
+              <option value="consider">consider</option>
+              <option value="purchased">purchased</option>
+            </select>
+            <button class="btn primary" data-add-item="${escapeAttr(c.category_id)}">Add</button>
+          </div>
+        </div>
+
+      </div>
+    `;
+
+    host.appendChild(card);
+
+    // render items in groups
+    const its = itemsForCategory(state.year, c.category_id);
+    const gCommit = card.querySelector(`[data-group="commit"][data-cat="${cssEscape(c.category_id)}"]`);
+    const gPurchased = card.querySelector(`[data-group="purchased"][data-cat="${cssEscape(c.category_id)}"]`);
+    const gConsider = card.querySelector(`[data-group="consider"][data-cat="${cssEscape(c.category_id)}"]`);
+
+    const by = { commit: [], purchased: [], consider: [] };
+    for(const it of its){
+      const st = (it.status||"commit").toLowerCase();
+      (by[st] || by.commit).push(it);
+    }
+
+    gCommit.innerHTML = by.commit.length ? "" : `<div class="miniHelp">No committed items.</div>`;
+    gPurchased.innerHTML = by.purchased.length ? "" : `<div class="miniHelp">No purchased items.</div>`;
+    gConsider.innerHTML = by.consider.length ? "" : `<div class="miniHelp">No consider items.</div>`;
+
+    for(const it of by.commit) gCommit.appendChild(renderItemRow(it, "commit"));
+    for(const it of by.purchased) gPurchased.appendChild(renderItemRow(it, "purchased"));
+    for(const it of by.consider) gConsider.appendChild(renderItemRow(it, "consider"));
+  }
+
+  // accordion toggles
+  host.querySelectorAll("[data-cat-toggle]").forEach(el=>{
+    el.onclick = ()=>{
+      const id = el.getAttribute("data-cat-toggle");
+      state.ui.openCats[id] = !state.ui.openCats[id];
+      saveState(); renderCategories(); // re-render category panel only
+    };
+  });
+
+  // add item
+  host.querySelectorAll("button[data-add-item]").forEach(btn=>{
     btn.onclick = async ()=>{
-      const id = btn.getAttribute("data-set");
-      const inp = host.querySelector(`input[data-acc="${CSS.escape(id)}"]`);
-      const valRaw = inp?.value;
-      if(valRaw===undefined || valRaw===null || String(valRaw).trim()==="") return;
-      const actual = safeNum(valRaw);
+      const catId = btn.getAttribute("data-add-item");
+      const descEl = host.querySelector(`input[data-new-desc="${cssEscape(catId)}"]`);
+      const costEl = host.querySelector(`input[data-new-cost="${cssEscape(catId)}"]`);
+      const statEl = host.querySelector(`select[data-new-status="${cssEscape(catId)}"]`);
 
-      btn.textContent = "Saving…";
-      btn.disabled = true;
+      const description = (descEl?.value||"").trim();
+      const planned_cost = toNum(costEl?.value||0);
+      const status = (statEl?.value||"commit").trim().toLowerCase();
 
-      try{
-        await postWrite({
-          action: "updateBalances",
-          updates: [{ account_id: id, current_balance: actual }]
-        });
-        toast("Balance updated.", "Saved");
-        await loadSheetData();
-        renderAll();
-      }catch(e){
-        toast(e.message || "Save failed", "Error");
-      } finally {
-        btn.textContent = "Set Actual";
-        btn.disabled = false;
+      if(!description || !planned_cost){
+        toast("Add Item", "Description and Cost are required.");
+        return;
       }
+
+      const item = {
+        item_id: `IT-${uid().slice(0,10)}`,
+        category_id: catId,
+        description,
+        planned_cost,
+        year: state.year,
+        status
+      };
+
+      // Write-back
+      const r = await postJSON({ action:"upsertCategoryItem", item });
+      if(!r.ok){
+        toast("Write failed", r.error || "Backend did not accept item write.");
+        return;
+      }
+
+      toast("Saved", "Item added.");
+      await refreshAndRender();
     };
   });
 }
 
+function renderItemRow(it, group){
+  const row = document.createElement("div");
+  row.className = "itemRow";
+
+  const isPurchased = (it.status||"").toLowerCase() === "purchased";
+  const isConsider = (it.status||"").toLowerCase() === "consider";
+
+  row.innerHTML = `
+    <div class="itemLeft" style="flex:1;min-width:0">
+      <div class="itemName ${isPurchased ? "strike" : ""} ${isConsider ? "fade" : ""}">${escapeHtml(it.description)}</div>
+      <div class="itemMeta">${escapeHtml(it.item_id)} • ${escapeHtml(it.category_id)} • ${state.year}</div>
+    </div>
+    <div class="itemRight">
+      <span class="tag strong">${money(it.planned_cost)}</span>
+      <select data-item-status="${escapeAttr(it.item_id)}" style="width:150px">
+        <option value="commit" ${group==="commit" ? "selected":""}>commit</option>
+        <option value="consider" ${group==="consider" ? "selected":""}>consider</option>
+        <option value="purchased" ${group==="purchased" ? "selected":""}>purchased</option>
+      </select>
+      <input data-item-cost="${escapeAttr(it.item_id)}" type="number" step="1" style="width:140px" value="${escapeAttr(it.planned_cost)}">
+      <button class="btn primary" data-item-save="${escapeAttr(it.item_id)}">Save</button>
+      <button class="btn bad" data-item-del="${escapeAttr(it.item_id)}">Delete</button>
+    </div>
+  `;
+
+  // attach handlers after insert (handled in renderAll with delegation approach)
+  setTimeout(()=>wireItemRowHandlers(row, it), 0);
+  return row;
+}
+
+function wireItemRowHandlers(row, it){
+  const sel = row.querySelector(`select[data-item-status="${cssEscape(it.item_id)}"]`);
+  const cost = row.querySelector(`input[data-item-cost="${cssEscape(it.item_id)}"]`);
+  const btnSave = row.querySelector(`button[data-item-save="${cssEscape(it.item_id)}"]`);
+  const btnDel = row.querySelector(`button[data-item-del="${cssEscape(it.item_id)}"]`);
+
+  if(btnSave){
+    btnSave.onclick = async ()=>{
+      const status = (sel?.value || it.status || "commit").toLowerCase();
+      const planned_cost = toNum(cost?.value || it.planned_cost || 0);
+
+      const updated = {
+        item_id: it.item_id,
+        category_id: it.category_id,
+        description: it.description,
+        planned_cost,
+        year: it.year,
+        status
+      };
+
+      const r = await postJSON({ action:"upsertCategoryItem", item: updated });
+      if(!r.ok){
+        toast("Write failed", r.error || "Backend did not accept item write.");
+        return;
+      }
+      toast("Saved", "Item updated.");
+      await refreshAndRender();
+    };
+  }
+
+  if(btnDel){
+    btnDel.onclick = async ()=>{
+      const r = await postJSON({ action:"deleteCategoryItem", item_id: it.item_id });
+      if(!r.ok){
+        toast("Delete failed", r.error || "Backend did not accept delete.");
+        return;
+      }
+      toast("Deleted", "Item removed.");
+      await refreshAndRender();
+    };
+  }
+}
+
+/* =========================
+   Actions: Accounts
+   ========================= */
+async function doAccurizerSave(){
+  const updates = [];
+  $("#accu_list").querySelectorAll("input[data-accu]").forEach(inp=>{
+    const id = inp.getAttribute("data-accu");
+    const v = inp.value;
+    if(v !== "" && v != null){
+      updates.push({ account_id:id, current_balance: toNum(v) });
+    }
+  });
+  if(!updates.length){
+    toast("Accurizer", "No values entered.");
+    return;
+  }
+  const r = await postJSON({ action:"updateBalances", updates });
+  if(!r.ok){
+    toast("Write failed", r.error || "updateBalances failed");
+    return;
+  }
+  toast("Saved", "Balances updated.");
+  await refreshAndRender();
+}
+
+async function doTransfer(){
+  const from = $("#xfer_from").value;
+  const to = $("#xfer_to").value;
+  const amt = toNum($("#xfer_amt").value || 0);
+  const memo = ($("#xfer_memo").value || "").trim();
+
+  if(!from || !to || !amt || from === to){
+    toast("Transfer", "Choose From/To and enter amount. From and To must differ.");
+    return;
+  }
+
+  const r = await postJSON({
+    action:"transfer",
+    from_account_id: from,
+    to_account_id: to,
+    amount: amt,
+    memo,
+    dateISO: new Date().toISOString().slice(0,10)
+  });
+
+  if(!r.ok){
+    toast("Transfer failed", r.error || "Backend did not accept transfer.");
+    return;
+  }
+  toast("Transferred", "Refresh completes after sheet updates.");
+  $("#xfer_amt").value = "";
+  $("#xfer_memo").value = "";
+  await refreshAndRender();
+}
+
+/* =========================
+   Actions: Categories
+   ========================= */
+async function addCategory(){
+  const name = ($("#cat_new_name").value || "").trim();
+  const bud = toNum($("#cat_new_budget").value || 0);
+  if(!name || !bud){
+    toast("Add Category", "Name and Annual Budget required.");
+    return;
+  }
+
+  // deterministic category_id: first 6 of a hash-like uid (no spaces)
+  const category_id = ("C-" + name.replace(/[^a-z0-9]+/gi,"").slice(0,10) + "-" + uid().slice(0,4)).toUpperCase();
+
+  const cat = {
+    category_id,
+    category_name: name,
+    annual_budget: bud,
+    year: state.year
+  };
+
+  const r = await postJSON({ action:"upsertCategoryBudget", category: cat });
+  if(!r.ok){
+    toast("Write failed", r.error || "Backend did not accept category write.");
+    return;
+  }
+
+  $("#cat_new_name").value = "";
+  $("#cat_new_budget").value = "";
+  toast("Saved", "Category added.");
+  await refreshAndRender();
+}
+
+/* =========================
+   Toast
+   ========================= */
+let toastTimer = null;
+function toast(t1, t2){
+  const el = $("#toast");
+  $("#toast_t1").textContent = t1 || "";
+  $("#toast_t2").textContent = t2 || "";
+  el.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=> el.classList.remove("show"), 3200);
+}
+
+/* =========================
+   Rendering master
+   ========================= */
 function renderAll(){
   renderYears();
+  renderGoal();
   renderDashboard();
   renderAccounts();
   renderCategories();
   renderTrips();
-  renderAccurizer();
 }
 
 /* =========================
-   ACTIONS
-   ========================= */
-async function doTransfer(){
-  const fromId = $("#x_from").value;
-  const toId = $("#x_to").value;
-  const amt = safeNum($("#x_amt").value);
-
-  if(!fromId || !toId || fromId===toId || !amt || amt<=0){
-    toast("Select two different accounts and enter an amount.", "Transfer");
-    return;
-  }
-
-  const from = state.accounts.find(a=>a.account_id===fromId);
-  const to = state.accounts.find(a=>a.account_id===toId);
-  if(!from || !to){
-    toast("Account lookup failed. Refresh sheet.", "Error");
-    return;
-  }
-
-  const newFrom = safeNum(from.current_balance) - amt;
-  const newTo = safeNum(to.current_balance) + amt;
-
-  if(newFrom < -0.0001){
-    toast("Insufficient funds in the FROM account (would go negative).", "Blocked");
-    return;
-  }
-
-  const btn = $("#x_go");
-  btn.textContent = "Transferring…";
-  btn.disabled = true;
-
-  try{
-    await postWrite({
-      action: "updateBalances",
-      updates: [
-        { account_id: fromId, current_balance: newFrom },
-        { account_id: toId, current_balance: newTo }
-      ]
-    });
-    $("#x_amt").value = "";
-    toast("Transfer complete.", "Transfer");
-    await loadSheetData();
-    renderAll();
-  }catch(e){
-    toast(e.message || "Transfer failed", "Error");
-  } finally {
-    btn.textContent = "Transfer";
-    btn.disabled = false;
-  }
-}
-
-/* =========================
-   INIT + UI WIRE
+   UI wiring
    ========================= */
 function wireUI(){
-  $$(".navBtn").forEach(b=> b.onclick = ()=> setView(b.dataset.view));
+  // nav
+  $$(".navBtn").forEach(b=>{
+    b.onclick = ()=> setView(b.dataset.view);
+  });
 
-  $("#refreshBtn").onclick = async ()=>{
-    $("#refreshBtn").textContent = "Refreshing…";
-    try{
-      await loadSheetData();
-      renderAll();
-      toast("Sheet refreshed.", "OK");
-    }catch(e){
-      toast(e.message || "Refresh failed", "Error");
-    } finally {
-      $("#refreshBtn").textContent = "Refresh Sheet";
-    }
-  };
+  // goal
+  $("#goalInput").addEventListener("change", ()=>{
+    state.goalByYear[state.year] = toNum($("#goalInput").value||0);
+    saveState();
+    renderDashboard();
+  });
 
-  $("#x_go").onclick = doTransfer;
+  // refresh
+  $("#refreshBtn").onclick = refreshAndRender;
+
+  // accounts
+  $("#accu_save").onclick = doAccurizerSave;
+  $("#xfer_btn").onclick = doTransfer;
+
+  // categories
+  $("#cat_add_btn").onclick = addCategory;
 }
 
-// Boot
+async function refreshAndRender(){
+  $("#refreshBtn").textContent = "Refreshing…";
+  try{
+    await loadAll();
+    renderAll();
+  } catch (e){
+    toast("Refresh failed", e.message || String(e));
+  } finally {
+    $("#refreshBtn").textContent = "Refresh";
+  }
+}
+
+/* =========================
+   Escapes
+   ========================= */
+function escapeHtml(s){ return String(s||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;"); }
+function escapeAttr(s){ return String(s||"").replaceAll('"',"&quot;"); }
+function cssEscape(s){ return String(s||"").replaceAll('"','\\"'); }
+
+/* =========================
+   Boot
+   ========================= */
 (async function init(){
   wireUI();
-  setView("dashboard");
-  try{
-    await loadSheetData();
-  }catch(e){
-    state.lastError = e.message || String(e);
-    toast(state.lastError, "Error");
-  }
-  saveState();
-  renderAll();
+  // default view to Categories (your most-used)
+  setView("categories");
+
+  // initial load
+  await refreshAndRender();
 })();
 </script>
 </body>
