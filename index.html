@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Adventure Fund — Studio</title>
+  <title>Adventure Fund</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 
@@ -22,7 +22,6 @@
       --bad:#ff5d5d;
       --warn:#ffcc66;
       --accent:#7dd3fc;
-      --accent2:#9ae6b4;
 
       --shadow: 0 20px 60px rgba(0,0,0,.35);
       --r:18px;
@@ -34,18 +33,15 @@
       margin:0;
       font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       background: radial-gradient(1200px 800px at 20% 0%, rgba(125,211,252,.10), transparent 60%),
-                  radial-gradient(900px 700px at 80% 10%, rgba(154,230,180,.08), transparent 55%),
+                  radial-gradient(900px 700px at 80% 10%, rgba(125,211,252,.05), transparent 55%),
                   var(--bg);
       color:var(--text);
     }
     .wrap{max-width:1200px;margin:0 auto;padding:26px 22px 42px;}
-    .top{
-      display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap;
-      margin-bottom:14px;
-    }
+    .top{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:14px;}
     .title{display:flex;flex-direction:column;gap:6px;}
     .title h1{margin:0;font-weight:800;letter-spacing:-.02em;font-size:28px}
-    .subtitle{color:var(--muted);font-size:13px}
+    .subtitle{color:var(--muted);font-size:13px;max-width:780px;line-height:1.35}
 
     .yearRow{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
     .pillRow{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
@@ -62,7 +58,7 @@
     }
     .pill:hover{transform:translateY(-1px);background:rgba(255,255,255,.05)}
     .pill.active{
-      background:linear-gradient(180deg, rgba(125,211,252,.18), rgba(154,230,180,.12));
+      background:linear-gradient(180deg, rgba(125,211,252,.18), rgba(125,211,252,.10));
       border-color:rgba(125,211,252,.35);
     }
 
@@ -100,12 +96,9 @@
       border-color:rgba(125,211,252,.25);
     }
     .navLeft{display:flex;align-items:center;gap:10px}
-    .dot{
-      width:10px;height:10px;border-radius:999px;background:rgba(255,255,255,.18);
-      box-shadow: 0 0 0 3px rgba(255,255,255,.04);
-    }
-    .navBtn.active .dot{background:rgba(125,211,252,.7); box-shadow:0 0 0 3px rgba(125,211,252,.15)}
-    .navLabel{font-weight:700;font-size:13px}
+    .dot{width:10px;height:10px;border-radius:999px;background:rgba(255,255,255,.18);box-shadow:0 0 0 3px rgba(255,255,255,.04);}
+    .navBtn.active .dot{background:rgba(125,211,252,.8); box-shadow:0 0 0 3px rgba(125,211,252,.15)}
+    .navLabel{font-weight:800;font-size:13px}
     .navHint{color:var(--muted2);font-size:12px}
 
     .main{min-width:0;}
@@ -116,51 +109,41 @@
       padding:14px;
       box-shadow:var(--shadow);
     }
-    .grid3{
+    .grid4{
       display:grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap:12px;
       margin-bottom:12px;
     }
     @media (max-width: 980px){
       .layout{grid-template-columns: 1fr}
       .nav{position:relative;top:auto}
-      .grid3{grid-template-columns: 1fr}
+      .grid4{grid-template-columns: 1fr}
     }
     .card{
       background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
       border:1px solid var(--line);
       border-radius:var(--r2);
       padding:14px;
-      min-height:104px;
+      min-height:108px;
+      overflow:hidden; /* fixes bleed */
     }
     .kLabel{color:var(--muted);font-size:12px;letter-spacing:.02em;text-transform:uppercase}
-    .kVal{font-size:30px;font-weight:800;margin-top:6px;letter-spacing:-.02em}
-    .kSub{margin-top:6px;color:var(--muted2);font-size:12px}
+    .kVal{font-size:30px;font-weight:900;margin-top:6px;letter-spacing:-.02em}
+    .kSub{margin-top:6px;color:var(--muted2);font-size:12px;line-height:1.35}
     .good{color:var(--good)} .bad{color:var(--bad)} .warn{color:var(--warn)}
 
-    .barWrap{
-      margin-top:10px;
-      height:12px;border-radius:999px;
-      background:rgba(255,255,255,.06);
-      overflow:hidden;
-      border:1px solid rgba(255,255,255,.08);
-    }
-    .bar{
-      height:100%;
-      width:0%;
-      background:var(--good);
-      transition:width .25s ease;
-    }
+    .barWrap{margin-top:10px;height:12px;border-radius:999px;background:rgba(255,255,255,.06);overflow:hidden;border:1px solid rgba(255,255,255,.08);}
+    .bar{height:100%;width:0%;background:var(--good);transition:width .25s ease;}
 
     .row{
-      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
       padding:10px 8px;
       border-bottom:1px solid rgba(255,255,255,.06);
     }
     .row:last-child{border-bottom:none}
-    .rowTitle{font-weight:700;font-size:14px}
-    .rowMeta{color:var(--muted2);font-size:12px;margin-top:2px}
+    .rowTitle{font-weight:800;font-size:14px}
+    .rowMeta{color:var(--muted2);font-size:12px;margin-top:2px;line-height:1.35}
     .rowRight{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
 
     .btn{
@@ -175,18 +158,10 @@
       user-select:none;
     }
     .btn:hover{transform:translateY(-1px);background:rgba(255,255,255,.06)}
-    .btn.primary{
-      border-color:rgba(125,211,252,.35);
-      background:rgba(125,211,252,.12);
-    }
-    .btn.good{
-      border-color:rgba(63,210,140,.35);
-      background:rgba(63,210,140,.10);
-    }
-    .btn.bad{
-      border-color:rgba(255,93,93,.35);
-      background:rgba(255,93,93,.10);
-    }
+    .btn.primary{border-color:rgba(125,211,252,.35);background:rgba(125,211,252,.12);}
+    .btn.good{border-color:rgba(63,210,140,.35);background:rgba(63,210,140,.10);}
+    .btn.bad{border-color:rgba(255,93,93,.35);background:rgba(255,93,93,.10);}
+
     .tag{
       font-family:var(--mono);
       font-size:12px;
@@ -195,14 +170,13 @@
       border:1px solid var(--line);
       color:var(--muted);
       background:rgba(255,255,255,.02);
+      max-width:100%;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
     }
 
-    .twoCol{
-      display:grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap:12px;
-      margin-top:12px;
-    }
+    .twoCol{display:grid;grid-template-columns: 1.2fr .8fr;gap:12px;margin-top:12px;}
     @media (max-width:980px){.twoCol{grid-template-columns:1fr}}
 
     .fieldRow{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px}
@@ -226,20 +200,9 @@
       border-radius:12px;
       border:1px solid var(--line);
       background:rgba(0,0,0,.30);
-      white-space:pre-wrap;
-      word-break:break-word;
-      max-height: 260px;
+      white-space:pre;
       overflow:auto;
-    }
-    .hintWarn{
-      border:1px solid rgba(255,204,102,.25);
-      background:rgba(255,204,102,.07);
-      border-radius:12px;
-      padding:10px 12px;
-      color:var(--muted);
-      font-size:12px;
-      margin-top:10px;
-      line-height:1.4;
+      max-height:260px;
     }
   </style>
 </head>
@@ -248,15 +211,13 @@
   <div class="wrap">
     <div class="top">
       <div class="title">
-        <h1>Adventure Fund — Studio</h1>
-        <div class="subtitle">Deterministic fund allocation + account ledger (sheet-backed). Commit Pack generates paste-ready rows.</div>
+        <h1>Adventure Fund</h1>
+        <div class="subtitle">Deterministic fund allocation engine (sheet-backed). Accounts + Category budgets + Trips feed projections. No demos, no mock state.</div>
       </div>
 
       <div class="yearRow">
         <div class="pillRow" id="yearPills"></div>
         <div class="pillRow">
-          <span class="tag">Goal Floor</span>
-          <input id="goalInput" type="number" step="1" style="width:140px" />
           <button class="btn primary" id="refreshBtn">Refresh Sheet</button>
         </div>
       </div>
@@ -265,7 +226,7 @@
     <div class="layout">
       <div class="nav">
         <button class="navBtn active" data-view="dashboard">
-          <div class="navLeft"><span class="dot"></span><div><div class="navLabel">Dashboard</div><div class="navHint">Fund • reserved • buffer</div></div></div>
+          <div class="navLeft"><span class="dot"></span><div><div class="navLabel">Dashboard</div><div class="navHint">Fund • reserved • runway</div></div></div>
         </button>
         <button class="navBtn" data-view="accounts">
           <div class="navLeft"><span class="dot"></span><div><div class="navLabel">Accounts</div><div class="navHint">Balances + transfers</div></div></div>
@@ -274,147 +235,107 @@
           <div class="navLeft"><span class="dot"></span><div><div class="navLabel">Categories</div><div class="navHint">Budget • spent • remaining</div></div></div>
         </button>
         <button class="navBtn" data-view="trips">
-          <div class="navLeft"><span class="dot"></span><div><div class="navLabel">Trips</div><div class="navHint">Read sheet totals</div></div></div>
+          <div class="navLeft"><span class="dot"></span><div><div class="navLabel">Trips</div><div class="navHint">Fuel + lodging totals</div></div></div>
+        </button>
+        <button class="navBtn" data-view="settings">
+          <div class="navLeft"><span class="dot"></span><div><div class="navLabel">Settings</div><div class="navHint">Accurizer + staging</div></div></div>
         </button>
 
         <div style="height:10px"></div>
         <div class="miniHelp">
-          <b>Commit Pack</b> outputs paste-ready rows in your Transactions schema:
-          <span class="tag">txn_id,date,account_id,amount,type,projected,category</span>
+          <b>Accurizer</b> sets today’s real-world balances as truth and projections continue forward from that baseline.
         </div>
       </div>
 
       <div class="main">
         <!-- DASHBOARD -->
         <div class="panel" data-panel="dashboard">
-          <div class="grid3">
+          <div class="grid4">
             <div class="card">
               <div class="kLabel">Total Fund</div>
               <div class="kVal" id="k_totalFund">$0</div>
-              <div class="kSub" id="k_totalFund_sub">Sum of account balances (actual: projected=FALSE)</div>
+              <div class="kSub" id="k_totalFund_sub">Sum of included accounts (Actual_Balances)</div>
             </div>
             <div class="card">
               <div class="kLabel">Reserved</div>
               <div class="kVal" id="k_reserved">$0</div>
-              <div class="kSub">Sum of category budgets (Dashboard)</div>
+              <div class="kSub">Sum of category budgets (Category_Budgets)</div>
             </div>
             <div class="card">
               <div class="kLabel">Free Liquidity</div>
               <div class="kVal" id="k_free">$0</div>
-              <div class="kSub" id="k_projSub">Projected Year-End: —</div>
+              <div class="kSub">Total Fund − Reserved</div>
+            </div>
+            <div class="card">
+              <div class="kLabel">Projected Year-End</div>
+              <div class="kVal" id="k_yearEnd">$0</div>
+              <div class="kSub" id="k_buffer">—</div>
               <div class="barWrap"><div class="bar" id="goalBar"></div></div>
             </div>
           </div>
 
           <div class="twoCol">
             <div class="card">
-              <div class="kLabel">Scenario Controls (optional)</div>
-              <div class="fieldRow">
-                <input id="sim_note" placeholder="Note (optional)" />
-                <input id="sim_amount" type="number" step="1" placeholder="Amount (e.g., 650)" />
-                <button class="btn bad" id="sim_add_cost">Add Cost</button>
-                <button class="btn good" id="sim_add_income">Add Income</button>
-                <button class="btn" id="sim_clear">Clear</button>
-              </div>
-              <div class="miniHelp">
-                Scenario is a <b>UI-only delta</b> applied on top of projected year-end.
-                It does not touch your sheet unless you stage commits separately.
-              </div>
-              <div class="row">
-                <div>
-                  <div class="rowTitle">Scenario Net</div>
-                  <div class="rowMeta">income positive, costs negative</div>
-                </div>
-                <div class="rowRight">
-                  <span class="tag" id="sim_net">$0</span>
-                </div>
-              </div>
-
-              <div id="schemaWarn" class="hintWarn" style="display:none"></div>
+              <div class="kLabel">Income Projection (remaining)</div>
+              <div class="miniHelp">Calculated from <b>Income</b> tab. Biweekly rows are expanded deterministically by date cadence.</div>
+              <div id="incomeSummary"></div>
             </div>
 
             <div class="card">
-              <div class="kLabel">Commit Pack (copy/paste into Transactions)</div>
-              <div class="miniHelp">
-                Paste these rows under your Transactions header. You can clear this at any time.
+              <div class="kLabel">Trips Rollup</div>
+              <div class="miniHelp">Trips in <b>planned</b> status count toward projection. Completed trips stay visible but do not count.</div>
+              <div class="row">
+                <div>
+                  <div class="rowTitle">Planned Trips Total</div>
+                  <div class="rowMeta">Sum of Trip Total where Year matches and Status=planned</div>
+                </div>
+                <div class="rowRight"><span class="tag" id="tripPlannedTotal">$0</span></div>
               </div>
-              <div class="fieldRow">
-                <button class="btn" id="commit_copy">Copy</button>
-                <button class="btn bad" id="commit_clear">Clear Commit Pack</button>
+              <div class="row">
+                <div>
+                  <div class="rowTitle">Projected Fuel</div>
+                  <div class="rowMeta">Sum of Final Fuel Cost where Year matches and Status=planned</div>
+                </div>
+                <div class="rowRight"><span class="tag" id="tripFuelTotal">$0</span></div>
               </div>
-              <div class="monoBox" id="commit_pack">(no staged commits yet)</div>
+              <div class="row">
+                <div>
+                  <div class="rowTitle">Projected Lodging</div>
+                  <div class="rowMeta">Sum of Lodging Cost where Year matches and Status=planned</div>
+                </div>
+                <div class="rowRight"><span class="tag" id="tripLodgingTotal">$0</span></div>
+              </div>
             </div>
           </div>
         </div>
 
         <!-- ACCOUNTS -->
         <div class="panel" data-panel="accounts" style="display:none">
-          <div class="card" style="margin-bottom:12px">
+          <div class="card">
+            <div class="kLabel">Accounts</div>
+            <div class="miniHelp">Balances are read from <b>Actual_Balances</b>. Transfers stage two transaction rows (out/in) for paste into Transactions (if you use one).</div>
+            <div id="acct_list"></div>
+
+            <div style="height:12px"></div>
             <div class="kLabel">Transfer</div>
             <div class="fieldRow">
-              <span class="tag">From</span>
-              <select id="tr_from"></select>
-              <span class="tag">To</span>
-              <select id="tr_to"></select>
-              <span class="tag">Amount</span>
-              <input id="tr_amt" type="number" step="0.01" style="width:160px" />
-              <span class="tag">Date</span>
-              <input id="tr_date" type="date" style="width:170px" />
-              <span class="tag">Projected?</span>
-              <select id="tr_proj" style="min-width:120px">
-                <option value="FALSE">FALSE</option>
-                <option value="TRUE">TRUE</option>
-              </select>
-              <button class="btn primary" id="tr_stage">Stage Transfer (2 rows)</button>
+              <select id="xfer_from"></select>
+              <select id="xfer_to"></select>
+              <input id="xfer_amt" type="number" step="0.01" placeholder="Amount" style="width:160px">
+              <input id="xfer_date" type="date" style="width:170px">
+              <button class="btn primary" id="xfer_stage">Stage Transfer</button>
             </div>
-            <div class="miniHelp">
-              Transfers create two transaction rows and do <b>not</b> change Total Fund.
-              Category is set to <span class="tag">TRANSFER</span>.
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="kLabel">Account Balances</div>
-            <div id="acct_list"></div>
+            <div class="miniHelp">Transfers do not change Total Fund. They move money between accounts.</div>
           </div>
         </div>
 
         <!-- CATEGORIES -->
         <div class="panel" data-panel="categories" style="display:none">
-          <div class="card" style="margin-bottom:12px">
-            <div class="kLabel">Log Expense (staged)</div>
-            <div class="fieldRow">
-              <span class="tag">Account</span>
-              <select id="ex_account"></select>
-              <span class="tag">Category</span>
-              <select id="ex_category" style="min-width:240px"></select>
-              <span class="tag">Amount</span>
-              <input id="ex_amt" type="number" step="0.01" style="width:160px" />
-              <span class="tag">Date</span>
-              <input id="ex_date" type="date" style="width:170px" />
-              <span class="tag">Type</span>
-              <select id="ex_type" style="min-width:140px">
-                <option value="EXPENSE">EXPENSE</option>
-                <option value="FUEL">FUEL</option>
-                <option value="LODGING">LODGING</option>
-                <option value="GEAR">GEAR</option>
-                <option value="OTHER">OTHER</option>
-              </select>
-              <span class="tag">Projected?</span>
-              <select id="ex_proj" style="min-width:120px">
-                <option value="FALSE">FALSE</option>
-                <option value="TRUE">TRUE</option>
-              </select>
-              <button class="btn bad" id="ex_stage">Stage Expense</button>
-            </div>
-            <div class="miniHelp">
-              Expenses reduce the selected account balance and category remaining (after you paste into Transactions).
-              Amount is stored negative.
-            </div>
-          </div>
-
           <div class="card">
-            <div class="kLabel">Category Budgets (Dashboard) + Spent (Transactions.category)</div>
+            <div class="kLabel">Category Budgets</div>
+            <div class="miniHelp">
+              Budgets come from <b>Category_Budgets</b>. Entire budget is reserved against projection. Item-level is for planning only.
+            </div>
             <div id="cat_list"></div>
           </div>
         </div>
@@ -422,62 +343,89 @@
         <!-- TRIPS -->
         <div class="panel" data-panel="trips" style="display:none">
           <div class="card">
-            <div class="kLabel">Trips (from Sheet Trips tab)</div>
-            <div class="miniHelp">
-              Phase 3 will allocate fuel/lodging to categories. For now we read Trip Total.
-            </div>
+            <div class="kLabel">Trips</div>
+            <div class="miniHelp">Pulled from <b>Trips</b>. Only <b>planned</b> counts toward projections; completed stays visible.</div>
             <div id="trip_list"></div>
           </div>
         </div>
 
+        <!-- SETTINGS -->
+        <div class="panel" data-panel="settings" style="display:none">
+          <div class="card">
+            <div class="kLabel">Accurizer (Set today’s real balances)</div>
+            <div class="miniHelp">
+              Enter your real-world balances. This stages adjustment transactions (one per account) so the sheet can be updated deterministically.
+              If your sheet already uses Actual_Balances as truth, you can still use this to generate your paste rows and then update the sheet.
+            </div>
+            <div id="accurizer"></div>
+            <div class="fieldRow">
+              <input id="acc_date" type="date" style="width:170px">
+              <button class="btn primary" id="acc_stage">Stage Balance Adjustments</button>
+              <button class="btn bad" id="staged_clear">Clear Staged Rows</button>
+            </div>
+          </div>
+
+          <div style="height:12px"></div>
+
+          <div class="card">
+            <div class="kLabel">Staged Rows (copy/paste)</div>
+            <div class="miniHelp">Paste these into your Transactions tab (schema: <b>txn_id,date,account_id,amount,type,projected,category</b>).</div>
+            <div class="fieldRow">
+              <button class="btn" id="copyStaged">Copy</button>
+            </div>
+            <div class="monoBox" id="stagedBox">(none)</div>
+          </div>
+
+          <div style="height:12px"></div>
+
+          <div class="card">
+            <div class="kLabel">Data Health</div>
+            <div class="miniHelp" id="healthBox">—</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
 <script>
 /* =========================
-   CONFIG — YOUR SHEET SOURCES
+   CONFIG — YOUR CSV ENDPOINTS
    ========================= */
+const BASE = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrEPrTSDI3CCwRpEKRifmZm4EIRxoq6n0meTIifGm2IApAWc4dsfZo-9QlLgIv_hp5TrcYBSwqflsh/pub?gid=";
 
-// Existing working CSV endpoints from your baseline:
-const TRIPS_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrEPrTSDI3CCwRpEKRifmZm4EIRxoq6n0meTIifGm2IApAWc4dsfZo-9QlLgIv_hp5TrcYBSwqflsh/pub?gid=2037449837&single=true&output=csv";
-const TRANSACTIONS_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrEPrTSDI3CCwRpEKRifmZm4EIRxoq6n0meTIifGm2IApAWc4dsfZo-9QlLgIv_hp5TrcYBSwqflsh/pub?gid=1140620863&single=true&output=csv";
-const GOALS_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrEPrTSDI3CCwRpEKRifmZm4EIRxoq6n0meTIifGm2IApAWc4dsfZo-9QlLgIv_hp5TrcYBSwqflsh/pub?gid=948171494&single=true&output=csv";
+const ACTUAL_BALANCES_CSV   = BASE + "0&single=true&output=csv";
+const INCOME_CSV            = BASE + "1567617658&single=true&output=csv";
+const CATEGORY_BUDGETS_CSV  = BASE + "1140620863&single=true&output=csv";
+const PLANNED_ITEMS_CSV     = BASE + "832851607&single=true&output=csv";
+const TRIPS_CSV             = BASE + "2037449837&single=true&output=csv";
+const VEHICLE_LOOKUP_CSV    = BASE + "1613648940&single=true&output=csv";
+const YEAR_SETTINGS_CSV     = BASE + "1350021405&single=true&output=csv";
 
-// Your provided pubhtml base (we resolve gid for Accounts & Dashboard by sheet name):
-const SHEET_PUBHTML = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrEPrTSDI3CCwRpEKRifmZm4EIRxoq6n0meTIifGm2IApAWc4dsfZo-9QlLgIv_hp5TrcYBSwqflsh/pubhtml";
-
-// Names must match your sheet tab names:
-const TAB_ACCOUNTS = "Accounts";
-const TAB_DASHBOARD = "Dashboard";
+// Optional: add Transactions CSV once you provide its gid.
+// const TRANSACTIONS_CSV      = BASE + "PASTE_GID_HERE&single=true&output=csv";
 
 /* =========================
    STATE
    ========================= */
 const now = new Date();
 const BASE_YEAR = now.getFullYear();
-
-const LS_KEY = "af_studio_v2";
+const LS_KEY = "af_live_v2";
 const state = loadState() || {
-  year: BASE_YEAR,
-  goalsByYear: {},
-
-  // sheet-derived
-  accounts: [],    // {account_id, name, include_in, _goal}
-  dashboardCats: [], // {name, budget}
-  trips: [],       // {name, total}
-  txns: [],        // full schema
-
-  // scenario delta (UI only)
-  scenario: { items: [] }, // {type:'cost'|'income', amt, note, id}
-
-  // staged commit pack rows
-  commits: [] // strings
+  year: 2026,
+  staged: [], // staged transaction rows (strings)
+  // sheet data
+  accounts: [],
+  income: [],
+  cats: [],
+  items: [],
+  trips: [],
+  yearSettings: [],
+  vehicle: [],
+  // health
+  health: { loadedAt: null, errors: [] }
 };
 
-function loadState(){
-  try { return JSON.parse(localStorage.getItem(LS_KEY)); } catch { return null; }
-}
+function loadState(){ try { return JSON.parse(localStorage.getItem(LS_KEY)); } catch { return null; } }
 function saveState(){ localStorage.setItem(LS_KEY, JSON.stringify(state)); }
 
 function isoDate(d){
@@ -489,678 +437,565 @@ function money(n){
   const sign = v < 0 ? "-" : "";
   return sign + "$" + Math.abs(v).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
 }
-function uid(){
-  // deterministic-ish unique id for commit rows (safe enough for paste staging)
-  return Math.random().toString(16).slice(2,10).toUpperCase() + "-" + Date.now().toString(16).toUpperCase();
-}
+function uid(){ return "txn_" + Math.random().toString(16).slice(2) + Date.now().toString(16); }
+function safeNum(x){ const n = Number(x); return Number.isFinite(n) ? n : 0; }
+
+const $ = (sel)=>document.querySelector(sel);
+const $$ = (sel)=>Array.from(document.querySelectorAll(sel));
 
 /* =========================
-   CSV helpers
+   CSV parsing (robust)
    ========================= */
 function parseCSV(text){
-  // simple CSV parser (no quoted commas). Works with your exports.
-  const lines = text.trim().split(/\r?\n/);
-  return lines.map(l => l.split(","));
+  // Handles quoted fields + commas inside quotes.
+  const rows = [];
+  let row = [], cur = "", inQ = false;
+  for(let i=0;i<text.length;i++){
+    const ch = text[i];
+    const next = text[i+1];
+    if(inQ){
+      if(ch === '"' && next === '"'){ cur += '"'; i++; }
+      else if(ch === '"'){ inQ = false; }
+      else { cur += ch; }
+    } else {
+      if(ch === '"'){ inQ = true; }
+      else if(ch === ','){ row.push(cur); cur=""; }
+      else if(ch === '\n'){ row.push(cur); rows.push(row); row=[]; cur=""; }
+      else if(ch === '\r'){ /* ignore */ }
+      else { cur += ch; }
+    }
+  }
+  row.push(cur);
+  rows.push(row);
+  // trim empty trailing rows
+  while(rows.length && rows[rows.length-1].every(c => String(c||"").trim()==="")) rows.pop();
+  return rows;
 }
-async function fetchText(url){
-  const res = await fetch(url, { cache: "no-store" });
+async function fetchCSV(url){
+  const res = await fetch(url, { cache:"no-store" });
   if(!res.ok) throw new Error("Fetch failed: " + res.status);
   return res.text();
 }
-function safeYear(dateStr){
-  const d = new Date(dateStr);
-  if(!isNaN(d)) return d.getFullYear();
-  const m = String(dateStr||"").match(/(\d{4})/);
-  return m ? Number(m[1]) : null;
+function headMap(head){
+  const m = {};
+  head.forEach((h,i)=> m[String(h||"").trim()] = i);
+  return m;
 }
 
 /* =========================
-   pubhtml -> gid resolver (by tab name)
-   ========================= */
-let _gidCache = null;
-
-async function resolveGidMap(){
-  if(_gidCache) return _gidCache;
-
-  const html = await fetchText(SHEET_PUBHTML);
-  // Google published HTML contains sheet tabs with gids.
-  // We'll extract occurrences of "gid=NNN" near the sheet name.
-  // This is intentionally forgiving (Google HTML changes).
-  const map = {};
-
-  // Approach:
-  // 1) Find all "gid=123" occurrences
-  // 2) For each, look back a bit for the sheet name in the surrounding chunk
-  const re = /gid=(\d+)/g;
-  let m;
-  const hits = [];
-  while((m = re.exec(html)) !== null){
-    hits.push({ gid: m[1], idx: m.index });
-  }
-
-  const wantNames = [TAB_ACCOUNTS, TAB_DASHBOARD];
-
-  for(const hit of hits){
-    const start = Math.max(0, hit.idx - 500);
-    const end = Math.min(html.length, hit.idx + 500);
-    const chunk = html.slice(start, end);
-
-    for(const name of wantNames){
-      if(map[name]) continue;
-      // check if name appears near this gid hit
-      const nameRe = new RegExp(escapeRegExp(name), "i");
-      if(nameRe.test(chunk)){
-        map[name] = hit.gid;
-      }
-    }
-  }
-
-  _gidCache = map;
-  return map;
-}
-
-function pubCsvFromGid(gid){
-  // convert pubhtml base to pub?gid=...&single=true&output=csv
-  // If SHEET_PUBHTML ends with /pubhtml, replace.
-  const base = SHEET_PUBHTML.replace(/\/pubhtml.*$/i, "/pub");
-  return `${base}?gid=${gid}&single=true&output=csv`;
-}
-
-function escapeRegExp(s){
-  return String(s).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
-
-/* =========================
-   Sheet loaders
+   Load Sheet Data
    ========================= */
 async function loadSheetData(){
-  // Resolve Accounts + Dashboard CSV urls dynamically
-  const gidMap = await resolveGidMap();
+  state.health = { loadedAt: isoDate(new Date()), errors: [] };
 
-  const missing = [];
-  if(!gidMap[TAB_ACCOUNTS]) missing.push(TAB_ACCOUNTS);
-  if(!gidMap[TAB_DASHBOARD]) missing.push(TAB_DASHBOARD);
+  const pulls = await Promise.allSettled([
+    fetchCSV(ACTUAL_BALANCES_CSV),
+    fetchCSV(INCOME_CSV),
+    fetchCSV(CATEGORY_BUDGETS_CSV),
+    fetchCSV(PLANNED_ITEMS_CSV),
+    fetchCSV(TRIPS_CSV),
+    fetchCSV(VEHICLE_LOOKUP_CSV),
+    fetchCSV(YEAR_SETTINGS_CSV)
+  ]);
 
-  if(missing.length){
-    // still allow app to run, but show a warning
-    showSchemaWarn(`Could not resolve gid for: ${missing.join(", ")}. Open Publish-to-web and ensure tab names match exactly: "${TAB_ACCOUNTS}", "${TAB_DASHBOARD}".`);
-  } else {
-    hideSchemaWarn();
+  const get = (idx, label) => {
+    const p = pulls[idx];
+    if(p.status !== "fulfilled"){
+      state.health.errors.push(label + ": " + (p.reason?.message || "failed"));
+      return "";
+    }
+    return p.value;
+  };
+
+  // Actual_Balances
+  {
+    const rows = parseCSV(get(0,"Actual_Balances"));
+    const head = rows.shift() || [];
+    const hm = headMap(head);
+    state.accounts = rows
+      .filter(r => String(r[hm.account_id]||"").trim())
+      .map(r => ({
+        account_id: String(r[hm.account_id]||"").trim(),
+        account_name: String(r[hm.account_name]||"").trim(),
+        current_balance: safeNum(r[hm.current_balance]),
+        include_in_projection: String(r[hm.include_in_projection]||"TRUE").trim().toUpperCase() !== "FALSE"
+      }));
   }
 
-  const ACCOUNTS_CSV = gidMap[TAB_ACCOUNTS] ? pubCsvFromGid(gidMap[TAB_ACCOUNTS]) : null;
-  const DASHBOARD_CSV = gidMap[TAB_DASHBOARD] ? pubCsvFromGid(gidMap[TAB_DASHBOARD]) : null;
+  // Income
+  {
+    const rows = parseCSV(get(1,"Income"));
+    const head = rows.shift() || [];
+    const hm = headMap(head);
+    state.income = rows
+      .filter(r => String(r[hm.income_id]||"").trim())
+      .map(r => ({
+        income_id: String(r[hm.income_id]||"").trim(),
+        income_type: String(r[hm.income_type]||"").trim(),
+        description: String(r[hm.description]||"").trim(),
+        amount: safeNum(r[hm.amount]),
+        recurrence: String(r[hm.recurrence]||"").trim(),
+        start_date: String(r[hm.start_date]||"").trim(),
+        year: safeNum(r[hm.year]),
+        received: String(r[hm.received]||"FALSE").trim().toUpperCase() === "TRUE",
+        effective_until_year: hm.effective_until_year !== undefined ? safeNum(r[hm.effective_until_year]) : null
+      }));
+  }
 
-  const tasks = [
-    fetchText(TRIPS_CSV),
-    fetchText(TRANSACTIONS_CSV),
-    fetchText(GOALS_CSV)
-  ];
+  // Category_Budgets
+  {
+    const rows = parseCSV(get(2,"Category_Budgets"));
+    const head = rows.shift() || [];
+    const hm = headMap(head);
+    state.cats = rows
+      .filter(r => String(r[hm.category_id]||"").trim())
+      .map(r => ({
+        category_id: String(r[hm.category_id]||"").trim(),
+        category_name: String(r[hm.category_name]||"").trim(),
+        annual_budget: safeNum(r[hm.annual_budget]),
+        year: safeNum(r[hm.year])
+      }));
+  }
 
-  if(ACCOUNTS_CSV) tasks.push(fetchText(ACCOUNTS_CSV));
-  if(DASHBOARD_CSV) tasks.push(fetchText(DASHBOARD_CSV));
-
-  const results = await Promise.all(tasks);
-
-  // Unpack known first 3
-  const tTrips = results[0];
-  const tTxns  = results[1];
-  const tGoals = results[2];
-
-  const tAccounts = ACCOUNTS_CSV ? results[3] : null;
-  const tDashboard = DASHBOARD_CSV ? results[ACCOUNTS_CSV ? 4 : 3] : null;
+  // Planned_Items
+  {
+    const rows = parseCSV(get(3,"Planned_Items"));
+    const head = rows.shift() || [];
+    const hm = headMap(head);
+    state.items = rows
+      .filter(r => String(r[hm.item_id]||"").trim())
+      .map(r => ({
+        item_id: String(r[hm.item_id]||"").trim(),
+        category_id: String(r[hm.category_id]||"").trim(),
+        item_name: String(r[hm.item_name]||"").trim(),
+        projected_cost: safeNum(r[hm.projected_cost]),
+        yearRaw: String(r[hm.year]||"").trim()
+      }));
+  }
 
   // Trips
   {
-    const rows = parseCSV(tTrips);
-    const head = rows.shift().map(h=>h.trim());
-    const nameIdx = head.indexOf("Trip Name") >= 0 ? head.indexOf("Trip Name") : head.indexOf("name");
-    const totalIdx = head.indexOf("Trip Total") >= 0 ? head.indexOf("Trip Total") : head.indexOf("total");
+    const rows = parseCSV(get(4,"Trips"));
+    const head = rows.shift() || [];
+    // support both old and your current headers
+    const hm = headMap(head.map(x=>String(x||"").trim()));
+    const col = (name, fallbackIdx) => (hm[name] !== undefined ? hm[name] : fallbackIdx);
 
     state.trips = rows
+      .filter(r => String(r[col("Trip Name",0)]||"").trim())
       .map(r => ({
-        name: (r[nameIdx]||"").trim(),
-        total: Number(r[totalIdx]||0)
-      }))
-      .filter(x => x.name.length);
+        name: String(r[col("Trip Name",0)]||"").trim(),
+        plannedMiles: safeNum(r[col("Planned Miles",1)]),
+        vehicle: String(r[col("Vehicle",2)]||"").trim(),
+        mpg: safeNum(r[col("MPG",3)]),
+        fuelPrice: safeNum(r[col("Fuel Price",4)]),
+        finalFuel: safeNum(r[col("Final Fuel Cost",8)]), // matches your sheet after removing blank col
+        lodging: safeNum(r[col("Lodging Cost",9)]),
+        total: safeNum(r[col("Trip Total",10)]),
+        year: safeNum(r[col("Year",11)]),
+        status: String(r[col("Status",12)]||"planned").trim().toLowerCase()
+      }));
   }
 
-  // Transactions (full schema, normalize weird " type")
+  // Vehicle_Lookup
   {
-    const rows = parseCSV(tTxns);
-    const head = rows.shift().map(h=>String(h||"").trim());
-    const idx = {
-      txn_id: head.indexOf("txn_id"),
-      date: head.indexOf("date"),
-      account_id: head.indexOf("account_id"),
-      amount: head.indexOf("amount"),
-      type: head.indexOf("type") >= 0 ? head.indexOf("type") : head.indexOf("type".trim()),
-      projected: head.indexOf("projected"),
-      category: head.indexOf("category")
-    };
-
-    const missingCols = Object.entries(idx).filter(([k,v]) => v < 0).map(([k])=>k);
-    if(missingCols.length){
-      showSchemaWarn(`Transactions missing columns: ${missingCols.join(", ")}. Header must include txn_id,date,account_id,amount,type,projected,category.`);
-    }
-
-    state.txns = rows.map(r => ({
-      txn_id: r[idx.txn_id],
-      date: r[idx.date],
-      year: safeYear(r[idx.date]),
-      account_id: r[idx.account_id],
-      amount: Number(r[idx.amount]||0),
-      type: r[idx.type],
-      projected: String(r[idx.projected]||"").trim().toUpperCase(), // TRUE/FALSE
-      category: (r[idx.category]||"").trim()
-    })).filter(x => Number.isFinite(x.amount) && x.year);
+    const rows = parseCSV(get(5,"Vehicle_Lookup"));
+    const head = rows.shift() || [];
+    const hm = headMap(head);
+    state.vehicle = rows
+      .filter(r => String(r[hm.Vehicle]||r[hm.vehicle]||"").trim())
+      .map(r => {
+        const v = String(r[hm.Vehicle] ?? r[hm.vehicle] ?? "").trim();
+        const mpg = safeNum(r[hm.MPG] ?? r[hm.mpg]);
+        return { vehicle: v, mpg };
+      });
   }
 
-  // Goals
+  // Year_Settings
   {
-    const rows = parseCSV(tGoals);
-    rows.shift(); // header
-    const map = {};
-    for(const r of rows){
-      const y = Number(r[0]||0);
-      const g = Number(r[1]||0);
-      if(y) map[y] = g;
-    }
-    // merge
-    for(const [yStr,g] of Object.entries(map)){
-      const y = Number(yStr);
-      if(state.goalsByYear[y] === undefined || state.goalsByYear[y] === null || state.goalsByYear[y] === 0){
-        state.goalsByYear[y] = g;
-      }
-    }
-    if(!state.goalsByYear[state.year]){
-      state.goalsByYear[state.year] = map[state.year] || 9500;
-    }
-  }
-
-  // Accounts
-  if(tAccounts){
-    const rows = parseCSV(tAccounts);
-    const head = rows.shift().map(h=>String(h||"").trim());
-    const idx = {
-      account_id: head.indexOf("account_id"),
-      name: head.indexOf("name"),
-      include_in: head.indexOf("include_in"),
-      _goal: head.indexOf("_goal")
-    };
-
-    state.accounts = rows
+    const rows = parseCSV(get(6,"Year_Settings"));
+    const head = rows.shift() || [];
+    const hm = headMap(head);
+    state.yearSettings = rows
+      .filter(r => safeNum(r[hm.year]) )
       .map(r => ({
-        account_id: (r[idx.account_id]||"").trim(),
-        name: (r[idx.name]||"").trim(),
-        include_in: (r[idx.include_in]||"").trim(),
-        _goal: (r[idx._goal]||"").trim()
-      }))
-      .filter(a => a.name.length);
-
-    // If account_id missing in sheet, apply deterministic mapping for known names
-    for(const a of state.accounts){
-      if(!a.account_id){
-        a.account_id = inferAccountId(a.name);
-      }
-    }
-  }
-
-  // Dashboard categories
-  if(tDashboard){
-    state.dashboardCats = parseDashboardCategories(tDashboard);
+        year: safeNum(r[hm.year]),
+        minimum_balance: safeNum(r[hm.minimum_balance]),
+        auto_increment: safeNum(r[hm.auto_increment])
+      }));
   }
 
   saveState();
 }
 
-function inferAccountId(name){
-  const n = String(name||"").toLowerCase();
-  if(n.includes("checking")) return "CHK";
-  if(n.includes("savings")) return "SAV";
-  if(n.includes("gift")) return "GFT";
-  if(n.includes("cash")) return "CSH";
-  if(n.includes("other")) return "OTH";
-  return (name||"").slice(0,3).toUpperCase() || "UNK";
+/* =========================
+   Deterministic Projection Engine
+   ========================= */
+function sumIncludedAccounts(){
+  return state.accounts.filter(a=>a.include_in_projection).reduce((s,a)=>s + safeNum(a.current_balance), 0);
+}
+function yearMinBalance(year){
+  const y = state.yearSettings.find(x=>x.year===year);
+  return y ? safeNum(y.minimum_balance) : 0;
+}
+function yearAutoInc(year){
+  const y = state.yearSettings.find(x=>x.year===year);
+  return y ? safeNum(y.auto_increment) : 0;
+}
+function reservedBudgets(year){
+  return state.cats.filter(c=>c.year===year).reduce((s,c)=>s + safeNum(c.annual_budget), 0);
+}
+function parseYearFromLoose(val){
+  // supports "2026" or "6/2026"
+  const s = String(val||"").trim();
+  const m = s.match(/(\d{4})/);
+  return m ? Number(m[1]) : 0;
 }
 
-function parseDashboardCategories(csvText){
-  const rows = parseCSV(csvText);
-  // Typically two columns: Account,Balance
-  // Find the row containing "Year Projection Section" in col0
-  let startIdx = -1;
-  for(let i=0;i<rows.length;i++){
-    const a = (rows[i][0]||"").trim();
-    if(a.toLowerCase().includes("year projection section")){
-      startIdx = i+1;
-      break;
+function incomeRemaining(year){
+  // One-time items: count if (year matches) and NOT received.
+  // Biweekly: deterministic schedule from start_date, every 14 days, include only occurrences within the year that are after "today".
+  const todayISO = isoDate(new Date());
+  const today = new Date(todayISO + "T00:00:00");
+
+  let total = 0;
+  const details = [];
+
+  for(const inc of state.income){
+    if(inc.year !== year) continue;
+
+    const rec = String(inc.recurrence||"").toLowerCase();
+
+    if(rec === "biweekly"){
+      const start = new Date(String(inc.start_date||"") + "T00:00:00");
+      if(isNaN(start)) continue;
+
+      // find first occurrence >= Jan 1 of year aligned to 14-day cadence
+      const jan1 = new Date(year + "-01-01T00:00:00");
+      const dec31 = new Date(year + "-12-31T00:00:00");
+
+      // move forward/backwards in 14-day steps to get into year
+      let d = new Date(start);
+      while(d < jan1) d.setDate(d.getDate()+14);
+      while(d > dec31) d.setDate(d.getDate()-14);
+
+      // now walk forward within year
+      let cntFuture = 0;
+      let cntPast = 0;
+      while(d.getFullYear() === year){
+        if(d < today) cntPast++;
+        else cntFuture++;
+        d.setDate(d.getDate()+14);
+      }
+
+      const amt = safeNum(inc.amount);
+      const add = cntFuture * amt;
+      total += add;
+      details.push({ label: inc.description || "Biweekly", amount: add, note: `${cntFuture} remaining (auto)` });
+
+    } else {
+      if(inc.received) continue;
+      const add = safeNum(inc.amount);
+      total += add;
+      details.push({ label: inc.description || inc.income_type, amount: add, note: "pending" });
     }
   }
-  if(startIdx < 0){
-    // fallback: start around 15th row as you described
-    startIdx = 15;
-  }
 
-  const cats = [];
-  for(let i=startIdx;i<rows.length;i++){
-    const name = (rows[i][0]||"").trim();
-    const valRaw = (rows[i][1]||"").trim();
+  return { total, details };
+}
 
-    if(!name) continue;
+function plannedTripsRollup(year){
+  const planned = state.trips.filter(t => t.year===year && (t.status||"planned")==="planned");
+  return {
+    total: planned.reduce((s,t)=>s+safeNum(t.total),0),
+    fuel: planned.reduce((s,t)=>s+safeNum(t.finalFuel),0),
+    lodging: planned.reduce((s,t)=>s+safeNum(t.lodging),0),
+    count: planned.length
+  };
+}
 
-    // Stop if we hit a totally different section (optional)
-    // Keep going; we'll just filter numeric budgets.
-    const budget = Number(valRaw);
-    if(Number.isFinite(budget) && valRaw !== ""){
-      // exclude obvious rollups if present
-      const lower = name.toLowerCase();
-      if(lower.includes("total projected") || lower.includes("difference") || lower === "goal") continue;
-      cats.push({ name, budget });
-    }
-  }
-
-  // Deduplicate by name (keep last)
-  const map = {};
-  for(const c of cats) map[c.name] = c;
-  return Object.values(map);
+function projectedYearEnd(year){
+  const fund = sumIncludedAccounts();
+  const reserved = reservedBudgets(year);
+  const income = incomeRemaining(year).total;
+  const yearEnd = fund + income - reserved;
+  const floor = yearMinBalance(year);
+  const buffer = yearEnd - floor;
+  return { fund, reserved, free: fund - reserved, income, yearEnd, floor, buffer };
 }
 
 /* =========================
-   Computation Engine
+   UI
    ========================= */
-function isProjectedFlag(v){
-  return String(v||"").trim().toUpperCase() === "TRUE";
-}
-
-function accountBalances({includeProjected}){
-  const m = {};
-  for(const a of state.accounts){
-    m[a.account_id] = 0;
-  }
-
-  for(const t of state.txns){
-    if(t.year !== state.year) continue;
-    if(!includeProjected && isProjectedFlag(t.projected)) continue;
-    if(!m.hasOwnProperty(t.account_id)) m[t.account_id] = 0;
-    m[t.account_id] += Number(t.amount||0);
-  }
-  return m;
-}
-
-function totalFund({includeProjected}){
-  const bal = accountBalances({includeProjected});
-  let sum = 0;
-
-  // include_in rules:
-  // include_in blank => include
-  // include_in "FALSE" => exclude
-  for(const a of state.accounts){
-    const inc = String(a.include_in||"").trim().toUpperCase();
-    if(inc === "FALSE") continue;
-    sum += Number(bal[a.account_id]||0);
-  }
-
-  // If accounts list is missing, fallback to sum of all balances seen in txns
-  if(!state.accounts.length){
-    sum = Object.values(bal).reduce((s,v)=>s+v,0);
-  }
-
-  return sum;
-}
-
-function reservedTotal(){
-  return state.dashboardCats.reduce((s,c)=>s + Number(c.budget||0), 0);
-}
-
-function categorySpent(name, {includeProjected}){
-  let sum = 0;
-  for(const t of state.txns){
-    if(t.year !== state.year) continue;
-    if(!includeProjected && isProjectedFlag(t.projected)) continue;
-    if(t.category === name && Number(t.amount) < 0){
-      sum += Math.abs(Number(t.amount||0));
-    }
-  }
-  return sum;
-}
-
-function scenarioNet(){
-  return state.scenario.items.reduce((s,it)=> s + (it.type==="income" ? Number(it.amt||0) : -Number(it.amt||0)), 0);
-}
-
-function projectedYearEnd(){
-  // projected year-end as "include projected transactions" + scenario delta
-  const projFund = totalFund({includeProjected:true});
-  return projFund + scenarioNet();
-}
-
-/* =========================
-   UI bindings
-   ========================= */
-const $ = (sel) => document.querySelector(sel);
-const $$ = (sel) => Array.from(document.querySelectorAll(sel));
-
 function setView(view){
-  $$(".navBtn").forEach(b=>{
-    b.classList.toggle("active", b.dataset.view===view);
-  });
-  $$("[data-panel]").forEach(p=>{
-    p.style.display = (p.dataset.panel===view) ? "block" : "none";
-  });
+  $$(".navBtn").forEach(b=> b.classList.toggle("active", b.dataset.view===view));
+  $$("[data-panel]").forEach(p=> p.style.display = (p.dataset.panel===view) ? "block" : "none");
 }
 
 function renderYears(){
-  const years = [BASE_YEAR, BASE_YEAR+1, BASE_YEAR+2];
+  const ys = state.yearSettings.map(x=>x.year).filter(Boolean).sort((a,b)=>a-b);
+  const years = ys.length ? ys.slice(0,5) : [BASE_YEAR, BASE_YEAR+1, BASE_YEAR+2];
   const host = $("#yearPills");
   host.innerHTML = "";
   for(const y of years){
     const b = document.createElement("button");
     b.className = "pill" + (state.year===y ? " active" : "");
     b.textContent = y;
-    b.onclick = () => { state.year = y; if(!state.goalsByYear[y]) state.goalsByYear[y]=0; saveState(); renderAll(); };
+    b.onclick = ()=>{ state.year=y; saveState(); renderAll(); };
     host.appendChild(b);
   }
 }
 
-function renderGoal(){
-  const g = state.goalsByYear[state.year] ?? 0;
-  $("#goalInput").value = g;
-}
-
 function renderDashboard(){
-  const goal = Number(state.goalsByYear[state.year]||0);
+  const y = state.year;
+  const p = projectedYearEnd(y);
 
-  const total = totalFund({includeProjected:false});
-  const reserved = reservedTotal();
-  const free = total - reserved;
+  $("#k_totalFund").textContent = money(p.fund);
+  $("#k_reserved").textContent = money(p.reserved);
+  $("#k_free").textContent = money(p.free);
+  $("#k_yearEnd").textContent = money(p.yearEnd);
 
-  const projYE = projectedYearEnd();
-  const delta = projYE - goal;
+  const buf = $("#k_buffer");
+  if(p.floor<=0){
+    buf.innerHTML = `<span class="warn">Set Year_Settings minimum_balance for ${y}</span>`;
+  } else if(p.buffer>=0){
+    buf.innerHTML = `<span class="good">Buffer above floor: ${money(p.buffer)}</span>`;
+  } else {
+    buf.innerHTML = `<span class="bad">Below floor by: ${money(Math.abs(p.buffer))}</span>`;
+  }
 
-  $("#k_totalFund").textContent = money(total);
-  $("#k_reserved").textContent = money(reserved);
-  $("#k_free").textContent = money(free);
-
-  $("#k_projSub").innerHTML = `Projected Year-End: <b>${money(projYE)}</b> • ` +
-    (goal>0
-      ? (delta>=0 ? `<span class="good">Above floor by ${money(delta)}</span>` : `<span class="bad">Below floor by ${money(Math.abs(delta))}</span>`)
-      : `<span class="warn">Set a goal floor to track buffer</span>`
-    );
-
-  // bar: proj/goal capped 0..100
-  const pct = goal>0 ? Math.max(0, Math.min(100, (projYE/goal)*100)) : 0;
+  const pct = p.floor>0 ? Math.max(0, Math.min(100, (p.yearEnd/p.floor)*100)) : 0;
   const bar = $("#goalBar");
   bar.style.width = pct + "%";
-  bar.style.background = (goal>0 && delta<0) ? "var(--bad)" : "var(--good)";
+  bar.style.background = (p.floor>0 && p.buffer<0) ? "var(--bad)" : "var(--good)";
 
-  $("#sim_net").textContent = money(scenarioNet());
-  renderCommitPack();
+  // income summary
+  const inc = incomeRemaining(y);
+  const host = $("#incomeSummary");
+  host.innerHTML = "";
+  if(!inc.details.length){
+    host.innerHTML = `<div class="miniHelp">No remaining income entries found for ${y}.</div>`;
+  } else {
+    host.appendChild(rowKV("Remaining Income Total", money(inc.total), `From Income tab (auto biweekly + pending one-time)`));
+    for(const d of inc.details.slice(0,8)){
+      host.appendChild(rowKV(d.label, money(d.amount), d.note));
+    }
+    if(inc.details.length>8){
+      host.innerHTML += `<div class="miniHelp">+ ${inc.details.length-8} more…</div>`;
+    }
+  }
+
+  // trips rollup
+  const tr = plannedTripsRollup(y);
+  $("#tripPlannedTotal").textContent = money(tr.total);
+  $("#tripFuelTotal").textContent = money(tr.fuel);
+  $("#tripLodgingTotal").textContent = money(tr.lodging);
+
+  renderHealth();
 }
 
-function renderCommitPack(){
-  const box = $("#commit_pack");
-  if(!state.commits.length){
-    box.textContent = "(no staged commits yet)";
-    return;
-  }
-  const header = "txn_id,date,account_id,amount,type,projected,category";
-  box.textContent = [header].concat(state.commits).join("\n");
+function rowKV(title, val, meta){
+  const row = document.createElement("div");
+  row.className = "row";
+  row.innerHTML = `
+    <div>
+      <div class="rowTitle">${escapeHtml(title)}</div>
+      <div class="rowMeta">${escapeHtml(meta||"")}</div>
+    </div>
+    <div class="rowRight"><span class="tag">${escapeHtml(val)}</span></div>
+  `;
+  return row;
 }
 
 function renderAccounts(){
   const host = $("#acct_list");
   host.innerHTML = "";
 
-  const actual = accountBalances({includeProjected:false});
-  const proj = accountBalances({includeProjected:true});
+  // select options
+  const from = $("#xfer_from");
+  const to = $("#xfer_to");
+  from.innerHTML = ""; to.innerHTML = "";
+  for(const a of state.accounts){
+    const o1 = document.createElement("option");
+    o1.value = a.account_id;
+    o1.textContent = `${a.account_name} (${a.account_id})`;
+    const o2 = o1.cloneNode(true);
+    from.appendChild(o1); to.appendChild(o2);
+  }
+  if(state.accounts.length>=2) to.selectedIndex = 1;
 
-  const list = state.accounts.length ? state.accounts : Object.keys(actual).map(id=>({account_id:id, name:id, include_in:"", _goal:""}));
-
-  for(const a of list){
-    const act = Number(actual[a.account_id]||0);
-    const prj = Number(proj[a.account_id]||0);
-
+  for(const a of state.accounts){
     const row = document.createElement("div");
     row.className = "row";
     row.innerHTML = `
       <div>
-        <div class="rowTitle">${escapeHtml(a.name)} <span class="tag">${escapeHtml(a.account_id)}</span></div>
-        <div class="rowMeta">Actual: <b>${money(act)}</b> • Projected: <b>${money(prj)}</b></div>
+        <div class="rowTitle">${escapeHtml(a.account_name)} <span class="tag" style="margin-left:6px">${escapeHtml(a.account_id)}</span></div>
+        <div class="rowMeta">Included in projection: <b>${a.include_in_projection ? "TRUE" : "FALSE"}</b></div>
       </div>
       <div class="rowRight">
-        <span class="tag">${String(a.include_in||"").trim().toUpperCase()==="FALSE" ? "Excluded" : "Included"}</span>
+        <span class="tag">${money(a.current_balance)}</span>
       </div>
     `;
     host.appendChild(row);
   }
 
-  // Transfer dropdowns
-  const fromSel = $("#tr_from");
-  const toSel = $("#tr_to");
-  const exAcct = $("#ex_account");
-
-  const options = list.map(a => ({ id:a.account_id, label:`${a.name} (${a.account_id})` }));
-
-  fillSelect(fromSel, options, fromSel.value);
-  fillSelect(toSel, options, toSel.value);
-  fillSelect(exAcct, options, exAcct.value);
-
-  // default dates
-  if(!$("#tr_date").value) $("#tr_date").value = isoDate(new Date());
+  $("#xfer_date").value = isoDate(new Date());
 }
 
 function renderCategories(){
-  // category dropdown
-  const catSel = $("#ex_category");
-  const opts = state.dashboardCats.map(c => ({ id:c.name, label:`${c.name} (Budget ${money(c.budget)})` }));
-  fillSelect(catSel, opts, catSel.value);
-
-  if(!$("#ex_date").value) $("#ex_date").value = isoDate(new Date());
-
+  const y = state.year;
   const host = $("#cat_list");
   host.innerHTML = "";
 
-  if(!state.dashboardCats.length){
-    host.innerHTML = `<div class="miniHelp">No category budgets found in Dashboard export. Ensure the Dashboard tab includes a "Year Projection Section" line and numeric budgets in column B.</div>`;
+  const cats = state.cats.filter(c=>c.year===y);
+  if(!cats.length){
+    host.innerHTML = `<div class="miniHelp">No Category_Budgets found for ${y}.</div>`;
     return;
   }
 
-  for(const c of state.dashboardCats){
-    const spent = categorySpent(c.name, {includeProjected:false});
-    const remaining = Number(c.budget||0) - Number(spent||0);
-    const pct = c.budget>0 ? Math.max(0, Math.min(100, (spent/c.budget)*100)) : 0;
+  // planned items rollup by category (planning-only)
+  const items = state.items
+    .map(it => ({...it, year: parseYearFromLoose(it.yearRaw)}))
+    .filter(it => it.year===y);
+
+  const byCat = new Map();
+  for(const it of items){
+    byCat.set(it.category_id, (byCat.get(it.category_id)||0) + safeNum(it.projected_cost));
+  }
+
+  for(const c of cats){
+    const planned = byCat.get(c.category_id) || 0;
+    const remainingPlan = safeNum(c.annual_budget) - planned;
+    const pct = c.annual_budget>0 ? Math.max(0, Math.min(100, (planned/c.annual_budget)*100)) : 0;
 
     const row = document.createElement("div");
     row.className = "row";
     row.innerHTML = `
-      <div style="min-width:0">
-        <div class="rowTitle">${escapeHtml(c.name)}</div>
-        <div class="rowMeta">Budget ${money(c.budget)} • Spent ${money(spent)} • Remaining <span class="${remaining>=0?'good':'bad'}">${money(remaining)}</span></div>
-        <div class="barWrap" style="margin-top:8px"><div class="bar" style="width:${pct}%;background:${remaining>=0?'var(--good)':'var(--bad)'}"></div></div>
+      <div style="min-width:0;flex:1">
+        <div class="rowTitle">${escapeHtml(c.category_name)} <span class="tag" style="margin-left:6px">${escapeHtml(c.category_id)}</span></div>
+        <div class="rowMeta">
+          Budget ${money(c.annual_budget)} • Planned items ${money(planned)} • Unplanned <span class="${remainingPlan>=0?'good':'bad'}">${money(remainingPlan)}</span>
+        </div>
+        <div class="barWrap" style="margin-top:8px">
+          <div class="bar" style="width:${pct}%;background:${remainingPlan>=0?'var(--good)':'var(--bad)'}"></div>
+        </div>
       </div>
       <div class="rowRight">
-        <button class="btn primary" data-stagecat="${escapeAttr(c.name)}">Stage Remaining as Reserve (optional)</button>
+        <button class="btn" data-showitems="${escapeAttr(c.category_id)}">Show items</button>
       </div>
     `;
     host.appendChild(row);
-  }
 
-  host.querySelectorAll("button[data-stagecat]").forEach(b=>{
-    b.onclick = ()=>{
-      const name = b.getAttribute("data-stagecat");
-      const cat = state.dashboardCats.find(x=>x.name===name);
-      if(!cat) return;
-      // reserve staging is optional; we stage a projected negative expense to hold the budget
-      const acct = $("#ex_account").value || (state.accounts[0]?.account_id || "CHK");
-      const amt = Math.abs(Number(cat.budget||0));
-      stageCommitRow({
-        date: isoDate(new Date()),
-        account_id: acct,
-        amount: -amt,
-        type: "RESERVE",
-        projected: "TRUE",
-        category: name
-      });
-      saveState(); renderAll();
+    const details = document.createElement("div");
+    details.style.display="none";
+    details.style.padding="0 8px 10px 8px";
+    details.innerHTML = buildItemsList(c.category_id, items);
+    host.appendChild(details);
+
+    row.querySelector(`button[data-showitems]`).onclick = ()=>{
+      details.style.display = (details.style.display==="none") ? "block" : "none";
     };
-  });
+  }
+}
+
+function buildItemsList(catId, items){
+  const list = items.filter(i=>i.category_id===catId);
+  if(!list.length) return `<div class="miniHelp">No planned items in this category for the selected year.</div>`;
+  const lines = list
+    .sort((a,b)=>safeNum(b.projected_cost)-safeNum(a.projected_cost))
+    .slice(0,25)
+    .map(i=>`• ${escapeHtml(i.item_name)} — ${money(i.projected_cost)}`)
+    .join("<br>");
+  return `<div class="miniHelp" style="margin-top:6px">${lines}</div>`;
 }
 
 function renderTrips(){
+  const y = state.year;
   const host = $("#trip_list");
   host.innerHTML = "";
-  if(!state.trips.length){
-    host.innerHTML = `<div class="miniHelp">No trips loaded from sheet yet. Check your Trips CSV link.</div>`;
+
+  const trips = state.trips.filter(t=>t.year===y);
+  if(!trips.length){
+    host.innerHTML = `<div class="miniHelp">No Trips found for ${y}.</div>`;
     return;
   }
 
-  for(const tr of state.trips){
+  for(const t of trips){
+    const isPlanned = (t.status||"planned")==="planned";
     const row = document.createElement("div");
     row.className = "row";
     row.innerHTML = `
       <div>
-        <div class="rowTitle">${escapeHtml(tr.name)}</div>
-        <div class="rowMeta">Trip Total (sheet): ${money(tr.total)}</div>
+        <div class="rowTitle">${escapeHtml(t.name)} <span class="tag" style="margin-left:6px">${escapeHtml(t.status||"planned")}</span></div>
+        <div class="rowMeta">${escapeHtml(t.vehicle)} • ${t.plannedMiles} mi • ${money(t.finalFuel)} fuel • ${money(t.lodging)} lodging</div>
       </div>
       <div class="rowRight">
-        <span class="tag">${money(tr.total)}</span>
+        <span class="tag">${money(t.total)}</span>
+        <span class="tag" style="border-color:${isPlanned?'rgba(63,210,140,.35)':'rgba(255,93,93,.35)'};color:${isPlanned?'var(--good)':'var(--muted)'}">
+          ${isPlanned ? "Counts in projection" : "Excluded (complete)"}
+        </span>
       </div>
     `;
     host.appendChild(row);
   }
 }
 
-function renderAll(){
-  renderYears();
-  renderGoal();
-  renderDashboard();
-  renderAccounts();
-  renderCategories();
-  renderTrips();
+function renderAccurizer(){
+  const host = $("#accurizer");
+  host.innerHTML = "";
+  for(const a of state.accounts){
+    const row = document.createElement("div");
+    row.className = "row";
+    row.innerHTML = `
+      <div>
+        <div class="rowTitle">${escapeHtml(a.account_name)} <span class="tag" style="margin-left:6px">${escapeHtml(a.account_id)}</span></div>
+        <div class="rowMeta">Current (sheet): ${money(a.current_balance)}</div>
+      </div>
+      <div class="rowRight">
+        <input type="number" step="0.01" style="width:170px" data-acc="${escapeAttr(a.account_id)}" placeholder="Actual today">
+      </div>
+    `;
+    host.appendChild(row);
+  }
+  $("#acc_date").value = isoDate(new Date());
+}
+
+function renderStaged(){
+  const box = $("#stagedBox");
+  box.textContent = state.staged.length ? state.staged.join("\n") : "(none)";
+}
+
+function renderHealth(){
+  const h = state.health;
+  const el = $("#healthBox");
+  const errs = (h.errors||[]);
+  if(!errs.length){
+    el.innerHTML = `Loaded: <b>${escapeHtml(h.loadedAt||"—")}</b>. All required tabs fetched successfully.`;
+  } else {
+    el.innerHTML = `Loaded: <b>${escapeHtml(h.loadedAt||"—")}</b>. Issues:<br>` + errs.map(e=>`• ${escapeHtml(e)}`).join("<br>");
+  }
 }
 
 /* =========================
-   Actions — staging commits
+   Actions: staging rows
    ========================= */
-function stageCommitRow({date, account_id, amount, type, projected, category}){
-  const txn_id = "TXN-" + uid();
+function stageTxn({date, account_id, amount, type, projected, category}){
   const line = [
-    txn_id,
+    uid(),
     date,
     account_id,
     Number(amount).toFixed(2),
-    type || "MANUAL",
-    (String(projected||"FALSE").trim().toUpperCase()==="TRUE" ? "TRUE" : "FALSE"),
-    (category || "")
+    type,
+    projected ? "TRUE" : "FALSE",
+    category || ""
   ].join(",");
-
-  state.commits.push(line);
+  state.staged.push(line);
 }
 
-function stageTransfer(){
-  const from = $("#tr_from").value;
-  const to = $("#tr_to").value;
-  const amt = Math.abs(Number($("#tr_amt").value||0));
-  const date = $("#tr_date").value || isoDate(new Date());
-  const projected = $("#tr_proj").value || "FALSE";
-
-  if(!from || !to || !amt){
-    alert("Transfer requires From, To, and Amount.");
-    return;
-  }
-  if(from === to){
-    alert("From and To cannot be the same account.");
-    return;
-  }
-
-  // two deterministic rows
-  stageCommitRow({ date, account_id: from, amount: -amt, type:"TRANSFER", projected, category:"TRANSFER" });
-  stageCommitRow({ date, account_id: to, amount: amt, type:"TRANSFER", projected, category:"TRANSFER" });
-
-  $("#tr_amt").value = "";
-  saveState(); renderAll();
-}
-
-function stageExpense(){
-  const acct = $("#ex_account").value;
-  const cat = $("#ex_category").value;
-  const amt = Math.abs(Number($("#ex_amt").value||0));
-  const date = $("#ex_date").value || isoDate(new Date());
-  const type = $("#ex_type").value || "EXPENSE";
-  const projected = $("#ex_proj").value || "FALSE";
-
-  if(!acct || !cat || !amt){
-    alert("Expense requires Account, Category, and Amount.");
-    return;
-  }
-
-  stageCommitRow({ date, account_id: acct, amount: -amt, type, projected, category: cat });
-  $("#ex_amt").value = "";
-  saveState(); renderAll();
-}
-
-/* =========================
-   Scenario controls
-   ========================= */
-function addScenario(type){
-  const amt = Number($("#sim_amount").value||0);
-  if(!amt) return;
-  const note = $("#sim_note").value || "";
-  state.scenario.items.push({ id: uid(), type, amt: Math.abs(amt), note });
-  $("#sim_amount").value = "";
-  $("#sim_note").value = "";
-  saveState(); renderAll();
-}
-
-/* =========================
-   Utilities
-   ========================= */
-function fillSelect(sel, items, keepValue){
-  const prev = keepValue || sel.value;
-  sel.innerHTML = "";
-  for(const it of items){
-    const opt = document.createElement("option");
-    opt.value = it.id;
-    opt.textContent = it.label;
-    sel.appendChild(opt);
-  }
-  if(prev && items.some(x=>x.id===prev)) sel.value = prev;
-}
-
-function escapeHtml(s){
-  return String(s||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;");
-}
-function escapeAttr(s){
-  return String(s||"").replaceAll('"',"&quot;");
-}
-
-function showSchemaWarn(msg){
-  const el = $("#schemaWarn");
-  el.style.display = "block";
-  el.textContent = msg;
-}
-function hideSchemaWarn(){
-  const el = $("#schemaWarn");
-  el.style.display = "none";
-  el.textContent = "";
-}
-
-/* =========================
-   Init / Wiring
-   ========================= */
 function wireUI(){
   // nav
-  $$(".navBtn").forEach(b=>{
-    b.onclick = ()=> setView(b.dataset.view);
-  });
+  $$(".navBtn").forEach(b=> b.onclick = ()=> setView(b.dataset.view));
 
-  // goal input
-  $("#goalInput").addEventListener("change", ()=>{
-    state.goalsByYear[state.year] = Number($("#goalInput").value||0);
-    saveState(); renderAll();
-  });
-
-  // refresh
   $("#refreshBtn").onclick = async ()=>{
     $("#refreshBtn").textContent = "Refreshing…";
     try{
@@ -1173,53 +1008,92 @@ function wireUI(){
     }
   };
 
-  // scenario
-  $("#sim_add_cost").onclick = ()=> addScenario("cost");
-  $("#sim_add_income").onclick = ()=> addScenario("income");
-  $("#sim_clear").onclick = ()=>{
-    state.scenario.items = [];
-    saveState(); renderAll();
+  // transfer staging
+  $("#xfer_stage").onclick = ()=>{
+    const from = $("#xfer_from").value;
+    const to = $("#xfer_to").value;
+    const amt = safeNum($("#xfer_amt").value);
+    const date = $("#xfer_date").value || isoDate(new Date());
+    if(!from || !to || from===to || !amt) return;
+
+    stageTxn({ date, account_id: from, amount: -Math.abs(amt), type:"transfer_out", projected:false, category:"" });
+    stageTxn({ date, account_id: to, amount: Math.abs(amt), type:"transfer_in", projected:false, category:"" });
+
+    $("#xfer_amt").value = "";
+    saveState();
+    renderStaged();
+    alert("Staged transfer rows (2). Go to Settings → Staged Rows to copy/paste.");
   };
 
-  // transfers
-  $("#tr_stage").onclick = ()=> stageTransfer();
+  // accurizer staging
+  $("#acc_stage").onclick = ()=>{
+    const date = $("#acc_date").value || isoDate(new Date());
+    const inputs = $$("#accurizer input[data-acc]");
+    let staged = 0;
 
-  // expense staging
-  $("#ex_stage").onclick = ()=> stageExpense();
+    for(const inp of inputs){
+      const id = inp.getAttribute("data-acc");
+      const val = inp.value;
+      if(val === "") continue;
+      const actual = safeNum(val);
+      const acct = state.accounts.find(a=>a.account_id===id);
+      if(!acct) continue;
+      const delta = actual - safeNum(acct.current_balance);
+      if(Math.abs(delta) < 0.005) continue;
 
-  // commit pack buttons
-  $("#commit_clear").onclick = ()=>{
-    state.commits = [];
-    saveState(); renderAll();
+      stageTxn({ date, account_id: id, amount: delta, type:"balance_adjust", projected:false, category:"" });
+      staged++;
+    }
+
+    saveState();
+    renderStaged();
+    alert(staged ? `Staged ${staged} balance adjustment row(s).` : "No adjustments staged.");
   };
-  $("#commit_copy").onclick = async ()=>{
-    const header = "txn_id,date,account_id,amount,type,projected,category";
-    const text = (!state.commits.length) ? header : [header].concat(state.commits).join("\n");
+
+  $("#staged_clear").onclick = ()=>{
+    state.staged = [];
+    saveState();
+    renderStaged();
+  };
+
+  $("#copyStaged").onclick = async ()=>{
+    const txt = state.staged.join("\n");
+    if(!txt) return;
     try{
-      await navigator.clipboard.writeText(text);
-      $("#commit_copy").textContent = "Copied!";
-      setTimeout(()=> $("#commit_copy").textContent="Copy", 900);
+      await navigator.clipboard.writeText(txt);
+      alert("Copied staged rows to clipboard.");
     }catch{
-      alert("Copy failed (browser blocked clipboard). You can manually select and copy from the box.");
+      alert("Clipboard blocked. Copy manually from the box.");
     }
   };
 }
 
+function renderAll(){
+  renderYears();
+  renderDashboard();
+  renderAccounts();
+  renderCategories();
+  renderTrips();
+  renderAccurizer();
+  renderStaged();
+}
+
+function escapeHtml(s){
+  return String(s||"")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;");
+}
+function escapeAttr(s){ return String(s||"").replaceAll('"',"&quot;"); }
+
 (async function init(){
   wireUI();
   setView("dashboard");
-
-  // default goal
-  if(!state.goalsByYear[state.year]) state.goalsByYear[state.year] = 9500;
-
-  // load sheet
-  try{
-    await loadSheetData();
-  }catch(e){
-    console.warn(e);
-    showSchemaWarn("Initial sheet load failed. Use Refresh Sheet after confirming Publish-to-web is enabled.");
+  try{ await loadSheetData(); } catch(e){ console.warn(e); }
+  // default year: first Year_Settings year if present, else keep current
+  if(state.yearSettings.length){
+    state.year = state.yearSettings[0].year || state.year;
   }
-
   saveState();
   renderAll();
 })();
