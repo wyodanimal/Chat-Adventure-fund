@@ -1,62 +1,1985 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Adventure Fund Backend Test</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 40px;
-      max-width: 600px;
-      margin: auto;
-    }
-    button {
-      padding: 12px 20px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    pre {
-      background: #f4f4f4;
-      padding: 15px;
-      margin-top: 20px;
-      overflow-x: auto;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adventure Fund V2.0</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0c0f18;
+  --surface: #1e2438;
+  --surface2: #252c42;
+  --border: #323c58;
+  --accent: #e8843a;
+  --accent2: #93d8ff;
+  --green: #3ab87a;
+  --red: #e84a3a;
+  --yellow: #e8c43a;
+  --text: #e8eaf0;
+  --muted: #9aa5c0;
+  --heading-font: 'Bebas Neue', sans-serif;
+  --body-font: 'DM Sans', sans-serif;
+  --mono-font: 'DM Mono', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background-color: var(--bg);
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='1400' height='900'><g fill='none' stroke='%2393d8ff' stroke-opacity='0.22' stroke-width='2'><path d='M-200,500 C0,440 100,510 300,470 C500,430 600,490 800,455 C1000,420 1100,480 1300,450 C1450,430 1550,460 1600,445'/><path d='M-200,530 C0,468 100,540 300,498 C500,458 600,520 800,483 C1000,448 1100,510 1300,478 C1450,458 1550,488 1600,473'/><path d='M-200,560 C0,496 100,570 300,526 C500,486 600,550 800,511 C1000,476 1100,540 1300,506 C1450,486 1550,516 1600,501'/><path d='M-200,590 C0,524 100,600 300,554 C500,514 600,580 800,539 C1000,504 1100,570 1300,534 C1450,514 1550,544 1600,529'/><path d='M-200,620 C0,552 100,630 300,582 C500,542 600,610 800,567 C1000,532 1100,600 1300,562 C1450,542 1550,572 1600,557'/><path d='M-200,650 C0,580 100,660 300,610 C500,570 600,640 800,595 C1000,560 1100,630 1300,590 C1450,570 1550,600 1600,585'/><path d='M-200,680 C0,608 100,690 300,638 C500,598 600,670 800,623 C1000,588 1100,660 1300,618 C1450,598 1550,628 1600,613'/><path d='M-200,470 C0,412 100,480 300,442 C500,402 600,460 800,427 C1000,392 1100,450 1300,422 C1450,402 1550,432 1600,417'/><path d='M-200,440 C0,384 100,450 300,414 C500,374 600,430 800,399 C1000,364 1100,420 1300,394 C1450,374 1550,404 1600,389'/><path d='M-200,410 C0,356 100,420 300,386 C500,346 600,400 800,371 C1000,336 1100,390 1300,366 C1450,346 1550,376 1600,361'/><path d='M-200,380 C0,328 100,390 300,358 C500,318 600,370 800,343 C1000,308 1100,360 1300,338 C1450,318 1550,348 1600,333'/><path d='M-200,350 C0,300 100,360 300,330 C500,290 600,340 800,315 C1000,280 1100,330 1300,310 C1450,290 1550,320 1600,305'/><path d='M-200,320 C0,272 100,330 300,302 C500,262 600,310 800,287 C1000,252 1100,300 1300,282 C1450,262 1550,292 1600,277'/><path d='M-200,290 C0,244 100,300 300,274 C500,234 600,280 800,259 C1000,224 1100,270 1300,254 C1450,234 1550,264 1600,249'/><path d='M-200,260 C0,216 100,270 300,246 C500,206 600,250 800,231 C1000,196 1100,240 1300,226 C1450,206 1550,236 1600,221'/><path d='M-200,230 C0,188 100,240 300,218 C500,178 600,220 800,203 C1000,168 1100,210 1300,198 C1450,178 1550,208 1600,193'/><path d='M-200,200 C0,160 100,210 300,190 C500,150 600,190 800,175 C1000,140 1100,180 1300,170 C1450,150 1550,180 1600,165'/><path d='M-200,710 C0,636 100,720 300,666 C500,626 600,700 800,651 C1000,616 1100,690 1300,646 C1450,626 1550,656 1600,641'/><path d='M-200,740 C0,664 100,750 300,694 C500,654 600,730 800,679 C1000,644 1100,720 1300,674 C1450,654 1550,684 1600,669'/><path d='M-200,170 C0,132 100,180 300,162 C500,122 600,160 800,147 C1000,112 1100,150 1300,142 C1450,122 1550,152 1600,137'/></g></svg>");
+  background-size: 1400px 900px;
+  color: var(--text);
+  font-family: var(--body-font);
+  font-size: 16px;
+  min-height: 100vh;
+}
+
+nav {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav-brand {
+  font-family: var(--heading-font);
+  font-size: 26px;
+  letter-spacing: 2px;
+  color: var(--accent);
+  margin-right: 32px;
+  padding: 14px 0;
+  white-space: nowrap;
+}
+
+.nav-tabs {
+  display: flex;
+  gap: 0;
+  flex: 1;
+  overflow-x: auto;
+}
+
+.nav-tab {
+  padding: 16px 18px;
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: all 0.15s;
+  user-select: none;
+}
+.nav-tab:hover { color: var(--text); }
+.nav-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+.year-selector {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+}
+.year-selector select {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-family: var(--mono-font);
+  font-size: 15px;
+  cursor: pointer;
+}
+
+main { padding: 24px 20px; max-width: 1200px; margin: 0 auto; }
+
+.page { display: none; }
+.page.active { display: block; }
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.card-title {
+  font-family: var(--heading-font);
+  font-size: 20px;
+  letter-spacing: 1px;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+
+@media (max-width: 700px) {
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  nav { flex-wrap: wrap; }
+  .nav-brand { width: 100%; padding-bottom: 0; }
+  .nav-tabs { width: 100%; }
+  .year-selector { width: 100%; justify-content: flex-end; padding: 8px 0; }
+}
+
+.stat-card {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+}
+.stat-label {
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.stat-value {
+  font-family: var(--mono-font);
+  font-size: 28px;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1;
+}
+.stat-value.green { color: var(--green); }
+.stat-value.red { color: var(--red); }
+.stat-value.accent { color: var(--accent); }
+.stat-sub {
+  font-size: 15px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.progress-wrap { margin: 8px 0; }
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 15px;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.progress-bar {
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+.progress-fill.green { background: var(--green); }
+.progress-fill.accent { background: var(--accent); }
+.progress-fill.red { background: var(--red); }
+.progress-fill.yellow { background: var(--yellow); }
+
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th {
+  text-align: left;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--muted);
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+}
+td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  font-size: 15px;
+}
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--surface2); }
+.mono { font-family: var(--mono-font); }
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.form-group { display: flex; flex-direction: column; gap: 4px; }
+label { font-size: 15px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+input, select, textarea {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 8px 10px;
+  border-radius: 6px;
+  font-family: var(--body-font);
+  font-size: 15px;
+  transition: border-color 0.15s;
+}
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-family: var(--body-font);
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: #d4722e; }
+.btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+.btn-danger { background: transparent; color: var(--red); border: 1px solid var(--border); }
+.btn-danger:hover { background: var(--red); color: #fff; }
+.btn-sm { padding: 4px 10px; font-size: 15px; }
+.btn-green { background: var(--green); color: #fff; }
+.btn-green:hover { background: #2ea065; }
+
+.btn-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 12px; }
+
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 15px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.badge-planned { background: rgba(58,126,232,0.2); color: var(--accent2); }
+.badge-booked { background: rgba(58,184,122,0.2); color: var(--green); }
+.badge-completed { background: rgba(107,116,144,0.2); color: var(--muted); }
+.badge-commit { background: rgba(232,132,58,0.2); color: var(--accent); }
+.badge-purchased { background: rgba(58,184,122,0.2); color: var(--green); }
+.badge-maybe { background: rgba(232,196,58,0.2); color: var(--yellow); }
+.badge-side_job { background: rgba(232,196,58,0.2); color: var(--yellow); }
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.account-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+.account-row:last-child { border-bottom: none; }
+.account-name { flex: 1; font-weight: 500; }
+.account-input { width: 120px; }
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+.modal-title {
+  font-family: var(--heading-font);
+  font-size: 22px;
+  letter-spacing: 1px;
+  color: var(--accent);
+  margin-bottom: 20px;
+}
+
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--surface2);
+  border: 1px solid var(--green);
+  color: var(--green);
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 15px;
+  z-index: 300;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.2s;
+  pointer-events: none;
+}
+.toast.show { opacity: 1; transform: translateY(0); }
+.toast.error { border-color: var(--red); color: var(--red); }
+
+.horizon-row { display: flex; gap: 8px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); }
+.horizon-row:last-child { border-bottom: none; }
+.horizon-month { font-family: var(--mono-font); font-size: 15px; color: var(--muted); width: 80px; }
+.horizon-bar-wrap { flex: 1; }
+.horizon-amount { font-family: var(--mono-font); font-size: 15px; width: 90px; text-align: right; }
+
+.empty { text-align: center; padding: 40px; color: var(--muted); }
+.empty-icon { font-size: 40px; margin-bottom: 12px; }
+
+.gap-positive { color: var(--green); }
+.gap-negative { color: var(--red); }
+
+.transfer-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 12px;
+  align-items: end;
+}
+.transfer-arrow { color: var(--accent); font-size: 20px; padding-bottom: 8px; text-align: center; }
+
+/* Loading overlay */
+#loading-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+#loading-overlay.hidden { display: none; }
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+</style>
 </head>
 <body>
 
-<h2>Adventure Fund Backend Test</h2>
+<!-- Loading overlay shown on startup -->
+<div id="loading-overlay">
+  <div class="loading-spinner"></div>
+  <div style="font-family:var(--heading-font);font-size:24px;letter-spacing:2px;color:var(--accent);">LOADING ADVENTURE FUND</div>
+  <div style="color:var(--muted);font-size:13px;">Connecting to Google Sheets…</div>
+</div>
 
-<button onclick="addTestCategory()">Add SAFE_TEST Category</button>
+<nav>
+  <div class="nav-brand">⛰ ADVENTURE FUND <span style="font-size:14px;color:var(--muted);letter-spacing:1px;">V2.0</span></div>
+  <div class="nav-tabs">
+    <div class="nav-tab active" data-page="dashboard">Dashboard</div>
+    <div class="nav-tab" data-page="accounts">Accounts</div>
+    <div class="nav-tab" data-page="income">Income</div>
+    <div class="nav-tab" data-page="categories">Categories</div>
+    <div class="nav-tab" data-page="trips">Trips</div>
+    <div class="nav-tab" data-page="settings">Settings</div>
+  </div>
+  <div class="year-selector">
+    <select id="yearSelect"></select>
+  </div>
+</nav>
 
-<pre id="output">Waiting...</pre>
+<main>
+
+<!-- DASHBOARD -->
+<div class="page active" id="page-dashboard">
+  <div style="margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+    <h1 style="font-family:var(--heading-font);font-size:32px;letter-spacing:2px;">OVERVIEW</h1>
+    <span id="dash-year-label" style="font-family:var(--mono-font);color:var(--muted);font-size:14px;"></span>
+  </div>
+  <div class="grid-4" style="margin-bottom:16px;" id="dash-stats"></div>
+  <div class="grid-2" style="margin-bottom:16px;">
+    <div class="card">
+      <div class="card-title">FUND HEALTH</div>
+      <div id="dash-health"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">UPCOMING INCOME</div>
+      <div id="dash-next-deposit"></div>
+      <div id="dash-upcoming-income"></div>
+    </div>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">CATEGORY SPEND</div>
+      <div id="dash-categories"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">TRIPS</div>
+      <div id="dash-trips"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ACCOUNTS -->
+<div class="page" id="page-accounts">
+  <div class="section-header">
+    <h1 style="font-family:var(--heading-font);font-size:32px;letter-spacing:2px;">ACCOUNTS</h1>
+  </div>
+  <div class="grid-2" style="margin-bottom:16px;">
+    <div class="card">
+      <div class="card-title">UPDATE BALANCES</div>
+      <div id="account-inputs"></div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="saveBalances()">💾 Save Balances</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">TRANSFER BETWEEN ACCOUNTS</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>From</label>
+          <select id="transfer-from"></select>
+        </div>
+        <div class="form-group">
+          <label>To</label>
+          <select id="transfer-to"></select>
+        </div>
+        <div class="form-group">
+          <label>Amount ($)</label>
+          <input type="number" id="transfer-amount" placeholder="0.00" min="0" step="0.01">
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="doTransfer()">↔ Transfer</button>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">ACCOUNT SUMMARY</div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Account</th><th>Balance</th><th>% of Total</th></tr></thead>
+        <tbody id="account-summary-table"></tbody>
+      </table>
+    </div>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
+      <span style="font-weight:600;">Total Fund</span>
+      <span class="mono" id="account-total" style="font-size:20px;color:var(--accent);"></span>
+    </div>
+  </div>
+</div>
+
+<!-- INCOME -->
+<div class="page" id="page-income">
+  <div class="section-header">
+    <h1 style="font-family:var(--heading-font);font-size:32px;letter-spacing:2px;">INCOME</h1>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="btn btn-secondary" onclick="openSideJobModal()" title="Quick-add a side job or odd job">💰 Side Job / Odd Job</button>
+      <button class="btn btn-primary" onclick="openIncomeModal()">+ Add Income</button>
+    </div>
+  </div>
+  <div class="grid-3" style="margin-bottom:16px;" id="income-stats"></div>
+  <div id="income-table-wrap"></div>
+</div>
+
+<!-- CATEGORIES -->
+<div class="page" id="page-categories">
+  <div class="section-header">
+    <h1 style="font-family:var(--heading-font);font-size:32px;letter-spacing:2px;">CATEGORIES</h1>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="btn btn-secondary" onclick="openCategoryModal()">+ Category</button>
+      <button class="btn btn-primary" onclick="openItemModal()">+ Item</button>
+    </div>
+  </div>
+  <div id="categories-list"></div>
+</div>
+
+<!-- TRIPS -->
+<div class="page" id="page-trips">
+  <div class="section-header">
+    <h1 style="font-family:var(--heading-font);font-size:32px;letter-spacing:2px;">TRIPS</h1>
+    <button class="btn btn-primary" onclick="openTripModal()">+ Add Trip</button>
+  </div>
+  <div class="grid-3" style="margin-bottom:16px;" id="trip-stats"></div>
+  <div class="card">
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th>Trip</th><th>Date</th><th>Vehicle</th><th>Miles</th><th>MPG</th>
+          <th>Fuel $/gal</th><th>Fuel Cost</th><th>Lodging</th><th>Total</th><th>Status</th><th></th>
+        </tr></thead>
+        <tbody id="trips-table"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- SETTINGS -->
+<div class="page" id="page-settings">
+  <div class="section-header">
+    <h1 style="font-family:var(--heading-font);font-size:32px;letter-spacing:2px;">SETTINGS</h1>
+  </div>
+  <div class="grid-2" style="margin-bottom:16px;">
+    <div class="card">
+      <div class="card-title">YEAR GOALS</div>
+      <div id="year-settings-form"></div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="saveYearSettings()">💾 Save</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">VEHICLES</div>
+      <div id="vehicle-list"></div>
+      <div class="form-row" style="margin-top:12px;">
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" id="new-vehicle-name" placeholder="e.g. Truck">
+        </div>
+        <div class="form-group">
+          <label>MPG</label>
+          <input type="number" id="new-vehicle-mpg" placeholder="12.5" min="1" step="0.1">
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="addVehicle()">+ Add Vehicle</button>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">DATA MANAGEMENT</div>
+    <p style="color:var(--muted);margin-bottom:16px;font-size:13px;">Your data is stored in Google Sheets. Export creates a local JSON backup.</p>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="exportData()">⬇ Export Backup</button>
+      <button class="btn btn-secondary" onclick="document.getElementById('importFile').click()">⬆ Import Backup</button>
+      <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
+      <button class="btn btn-danger" onclick="confirmReset()">🗑 Reset All Data</button>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<div id="modal-overlay" class="modal-overlay" style="display:none;" onclick="closeModal(event)">
+  <div class="modal" id="modal-content"></div>
+</div>
+
+<div class="toast" id="toast"></div>
 
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbwV7C7i2Dj0lepZAGz3jxbRV8gMJT1tLYFJ8Gu_xI0c-HaJ4ehzpPfXxQ5_zAyM3kG9/exec";
+/* =============================================
+   DATA LAYER — Google Sheets via Apps Script
+============================================= */
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbygeN80JoiIWBmwdmvv5it4rjfeLsjF2zsa-2gJfxhEo_MDChgChZJzee3Fb60WfV5UnQ/exec";
 
-function addTestCategory() {
-  document.getElementById("output").textContent = "Sending request...";
+let _dataCache = null;
 
-  fetch(API_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      action: "addCategory",
-      category_id: "SAFE_TEST",
-      category_name: "Safe Test Category",
-      annual_budget: 999,
-      year: 2026
-    })
-  })
-  .then(res => res.json())
-  .then(data => {
-    document.getElementById("output").textContent = JSON.stringify(data, null, 2);
-  })
-  .catch(err => {
-    document.getElementById("output").textContent = "Error: " + err;
+async function initData() {
+  try {
+    const res = await fetch(APPS_SCRIPT_URL + "?action=load");
+    const json = await res.json();
+    if (json.ok && json.data) {
+      _dataCache = json.data;
+      if (!_dataCache.accounts || !_dataCache.accounts.length) {
+        _dataCache = getDefaultData();
+        await persistData();
+      }
+    } else {
+      console.error("Load failed:", json.error);
+      _dataCache = getDefaultData();
+    }
+  } catch(e) {
+    console.error("Network error loading data:", e);
+    _dataCache = getDefaultData();
+  }
+}
+
+function getData() {
+  return _dataCache;
+}
+
+async function persistData() {
+  try {
+    const payload = JSON.stringify(_dataCache);
+    await fetch(APPS_SCRIPT_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "text/plain" },
+      body: payload
+    });
+  } catch(e) {
+    console.error("Save failed:", e);
+    toast("Save failed — check connection", true);
+  }
+}
+
+function getDefaultData() {
+  return {
+    accounts: [
+      { id:"CHK", name:"Checking", balance:0 },
+      { id:"SAV", name:"Savings", balance:0 },
+      { id:"CSH", name:"Cash", balance:0 },
+      { id:"GFT", name:"Gift Cards", balance:0 },
+      { id:"OTH", name:"Other", balance:0 }
+    ],
+    income: [
+      { id:"AUTO-250", type:"auto_deposit", description:"Adventure Fund Auto Deposit", amount:250, recurrence:"biweekly", date:"2026-02-12", year:2026, received:false, depositReceipts:{} }
+    ],
+    categories: [
+      { id:"ICE",   name:"Ice Fishing",              budget:300,  year:2026 },
+      { id:"FISH",  name:"Fishing Equipment",         budget:200,  year:2026 },
+      { id:"HUNT",  name:"Hunting Equipment",         budget:1500, year:2026 },
+      { id:"BIKE",  name:"Bike Equipment",            budget:400,  year:2026 },
+      { id:"FUEL",  name:"Projected Fuel",            budget:2000, year:2026 },
+      { id:"LODG",  name:"Projected Lodging",         budget:400,  year:2026 },
+      { id:"MISC",  name:"Other / Misc",              budget:0,    year:2026 },
+      { id:"EBIKE", name:"eBike Equipment",           budget:1500, year:2026 },
+      { id:"WLIC",  name:"Wyoming Licenses",          budget:500,  year:2026 },
+      { id:"OLIC",  name:"Other Licenses",            budget:0,    year:2026 },
+      { id:"PREFP", name:"Preference / Bonus Points", budget:400,  year:2026 },
+      { id:"AMMO",  name:"Ammo / Reloading",          budget:0,    year:2026 },
+      { id:"CAMP",  name:"Camp / Cabin / Camper",     budget:0,    year:2026 },
+      { id:"TAX",   name:"Taxidermy",                 budget:150,  year:2026 },
+      { id:"DUE",   name:"Range Dues",                budget:100,  year:2026 },
+      { id:"PRO",   name:"Potential Purchases",       budget:0,    year:2026 }
+    ],
+    items: [],
+    trips: [],
+    vehicles: [
+      { name:"Truck",        mpg:12.5 },
+      { name:"Truck Towing", mpg:7.0  },
+      { name:"Jeep",         mpg:20.0 },
+      { name:"Other",        mpg:15.0 }
+    ],
+    yearSettings: [
+      { year:2026, minBalance:9500,  autoIncrement:3000 },
+      { year:2027, minBalance:12500, autoIncrement:3000 },
+      { year:2028, minBalance:15500, autoIncrement:3000 }
+    ]
+  };
+}
+
+/* =============================================
+   FUEL CALCULATION
+============================================= */
+function calcTripCost(miles, vehicleName, fuelPricePerGal, lodging, manualFuelOverride) {
+  const d = getData();
+  const v = d.vehicles.find(x => x.name === vehicleName);
+  const mpg = v ? v.mpg : 15;
+  const gallons = miles / mpg;
+  const calcFuelCost = gallons * fuelPricePerGal;
+  const finalFuel = (manualFuelOverride && manualFuelOverride > 0) ? manualFuelOverride : calcFuelCost;
+  const total = finalFuel + (lodging || 0);
+  return {
+    mpg: mpg,
+    gallons: +gallons.toFixed(1),
+    calcFuelCost: +calcFuelCost.toFixed(2),
+    finalFuel: +finalFuel.toFixed(2),
+    total: +total.toFixed(2)
+  };
+}
+
+/* =============================================
+   INCOME PROJECTION
+============================================= */
+function countBiweeklyDeposits(startDateStr, year) {
+  const start = new Date(startDateStr + "T12:00:00");
+  const endOfYear = new Date(year, 11, 31);
+  let count = 0;
+  let d = new Date(start);
+  while(d <= endOfYear) {
+    if(d.getFullYear() === year) count++;
+    d.setDate(d.getDate() + 14);
+  }
+  return count;
+}
+
+function getBiweeklyDepositDates(startDateStr, year) {
+  const start = new Date(startDateStr + "T12:00:00");
+  const endOfYear = new Date(year, 11, 31);
+  const dates = [];
+  let d = new Date(start);
+  while(d <= endOfYear) {
+    if(d.getFullYear() === year) dates.push(new Date(d));
+    d.setDate(d.getDate() + 14);
+  }
+  return dates;
+}
+
+function getBiweeklyReceivedMap(inc, year) {
+  return inc.depositReceipts || {};
+}
+
+function calcYearIncome(year) {
+  const d = getData();
+  const incomeItems = d.income.filter(i => i.year === year);
+  let total = 0, received = 0, pending = 0;
+  for(const inc of incomeItems) {
+    if(inc.recurrence === "biweekly") {
+      const dates = getBiweeklyDepositDates(inc.date, year);
+      const receipts = getBiweeklyReceivedMap(inc, year);
+      for(const dt of dates) {
+        const key = dt.toISOString().slice(0,10);
+        total += inc.amount;
+        if(receipts[key]) received += inc.amount;
+        else pending += inc.amount;
+      }
+    } else {
+      total += inc.amount;
+      if(inc.received) received += inc.amount;
+      else pending += inc.amount;
+    }
+  }
+  return { total, received, pending };
+}
+
+function getNextDepositInfo(year) {
+  const d = getData();
+  const autoInc = d.income.find(i => i.year === year && i.recurrence === "biweekly");
+  if(!autoInc) return null;
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  const dates = getBiweeklyDepositDates(autoInc.date, year);
+  const receipts = getBiweeklyReceivedMap(autoInc, year);
+  for(const dt of dates) {
+    const key = dt.toISOString().slice(0,10);
+    if(!receipts[key]) {
+      const diff = Math.round((dt - today) / (1000*60*60*24));
+      return { date: dt, key, daysAway: diff, amount: autoInc.amount, incId: autoInc.id };
+    }
+  }
+  return null;
+}
+
+/* =============================================
+   TRIP → CATEGORY PROJECTIONS
+============================================= */
+function calcTripCategoryProjections(year) {
+  const d = getData();
+  const activeTrips = d.trips.filter(t => t.year === year && t.status !== "completed");
+  let projFuel = 0, projLodging = 0;
+  for(const t of activeTrips) {
+    const calc = calcTripCost(t.miles, t.vehicle, t.fuelPrice, t.lodging, t.manualFuel);
+    projFuel += calc.finalFuel;
+    projLodging += t.lodging || 0;
+  }
+  return { projFuel, projLodging, activeTrips };
+}
+
+/* =============================================
+   DASHBOARD CALCULATIONS
+============================================= */
+function calcDashboard(year) {
+  const d = getData();
+  const totalFund = d.accounts.reduce((s,a) => s + a.balance, 0);
+  const ys = d.yearSettings.find(y => y.year === year) || { minBalance:0, autoIncrement:0 };
+  const incomeData = calcYearIncome(year);
+  const cats = d.categories.filter(c => c.year === year);
+  const tripProj = calcTripCategoryProjections(year);
+  let catBudgetTotal = 0;
+  for(const c of cats) {
+    if(c.id === "FUEL") catBudgetTotal += Math.max(c.budget || 0, tripProj.projFuel);
+    else if(c.id === "LODG") catBudgetTotal += Math.max(c.budget || 0, tripProj.projLodging);
+    else catBudgetTotal += c.budget || 0;
+  }
+  const allTrips = d.trips.filter(t => t.year === year);
+  const tripTotal = allTrips.reduce((s,t) => {
+    const calc = calcTripCost(t.miles, t.vehicle, t.fuelPrice, t.lodging, t.manualFuel);
+    return s + calc.total;
+  }, 0);
+  const plannedSpend = catBudgetTotal;
+  const projectedEnd = totalFund + incomeData.pending - plannedSpend;
+  const gap = projectedEnd - (ys.minBalance || 0);
+  return { totalFund, plannedSpend, tripTotal, tripProj, projectedEnd, goal: ys.minBalance, gap, incomeData, ys };
+}
+
+/* =============================================
+   TOAST
+============================================= */
+function toast(msg, isError=false) {
+  const el = document.getElementById("toast");
+  el.textContent = msg;
+  el.className = "toast show" + (isError ? " error" : "");
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.className="toast", 2500);
+}
+
+/* =============================================
+   MODAL
+============================================= */
+function openModal(html) {
+  document.getElementById("modal-content").innerHTML = html;
+  document.getElementById("modal-overlay").style.display = "flex";
+}
+function closeModal(e) {
+  if(!e || e.target === document.getElementById("modal-overlay")) {
+    document.getElementById("modal-overlay").style.display = "none";
+  }
+}
+function closeModalDirect() {
+  document.getElementById("modal-overlay").style.display = "none";
+}
+
+/* =============================================
+   NAVIGATION
+============================================= */
+let currentPage = "dashboard";
+let currentYear = 2026;
+
+function getAvailableYears() {
+  const d = getData();
+  return [...new Set([
+    ...d.yearSettings.map(y => y.year),
+    ...d.income.map(i => i.year),
+    ...d.categories.map(c => c.year),
+    ...d.trips.map(t => t.year),
+    2026
+  ])].sort();
+}
+
+function rebuildYearSelector() {
+  const sel = document.getElementById("yearSelect");
+  const years = getAvailableYears();
+  sel.innerHTML = "";
+  years.forEach(y => {
+    const opt = document.createElement("option");
+    opt.value = y; opt.textContent = y;
+    if(y === currentYear) opt.selected = true;
+    sel.appendChild(opt);
+  });
+  const addOpt = document.createElement("option");
+  addOpt.value = "__add__"; addOpt.textContent = "+ Add Year…";
+  sel.appendChild(addOpt);
+}
+
+function promptAddYear() {
+  const years = getAvailableYears();
+  const nextDefault = Math.max(...years) + 1;
+  openModal(`
+    <div class="modal-title">ADD NEW YEAR</div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Year</label>
+        <input type="number" id="m-new-year" value="${nextDefault}" min="2024" max="2060" step="1">
+      </div>
+      <div class="form-group">
+        <label>Year Goal ($)</label>
+        <input type="number" id="m-new-goal" placeholder="e.g. 12500" min="0" step="500">
+      </div>
+    </div>
+    <div class="form-group" style="margin-bottom:16px;">
+      <label>Copy categories from year</label>
+      <select id="m-copy-from">
+        <option value="">— Start blank —</option>
+        ${years.map(y => `<option value="${y}" ${y===currentYear?'selected':''}>${y}</option>`).join("")}
+      </select>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="saveNewYear()">Create Year</button>
+      <button class="btn btn-secondary" onclick="closeModalDirect()">Cancel</button>
+    </div>
+  `);
+}
+
+function saveNewYear() {
+  const year = parseInt(document.getElementById("m-new-year").value);
+  const goal = parseFloat(document.getElementById("m-new-goal").value)||0;
+  const copyFrom = document.getElementById("m-copy-from").value;
+  if(!year || year < 2024 || year > 2060) { toast("Enter a valid year", true); return; }
+  const d = getData();
+  if(d.yearSettings.find(y => y.year === year)) { toast("Year already exists", true); return; }
+  d.yearSettings.push({ year, minBalance: goal, autoIncrement: 3000 });
+  if(copyFrom) {
+    const srcCats = d.categories.filter(c => c.year === parseInt(copyFrom));
+    for(const c of srcCats) {
+      if(!d.categories.find(x => x.id === c.id && x.year === year)) {
+        d.categories.push({ ...c, year });
+      }
+    }
+  }
+  persistData();
+  closeModalDirect();
+  currentYear = year;
+  rebuildYearSelector();
+  document.getElementById("yearSelect").value = year;
+  renderPage(currentPage);
+  toast(`Year ${year} created!`);
+}
+
+function checkNewYearSetup(year) {
+  const d = getData();
+  const hasSettings = d.yearSettings.some(y => y.year === year);
+  if(!hasSettings) {
+    d.yearSettings.push({ year, minBalance: 0, autoIncrement: 3000 });
+    persistData();
+  }
+}
+
+function initNav() {
+  rebuildYearSelector();
+  const ys = document.getElementById("yearSelect");
+  ys.addEventListener("change", () => {
+    const val = ys.value;
+    if(val === "__add__") {
+      ys.value = String(currentYear);
+      promptAddYear();
+      return;
+    }
+    currentYear = parseInt(val);
+    checkNewYearSetup(currentYear);
+    renderPage(currentPage);
+  });
+  document.querySelectorAll(".nav-tab").forEach(tab => {
+    tab.addEventListener("click", () => {
+      document.querySelectorAll(".nav-tab").forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+      currentPage = tab.dataset.page;
+      renderPage(currentPage);
+    });
   });
 }
-</script>
 
+function renderPage(page) {
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  document.getElementById("page-"+page)?.classList.add("active");
+  if(page==="dashboard") renderDashboard();
+  else if(page==="accounts") renderAccounts();
+  else if(page==="income") renderIncome();
+  else if(page==="categories") renderCategories();
+  else if(page==="trips") renderTrips();
+  else if(page==="settings") renderSettings();
+}
+
+/* =============================================
+   FORMAT HELPERS
+============================================= */
+function fmt$(n) {
+  return "$" + Number(n||0).toLocaleString("en-US", {minimumFractionDigits:2, maximumFractionDigits:2});
+}
+function fmtPct(n, total) {
+  if(!total) return "0%";
+  return Math.round((n/total)*100)+"%";
+}
+function fmtDate(str) {
+  if(!str) return "";
+  const d = new Date(str+"T12:00:00");
+  return d.toLocaleDateString("en-US", {month:"short", day:"numeric"});
+}
+function fmtDateFull(str) {
+  if(!str) return "—";
+  const d = new Date(str+"T12:00:00");
+  return d.toLocaleDateString("en-US", {month:"short", day:"numeric", year:"numeric"});
+}
+
+/* =============================================
+   DASHBOARD RENDER
+============================================= */
+function renderDashboard() {
+  const year = currentYear;
+  const dash = calcDashboard(year);
+  const d = getData();
+  document.getElementById("dash-year-label").textContent = `${year} Adventure Fund`;
+  const gapColor = dash.gap >= 0 ? "green" : "red";
+  document.getElementById("dash-stats").innerHTML = `
+    <div class="stat-card">
+      <div class="stat-label">Total Fund</div>
+      <div class="stat-value accent">${fmt$(dash.totalFund)}</div>
+      <div class="stat-sub">across all accounts</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Income Pending</div>
+      <div class="stat-value green">${fmt$(dash.incomeData.pending)}</div>
+      <div class="stat-sub">${fmt$(dash.incomeData.received)} received</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Planned Spend</div>
+      <div class="stat-value" style="color:var(--yellow)">${fmt$(dash.plannedSpend)}</div>
+      <div class="stat-sub">budgeted categories</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">${dash.gap >= 0 ? "Projected Surplus" : "Projected Gap"}</div>
+      <div class="stat-value ${gapColor}">${fmt$(Math.abs(dash.gap))}</div>
+      <div class="stat-sub">vs ${fmt$(dash.goal)} goal</div>
+    </div>
+  `;
+  const pct = dash.goal > 0 ? Math.min(100, ((dash.totalFund + dash.incomeData.pending) / (dash.goal + dash.plannedSpend)) * 100) : 0;
+  document.getElementById("dash-health").innerHTML = `
+    <div class="progress-wrap">
+      <div class="progress-label">
+        <span>Projected Year-End</span>
+        <span>${fmt$(dash.projectedEnd)} of ${fmt$(dash.goal)} goal</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill ${pct>=100?'green':'accent'}" style="width:${pct}%"></div></div>
+    </div>
+    <div class="progress-wrap" style="margin-top:12px;">
+      <div class="progress-label">
+        <span>Current Balance</span>
+        <span>${fmt$(dash.totalFund)}</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill accent" style="width:${dash.goal>0?Math.min(100,(dash.totalFund/dash.goal)*100):50}%"></div></div>
+    </div>
+    <div style="margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px;">
+      <div><span style="color:var(--muted)">Biweekly Deposit: </span><span class="mono">${fmt$(250)}</span></div>
+      <div><span style="color:var(--muted)">Year Goal: </span><span class="mono">${fmt$(dash.goal)}</span></div>
+      <div><span style="color:var(--muted)">Trip Budget: </span><span class="mono">${fmt$(dash.tripTotal)}</span></div>
+      <div><span style="color:var(--muted)">Increment Target: </span><span class="mono">+${fmt$(dash.ys.autoIncrement)}</span></div>
+    </div>
+  `;
+  const nextDep = getNextDepositInfo(year);
+  const nextDepBanner = nextDep ? (() => {
+    const daysAway = nextDep.daysAway;
+    const urgency = daysAway <= 0 ? "var(--green)" : daysAway <= 3 ? "var(--yellow)" : "var(--muted)";
+    const label = daysAway < 0 ? "overdue" : daysAway === 0 ? "TODAY" : `in ${daysAway} day${daysAway===1?'':'s'}`;
+    return `<div style="background:var(--surface2);border:1px solid var(--border);border-left:3px solid ${urgency};border-radius:8px;padding:12px 16px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;">
+      <div>
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:3px;">Next Auto-Deposit</div>
+        <div style="font-weight:600;">${nextDep.date.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"})}</div>
+      </div>
+      <div style="text-align:right;">
+        <div class="mono" style="color:var(--green);font-size:20px;">${fmt$(nextDep.amount)}</div>
+        <div style="font-size:12px;color:${urgency};">${label}</div>
+      </div>
+    </div>`;
+  })() : '';
+  document.getElementById("dash-next-deposit").innerHTML = nextDepBanner;
+  const upcoming = d.income.filter(i => i.year === year && !i.received && i.recurrence !== "biweekly")
+    .sort((a,b) => new Date(a.date) - new Date(b.date)).slice(0, 5);
+  document.getElementById("dash-upcoming-income").innerHTML = upcoming.length ? upcoming.map(i => {
+    return `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);">
+      <div>
+        <div style="font-weight:500;">${i.description}</div>
+        <div style="font-size:12px;color:var(--muted);">${fmtDate(i.date)}</div>
+      </div>
+      <div class="mono" style="color:var(--green);">${fmt$(i.amount)}</div>
+    </div>`;
+  }).join("") : '<div style="color:var(--muted);font-size:13px;padding:8px 0;">No pending one-time income</div>';
+
+  // Category spend — alphabetical, all budgeted categories
+  const cats = d.categories.filter(c => c.year === year && c.budget > 0)
+    .sort((a,b) => a.name.localeCompare(b.name));
+  document.getElementById("dash-categories").innerHTML = cats.map(c => {
+    const items = d.items.filter(i => i.year === year && i.category === c.id);
+    const spent = items.filter(i => i.status==="purchased").reduce((s,i)=>s+i.cost,0);
+    const pct = c.budget > 0 ? Math.min(100, (spent/c.budget)*100) : 0;
+    return `<div class="progress-wrap">
+      <div class="progress-label">
+        <span>${c.name}</span>
+        <span>${fmt$(spent)} / ${fmt$(c.budget)}</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill ${pct>90?'red':pct>60?'yellow':'green'}" style="width:${pct||2}%"></div></div>
+    </div>`;
+  }).join("") || '<div class="empty">No categories set up</div>';
+
+  // Trips — sorted by date ascending (no date = bottom)
+  const trips = d.trips.filter(t => t.year === year)
+    .sort((a,b) => {
+      if(!a.tripDate && !b.tripDate) return 0;
+      if(!a.tripDate) return 1;
+      if(!b.tripDate) return -1;
+      return new Date(a.tripDate) - new Date(b.tripDate);
+    });
+  document.getElementById("dash-trips").innerHTML = trips.length ? trips.map(t => {
+    const calc = calcTripCost(t.miles, t.vehicle, t.fuelPrice, t.lodging, t.manualFuel);
+    return `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);">
+      <div>
+        <div style="font-weight:500;">${t.name}</div>
+        <div style="font-size:12px;color:var(--muted);">${t.tripDate ? fmtDate(t.tripDate)+' · ' : ''}${t.vehicle} · ${t.miles} mi · ${calc.mpg}mpg</div>
+      </div>
+      <div style="text-align:right">
+        <div class="mono" style="color:var(--accent)">${fmt$(calc.total)}</div>
+        <span class="badge badge-${t.status}">${t.status}</span>
+      </div>
+    </div>`;
+  }).join("") : '<div class="empty">No trips planned</div>';
+}
+
+/* =============================================
+   ACCOUNTS RENDER
+============================================= */
+function renderAccounts() {
+  const d = getData();
+  const total = d.accounts.reduce((s,a)=>s+a.balance, 0);
+  document.getElementById("account-inputs").innerHTML = d.accounts.map(a => `
+    <div class="account-row">
+      <div class="account-name">${a.name}</div>
+      <input class="account-input" type="number" id="bal-${a.id}" value="${a.balance}" min="0" step="0.01" placeholder="0.00">
+    </div>
+  `).join("");
+  ["transfer-from","transfer-to"].forEach(id => {
+    const sel = document.getElementById(id);
+    sel.innerHTML = d.accounts.map(a => `<option value="${a.id}">${a.name} (${fmt$(a.balance)})</option>`).join("");
+  });
+  document.getElementById("account-summary-table").innerHTML = d.accounts.map(a => `
+    <tr>
+      <td>${a.name}</td>
+      <td class="mono">${fmt$(a.balance)}</td>
+      <td>
+        <div class="progress-bar" style="width:100px;display:inline-block;vertical-align:middle;margin-right:6px;">
+          <div class="progress-fill accent" style="width:${total?Math.round((a.balance/total)*100):0}%"></div>
+        </div>
+        ${fmtPct(a.balance, total)}
+      </td>
+    </tr>
+  `).join("");
+  document.getElementById("account-total").textContent = fmt$(total);
+}
+
+async function saveBalances() {
+  const d = getData();
+  d.accounts.forEach(a => {
+    const el = document.getElementById("bal-"+a.id);
+    if(el) a.balance = parseFloat(el.value)||0;
+  });
+  await persistData();
+  toast("Balances saved!");
+  renderAccounts();
+}
+
+async function doTransfer() {
+  const fromId = document.getElementById("transfer-from").value;
+  const toId = document.getElementById("transfer-to").value;
+  const amount = parseFloat(document.getElementById("transfer-amount").value)||0;
+  if(fromId === toId) { toast("Pick different accounts", true); return; }
+  if(amount <= 0) { toast("Enter an amount", true); return; }
+  const d = getData();
+  const from = d.accounts.find(a=>a.id===fromId);
+  const to = d.accounts.find(a=>a.id===toId);
+  if(from.balance < amount) { toast("Insufficient balance in "+from.name, true); return; }
+  from.balance = +(from.balance - amount).toFixed(2);
+  to.balance = +(to.balance + amount).toFixed(2);
+  await persistData();
+  document.getElementById("transfer-amount").value = "";
+  toast(`Transferred ${fmt$(amount)} from ${from.name} to ${to.name}`);
+  renderAccounts();
+}
+
+/* =============================================
+   INCOME RENDER
+============================================= */
+function renderIncome() {
+  const year = currentYear;
+  const d = getData();
+  const incomeItems = d.income.filter(i => i.year === year);
+  const incomeData = calcYearIncome(year);
+  document.getElementById("income-stats").innerHTML = `
+    <div class="stat-card">
+      <div class="stat-label">Total Expected</div>
+      <div class="stat-value green">${fmt$(incomeData.total)}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Received</div>
+      <div class="stat-value accent">${fmt$(incomeData.received)}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Pending</div>
+      <div class="stat-value" style="color:var(--yellow)">${fmt$(incomeData.pending)}</div>
+    </div>
+  `;
+  const biweekly = incomeItems.filter(i => i.recurrence === "biweekly");
+  const oneTime = incomeItems.filter(i => i.recurrence !== "biweekly");
+  let html = "";
+  for(const inc of biweekly) {
+    const dates = getBiweeklyDepositDates(inc.date, year);
+    const receipts = inc.depositReceipts || {};
+    const receivedCount = dates.filter(dt => receipts[dt.toISOString().slice(0,10)]).length;
+    const today = new Date(); today.setHours(0,0,0,0);
+    html += `<div class="card" style="margin-bottom:16px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
+        <div>
+          <div style="font-family:var(--heading-font);font-size:18px;letter-spacing:1px;">${inc.description}</div>
+          <div style="font-size:12px;color:var(--muted);">${fmt$(inc.amount)} every 2 weeks · ${receivedCount}/${dates.length} deposits received · ${fmt$(receivedCount * inc.amount)} of ${fmt$(dates.length * inc.amount)}</div>
+        </div>
+        <button class="btn btn-danger btn-sm" onclick="deleteIncome('${inc.id}')">✕ Remove</button>
+      </div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Date</th><th>Day</th><th>Amount</th><th>Received</th></tr></thead>
+        <tbody>
+          ${dates.map(dt => {
+            const key = dt.toISOString().slice(0,10);
+            const isReceived = !!receipts[key];
+            const isPast = dt < today;
+            const isToday = dt.getTime() === today.getTime();
+            const rowColor = isReceived ? 'var(--green)' : isToday ? 'var(--yellow)' : isPast ? 'var(--red)' : '';
+            return `<tr style="${rowColor ? 'color:'+rowColor : ''}">
+              <td class="mono" style="font-size:13px;">${dt.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"})}</td>
+              <td style="font-size:12px;color:var(--muted);">${dt.toLocaleDateString("en-US",{weekday:"short"})}</td>
+              <td class="mono">${fmt$(inc.amount)}</td>
+              <td>
+                <input type="checkbox" ${isReceived?"checked":""} 
+                  onchange="markDepositReceived('${inc.id}','${key}',this.checked)"
+                  style="cursor:pointer;width:16px;height:16px;accent-color:var(--green);">
+                ${isToday ? '<span style="font-size:11px;color:var(--yellow);margin-left:6px;">TODAY</span>' : ''}
+                ${isPast && !isReceived ? '<span style="font-size:11px;color:var(--red);margin-left:6px;">MISSED?</span>' : ''}
+              </td>
+            </tr>`;
+          }).join("")}
+        </tbody>
+      </table></div>
+    </div>`;
+  }
+  if(oneTime.length) {
+    html += `<div class="card">
+      <div class="card-title">ONE-TIME INCOME</div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Description</th><th>Type</th><th>Amount</th><th>Date</th><th>Received</th><th></th></tr></thead>
+        <tbody>${oneTime.map(inc => `
+          <tr>
+            <td>${inc.description}</td>
+            <td><span class="badge badge-${inc.type==='incentive'?'booked':inc.type==='gift'?'commit':inc.type==='side_job'?'maybe':'planned'}">${inc.type.replace("_"," ")}</span></td>
+            <td class="mono">${fmt$(inc.amount)}</td>
+            <td class="mono" style="font-size:13px;">${fmtDate(inc.date)}</td>
+            <td>
+              <input type="checkbox" ${inc.received?"checked":""} onchange="toggleIncomeReceived('${inc.id}', this.checked)"
+                style="cursor:pointer;width:16px;height:16px;accent-color:var(--green);">
+            </td>
+            <td><button class="btn btn-danger btn-sm" onclick="deleteIncome('${inc.id}')">✕</button></td>
+          </tr>
+        `).join("")}</tbody>
+      </table></div>
+    </div>`;
+  }
+  document.getElementById("income-table-wrap").innerHTML = html ||
+    `<div class="empty">No income for ${year} — add some above</div>`;
+}
+
+async function toggleIncomeReceived(id, val) {
+  const d = getData();
+  const inc = d.income.find(i=>i.id===id);
+  if(inc) { inc.received = val; await persistData(); renderIncome(); }
+}
+
+async function markDepositReceived(incId, dateKey, val) {
+  const d = getData();
+  const inc = d.income.find(i=>i.id===incId);
+  if(!inc) return;
+  if(!inc.depositReceipts) inc.depositReceipts = {};
+  if(val) inc.depositReceipts[dateKey] = true;
+  else delete inc.depositReceipts[dateKey];
+  await persistData();
+  renderIncome();
+  if(val) toast("Deposit marked received ✓");
+}
+
+async function deleteIncome(id) {
+  if(!confirm("Delete this income entry?")) return;
+  const d = getData();
+  d.income = d.income.filter(i=>i.id!==id);
+  await persistData();
+  toast("Deleted");
+  renderIncome();
+}
+
+function openSideJobModal() {
+  const today = new Date().toISOString().slice(0,10);
+  openModal(`
+    <div class="modal-title">SIDE JOB / ODD JOB</div>
+    <p style="color:var(--muted);font-size:13px;margin-bottom:16px;">Quick-add a one-time payment into the fund.</p>
+    <div class="form-group" style="margin-bottom:12px;">
+      <label>What was the job?</label>
+      <input type="text" id="m-sj-desc" placeholder="e.g. Helped neighbor move, sold old rifle scope…">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Amount ($)</label>
+        <input type="number" id="m-sj-amt" placeholder="0.00" min="0" step="0.01">
+      </div>
+      <div class="form-group">
+        <label>Date Received</label>
+        <input type="date" id="m-sj-date" value="${today}">
+      </div>
+    </div>
+    <div class="form-group" style="margin-bottom:16px;">
+      <label>Add to Account</label>
+      <select id="m-sj-account">
+        ${getData().accounts.map(a => `<option value="${a.id}">${a.name} (${fmt$(a.balance)})</option>`).join("")}
+      </select>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-green" onclick="saveSideJob()">💰 Add to Fund</button>
+      <button class="btn btn-secondary" onclick="closeModalDirect()">Cancel</button>
+    </div>
+  `);
+}
+
+async function saveSideJob() {
+  const desc = document.getElementById("m-sj-desc").value.trim();
+  const amt = parseFloat(document.getElementById("m-sj-amt").value)||0;
+  const date = document.getElementById("m-sj-date").value;
+  const accountId = document.getElementById("m-sj-account").value;
+  if(!desc || !amt) { toast("Fill in description and amount", true); return; }
+  const d = getData();
+  d.income.push({
+    id: "SJ-"+Date.now(),
+    type: "side_job",
+    description: desc,
+    amount: amt,
+    recurrence: "one_time",
+    date,
+    year: currentYear,
+    received: true
+  });
+  const acct = d.accounts.find(a => a.id === accountId);
+  if(acct) acct.balance = +(acct.balance + amt).toFixed(2);
+  await persistData();
+  closeModalDirect();
+  toast(`${fmt$(amt)} added to fund from: ${desc}`);
+  renderIncome();
+}
+
+function openIncomeModal() {
+  openModal(`
+    <div class="modal-title">ADD INCOME</div>
+    <div class="form-row">
+      <div class="form-group" style="grid-column:1/-1">
+        <label>Description</label>
+        <input type="text" id="m-inc-desc" placeholder="e.g. Annual Bonus">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Type</label>
+        <select id="m-inc-type">
+          <option value="auto_deposit">Auto Deposit</option>
+          <option value="incentive">Incentive/Bonus</option>
+          <option value="gift">Gift</option>
+          <option value="side_job">Side Job / Odd Job</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Amount ($)</label>
+        <input type="number" id="m-inc-amt" placeholder="0.00" min="0" step="0.01">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Schedule</label>
+        <select id="m-inc-rec">
+          <option value="one_time">One-time</option>
+          <option value="biweekly">Biweekly</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Start Date</label>
+        <input type="date" id="m-inc-date" value="${currentYear}-01-01">
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="saveIncome()">Add Income</button>
+      <button class="btn btn-secondary" onclick="closeModalDirect()">Cancel</button>
+    </div>
+  `);
+}
+
+async function saveIncome() {
+  const desc = document.getElementById("m-inc-desc").value.trim();
+  const type = document.getElementById("m-inc-type").value;
+  const amt = parseFloat(document.getElementById("m-inc-amt").value)||0;
+  const rec = document.getElementById("m-inc-rec").value;
+  const date = document.getElementById("m-inc-date").value;
+  if(!desc || !amt) { toast("Fill in description and amount", true); return; }
+  const d = getData();
+  d.income.push({
+    id: "INC-"+Date.now(),
+    type, description:desc, amount:amt,
+    recurrence:rec, date, year:currentYear, received:false
+  });
+  await persistData();
+  closeModalDirect();
+  toast("Income added!");
+  renderIncome();
+}
+
+/* =============================================
+   CATEGORIES RENDER
+============================================= */
+// Track expanded state for categories
+const _catExpanded = {};
+
+function toggleCategory(catId) {
+  _catExpanded[catId] = !_catExpanded[catId];
+  renderCategories();
+}
+
+function renderCategories() {
+  const year = currentYear;
+  const d = getData();
+  const cats = d.categories.filter(c => c.year === year)
+    .sort((a,b) => a.name.localeCompare(b.name));
+  const items = d.items.filter(i => i.year === year);
+  const tripProj = calcTripCategoryProjections(year);
+  if(!cats.length) {
+    document.getElementById("categories-list").innerHTML = `<div class="empty"><div class="empty-icon">📁</div><div>No categories for ${year}</div></div>`;
+    return;
+  }
+  document.getElementById("categories-list").innerHTML = cats.map(cat => {
+    const catItems = items.filter(i => i.category === cat.id);
+    const purchased = catItems.filter(i=>i.status==="purchased").reduce((s,i)=>s+i.cost,0);
+    const committed = catItems.filter(i=>i.status==="commit").reduce((s,i)=>s+i.cost,0);
+    const isFuel = cat.id === "FUEL";
+    const isLodg = cat.id === "LODG";
+    const tripProjected = isFuel ? tripProj.projFuel : isLodg ? tripProj.projLodging : 0;
+    const tripCount = isFuel || isLodg ? tripProj.activeTrips.length : 0;
+    const totalProjected = purchased + committed + tripProjected;
+    const remaining = cat.budget - totalProjected;
+    const spendPct = cat.budget > 0 ? Math.min(100, (purchased/cat.budget)*100) : 0;
+    const commitPct = cat.budget > 0 ? Math.min(100-spendPct, (committed/cat.budget)*100) : 0;
+    const tripPct = cat.budget > 0 ? Math.min(100-spendPct-commitPct, (tripProjected/cat.budget)*100) : 0;
+    const isExpanded = !!_catExpanded[cat.id];
+    const chevron = isExpanded ? '▲' : '▼';
+
+    const tripBadge = (isFuel || isLodg) && tripProjected > 0 ? `
+      <div style="margin-top:8px;padding:8px 10px;background:rgba(147,216,255,0.08);border:1px solid rgba(147,216,255,0.2);border-radius:6px;font-size:13px;display:flex;justify-content:space-between;align-items:center;">
+        <span style="color:var(--accent2);">🗺 From ${tripCount} active trip${tripCount===1?'':'s'}</span>
+        <span class="mono" style="color:var(--accent2);">${fmt$(tripProjected)}</span>
+      </div>` : '';
+
+    const expandedContent = isExpanded ? `
+      <div style="display:flex;gap:12px;font-size:13px;color:var(--muted);margin-bottom:10px;">
+        <span>🟢 Purchased</span><span>🟠 Committed</span>${(isFuel||isLodg)?'<span>🔵 From trips</span>':''}
+      </div>
+      ${tripBadge}
+      ${catItems.length ? `<div class="table-wrap" style="margin-top:10px;"><table>
+        <thead><tr><th>Item</th><th>Cost</th><th>Status</th><th></th></tr></thead>
+        <tbody>${catItems.map(item => `
+          <tr>
+            <td>
+              <span contenteditable="true"
+                data-item-id="${item.id}" data-field="description"
+                onblur="saveItemField(this)"
+                onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"
+                style="display:inline-block;min-width:120px;padding:2px 6px;border-radius:4px;cursor:text;border:1px solid transparent;"
+                onfocus="this.style.background='var(--bg)';this.style.borderColor='var(--accent)';"
+                onfocusout="this.style.background='';this.style.borderColor='transparent';"
+              >${item.description}</span>
+            </td>
+            <td class="mono">
+              <span contenteditable="true"
+                data-item-id="${item.id}" data-field="cost"
+                data-raw="${item.cost}"
+                onblur="saveItemField(this)"
+                onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"
+                onfocus="this.textContent=String(parseFloat(this.dataset.raw)||0);this.style.background='var(--bg)';this.style.borderColor='var(--accent)';"
+                onfocusout="this.style.background='';this.style.borderColor='transparent';"
+                style="display:inline-block;min-width:70px;padding:2px 6px;border-radius:4px;cursor:text;border:1px solid transparent;"
+              >${fmt$(item.cost)}</span>
+            </td>
+            <td>
+              <select onchange="updateItemStatus('${item.id}', this.value)" style="font-size:13px;padding:3px 6px;">
+                <option value="maybe" ${item.status==="maybe"?"selected":""}>Maybe</option>
+                <option value="commit" ${item.status==="commit"?"selected":""}>Commit</option>
+                <option value="purchased" ${item.status==="purchased"?"selected":""}>Purchased</option>
+              </select>
+            </td>
+            <td><button class="btn btn-danger btn-sm" onclick="deleteItem('${item.id}')">✕</button></td>
+          </tr>
+        `).join("")}</tbody>
+      </table></div>` : `<div style="color:var(--muted);font-size:13px;padding:4px 0;margin-top:8px;">No items yet — <span style="color:var(--accent);cursor:pointer;" onclick="openItemModal('${cat.id}')">add one</span></div>`}
+    ` : '';
+
+    return `<div class="card" style="margin-bottom:12px;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;flex-wrap:wrap;gap:8px;">
+        <div style="flex:1;cursor:pointer;user-select:none;" onclick="toggleCategory('${cat.id}')">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="font-family:var(--heading-font);font-size:18px;letter-spacing:1px;">${cat.name}</div>
+            <span style="font-size:13px;color:var(--muted);">${chevron}</span>
+            ${catItems.length ? `<span style="font-size:13px;color:var(--muted);">${catItems.length} item${catItems.length===1?'':'s'}</span>` : ''}
+          </div>
+          <div style="font-size:13px;color:var(--muted);margin-top:2px;">
+            Budget: ${fmt$(cat.budget)}
+            &nbsp;·&nbsp; Purchased: ${fmt$(purchased)}
+            &nbsp;·&nbsp; Committed: ${fmt$(committed)}
+            ${tripProjected > 0 ? `&nbsp;·&nbsp; Trips: ${fmt$(tripProjected)}` : ''}
+            &nbsp;·&nbsp; Remaining: <span style="color:${remaining<0?'var(--red)':'var(--green)'}">${fmt$(remaining)}</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:6px;" onclick="event.stopPropagation()">
+          <button class="btn btn-secondary btn-sm" onclick="openItemModal('${cat.id}')">+ Item</button>
+          <button class="btn btn-secondary btn-sm" onclick="editCategoryBudget('${cat.id}')">✏ Budget</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteCategory('${cat.id}')">✕</button>
+        </div>
+      </div>
+      <div class="progress-bar" style="margin-bottom:${isExpanded?'10px':'0'};">
+        <div style="height:100%;display:flex;">
+          <div style="width:${spendPct}%;background:var(--green);transition:width 0.4s;" title="Purchased"></div>
+          <div style="width:${commitPct}%;background:var(--accent);transition:width 0.4s;" title="Committed"></div>
+          <div style="width:${tripPct}%;background:var(--accent2);transition:width 0.4s;" title="From trips"></div>
+        </div>
+      </div>
+      ${expandedContent}
+    </div>`;
+  }).join("");
+}
+
+async function updateItemStatus(itemId, status) {
+  const d = getData();
+  const item = d.items.find(i=>i.id===itemId);
+  if(item) { item.status = status; await persistData(); renderCategories(); }
+}
+
+async function saveItemField(el) {
+  const itemId = el.dataset.itemId;
+  const field = el.dataset.field;
+  const d = getData();
+  const item = d.items.find(i=>i.id===itemId);
+  if(!item) return;
+  if(field === 'description') {
+    const val = el.textContent.trim();
+    if(!val) { el.textContent = item.description; return; }
+    if(val === item.description) return;
+    item.description = val;
+  } else if(field === 'cost') {
+    const raw = el.textContent.replace(/[$,]/g,'').trim();
+    const val = parseFloat(raw);
+    if(isNaN(val) || val < 0) { el.textContent = fmt$(item.cost); return; }
+    if(val === item.cost) { el.textContent = fmt$(val); return; }
+    item.cost = val;
+    el.dataset.raw = val;
+    el.textContent = fmt$(val);
+  }
+  await persistData();
+  toast("Item updated ✓");
+  renderCategories();
+}
+
+async function deleteItem(itemId) {
+  const d = getData();
+  d.items = d.items.filter(i=>i.id!==itemId);
+  await persistData();
+  toast("Item deleted");
+  renderCategories();
+}
+
+async function deleteCategory(catId) {
+  if(!confirm("Delete this category and all its items?")) return;
+  const d = getData();
+  d.categories = d.categories.filter(c=>c.id!==catId);
+  d.items = d.items.filter(i=>i.category!==catId);
+  await persistData();
+  toast("Category deleted");
+  renderCategories();
+}
+
+function editCategoryBudget(catId) {
+  const d = getData();
+  const cat = d.categories.find(c=>c.id===catId);
+  if(!cat) return;
+  openModal(`
+    <div class="modal-title">EDIT BUDGET</div>
+    <div class="form-group" style="margin-bottom:16px;">
+      <label>${cat.name} — Annual Budget ($)</label>
+      <input type="number" id="m-cat-budget" value="${cat.budget}" min="0" step="50">
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="saveCategoryBudget('${catId}')">Save</button>
+      <button class="btn btn-secondary" onclick="closeModalDirect()">Cancel</button>
+    </div>
+  `);
+}
+
+async function saveCategoryBudget(catId) {
+  const val = parseFloat(document.getElementById("m-cat-budget").value)||0;
+  const d = getData();
+  const cat = d.categories.find(c=>c.id===catId);
+  if(cat) { cat.budget = val; await persistData(); }
+  closeModalDirect();
+  toast("Budget updated!");
+  renderCategories();
+}
+
+function openCategoryModal() {
+  openModal(`
+    <div class="modal-title">ADD CATEGORY</div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Category Name</label>
+        <input type="text" id="m-cat-name" placeholder="e.g. Archery Equipment">
+      </div>
+      <div class="form-group">
+        <label>Category ID (short)</label>
+        <input type="text" id="m-cat-id" placeholder="e.g. ARCH" maxlength="8" style="text-transform:uppercase">
+      </div>
+    </div>
+    <div class="form-group" style="margin-bottom:16px;">
+      <label>Annual Budget ($)</label>
+      <input type="number" id="m-cat-budget2" placeholder="0.00" min="0" step="50">
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="saveCategory()">Add Category</button>
+      <button class="btn btn-secondary" onclick="closeModalDirect()">Cancel</button>
+    </div>
+  `);
+}
+
+async function saveCategory() {
+  const name = document.getElementById("m-cat-name").value.trim();
+  const id = document.getElementById("m-cat-id").value.trim().toUpperCase();
+  const budget = parseFloat(document.getElementById("m-cat-budget2").value)||0;
+  if(!name || !id) { toast("Fill in name and ID", true); return; }
+  const d = getData();
+  if(d.categories.find(c=>c.id===id && c.year===currentYear)) { toast("ID already exists", true); return; }
+  d.categories.push({ id, name, budget, year:currentYear });
+  await persistData();
+  closeModalDirect();
+  toast("Category added!");
+  renderCategories();
+}
+
+function openItemModal(presetCategoryId) {
+  const d = getData();
+  const cats = d.categories.filter(c=>c.year===currentYear).sort((a,b)=>a.name.localeCompare(b.name));
+  openModal(`
+    <div class="modal-title">ADD ITEM</div>
+    <div class="form-group" style="margin-bottom:12px;">
+      <label>Category</label>
+      <select id="m-item-cat">
+        ${cats.map(c=>`<option value="${c.id}" ${c.id===presetCategoryId?"selected":""}>${c.name}</option>`).join("")}
+      </select>
+    </div>
+    <div class="form-group" style="margin-bottom:12px;">
+      <label>Description</label>
+      <input type="text" id="m-item-desc" placeholder="e.g. Sitka Kelvin Down Jacket">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Planned Cost ($)</label>
+        <input type="number" id="m-item-cost" placeholder="0.00" min="0" step="0.01">
+      </div>
+      <div class="form-group">
+        <label>Status</label>
+        <select id="m-item-status">
+          <option value="maybe">Maybe</option>
+          <option value="commit">Commit</option>
+          <option value="purchased">Purchased</option>
+        </select>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="saveItem()">Add Item</button>
+      <button class="btn btn-secondary" onclick="closeModalDirect()">Cancel</button>
+    </div>
+  `);
+}
+
+async function saveItem() {
+  const cat = document.getElementById("m-item-cat").value;
+  const desc = document.getElementById("m-item-desc").value.trim();
+  const cost = parseFloat(document.getElementById("m-item-cost").value)||0;
+  const status = document.getElementById("m-item-status").value;
+  if(!desc || !cost) { toast("Fill in description and cost", true); return; }
+  const d = getData();
+  d.items.push({ id:"IT-"+Date.now(), category:cat, description:desc, cost, status, year:currentYear });
+  await persistData();
+  closeModalDirect();
+  toast("Item added!");
+  renderCategories();
+}
+
+/* =============================================
+   TRIPS RENDER
+============================================= */
+function renderTrips() {
+  const year = currentYear;
+  const d = getData();
+  // Sort by trip date ascending; no date goes to bottom
+  const trips = d.trips.filter(t => t.year === year)
+    .sort((a,b) => {
+      if(!a.tripDate && !b.tripDate) return 0;
+      if(!a.tripDate) return 1;
+      if(!b.tripDate) return -1;
+      return new Date(a.tripDate) - new Date(b.tripDate);
+    });
+  const tripCalcs = trips.map(t => ({ ...t, calc: calcTripCost(t.miles, t.vehicle, t.fuelPrice, t.lodging, t.manualFuel) }));
+  const totalFuel = tripCalcs.reduce((s,t)=>s+t.calc.finalFuel, 0);
+  const totalLodging = tripCalcs.reduce((s,t)=>s+t.lodging, 0);
+  const totalCost = tripCalcs.reduce((s,t)=>s+t.calc.total, 0);
+  document.getElementById("trip-stats").innerHTML = `
+    <div class="stat-card">
+      <div class="stat-label">Total Trip Cost</div>
+      <div class="stat-value accent">${fmt$(totalCost)}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Est. Fuel</div>
+      <div class="stat-value" style="color:var(--yellow)">${fmt$(totalFuel)}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Lodging</div>
+      <div class="stat-value" style="color:var(--accent2)">${fmt$(totalLodging)}</div>
+    </div>
+  `;
+  document.getElementById("trips-table").innerHTML = tripCalcs.length ? tripCalcs.map(t => `
+    <tr>
+      <td style="font-weight:500;">${t.name}</td>
+      <td class="mono" style="font-size:13px;">${t.tripDate ? fmtDateFull(t.tripDate) : '<span style="color:var(--muted)">—</span>'}</td>
+      <td>${t.vehicle}</td>
+      <td class="mono">${t.miles}</td>
+      <td class="mono">${t.calc.mpg}</td>
+      <td class="mono">${fmt$(t.fuelPrice)}</td>
+      <td class="mono">${fmt$(t.calc.finalFuel)}<br><span style="font-size:11px;color:var(--muted);">${t.calc.gallons} gal</span></td>
+      <td class="mono">${fmt$(t.lodging)}</td>
+      <td class="mono" style="color:var(--accent);font-weight:600;">${fmt$(t.calc.total)}</td>
+      <td><span class="badge badge-${t.status}">${t.status}</span></td>
+      <td style="display:flex;gap:4px;">
+        <button class="btn btn-secondary btn-sm" onclick="editTrip('${t.id}')">✏</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteTrip('${t.id}')">✕</button>
+      </td>
+    </tr>
+  `).join("") : `<tr><td colspan="11"><div class="empty">No trips for ${year} — add one above</div></td></tr>`;
+}
+
+function openTripModal(tripId) {
+  const d = getData();
+  const trip = tripId ? d.trips.find(t=>t.id===tripId) : null;
+  openModal(`
+    <div class="modal-title">${trip?"EDIT TRIP":"ADD TRIP"}</div>
+    <div class="form-group" style="margin-bottom:12px;">
+      <label>Trip Name</label>
+      <input type="text" id="m-trip-name" placeholder="e.g. Yellowstone Hunting" value="${trip?.name||''}">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Trip Date <span style="color:var(--muted);font-size:11px;">optional</span></label>
+        <input type="date" id="m-trip-date" value="${trip?.tripDate||''}">
+      </div>
+      <div class="form-group">
+        <label>Status</label>
+        <select id="m-trip-status">
+          <option value="planned" ${trip?.status==="planned"?"selected":""}>Planned</option>
+          <option value="booked" ${trip?.status==="booked"?"selected":""}>Booked</option>
+          <option value="completed" ${trip?.status==="completed"?"selected":""}>Completed</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Vehicle</label>
+        <select id="m-trip-vehicle">
+          ${d.vehicles.map(v=>`<option value="${v.name}" ${v.name===trip?.vehicle?"selected":""}>${v.name} (${v.mpg}mpg)</option>`).join("")}
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Planned Miles (total)</label>
+        <input type="number" id="m-trip-miles" placeholder="0" min="0" step="1" value="${trip?.miles||''}">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Fuel Price ($/gal)</label>
+        <input type="number" id="m-trip-fuel-price" placeholder="3.50" min="0" step="0.01" value="${trip?.fuelPrice||3.50}" oninput="previewFuelCalc()">
+      </div>
+      <div class="form-group">
+        <label>Manual Fuel Override ($) <span style="color:var(--muted);font-size:11px;">optional</span></label>
+        <input type="number" id="m-trip-manual-fuel" placeholder="leave blank to auto-calc" min="0" step="0.01" value="${trip?.manualFuel||''}">
+      </div>
+    </div>
+    <div id="m-fuel-preview" style="background:var(--surface2);border-radius:6px;padding:10px;margin-bottom:12px;font-size:13px;color:var(--muted);">
+      Enter miles and fuel price to preview calculation
+    </div>
+    <div class="form-group" style="margin-bottom:16px;">
+      <label>Lodging Cost ($)</label>
+      <input type="number" id="m-trip-lodging" placeholder="0.00" min="0" step="0.01" value="${trip?.lodging||0}">
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="saveTrip('${tripId||''}')">💾 ${trip?"Save Changes":"Add Trip"}</button>
+      <button class="btn btn-secondary" onclick="closeModalDirect()">Cancel</button>
+    </div>
+  `);
+  document.getElementById("m-trip-miles").addEventListener("input", previewFuelCalc);
+  document.getElementById("m-trip-vehicle").addEventListener("change", previewFuelCalc);
+  if(trip) previewFuelCalc();
+}
+
+function previewFuelCalc() {
+  const miles = parseFloat(document.getElementById("m-trip-miles")?.value)||0;
+  const vehicle = document.getElementById("m-trip-vehicle")?.value;
+  const fuelPrice = parseFloat(document.getElementById("m-trip-fuel-price")?.value)||0;
+  const manualFuel = parseFloat(document.getElementById("m-trip-manual-fuel")?.value)||0;
+  const lodging = parseFloat(document.getElementById("m-trip-lodging")?.value)||0;
+  const preview = document.getElementById("m-fuel-preview");
+  if(!preview) return;
+  if(!miles || !fuelPrice) {
+    preview.innerHTML = `<span>Enter miles and fuel price to preview</span>`;
+    return;
+  }
+  const calc = calcTripCost(miles, vehicle, fuelPrice, lodging, manualFuel);
+  preview.innerHTML = `
+    <span style="color:var(--text);">⛽ ${calc.gallons} gallons</span>
+    &nbsp;&nbsp;×&nbsp;&nbsp;
+    <span style="color:var(--text);">${fmt$(fuelPrice)}/gal</span>
+    &nbsp;&nbsp;=&nbsp;&nbsp;
+    <span style="color:var(--yellow);">Fuel: ${fmt$(calc.finalFuel)}</span>
+    ${manualFuel > 0 ? '<span style="color:var(--muted);margin-left:8px;">(manual override)</span>' : ''}
+    &nbsp;&nbsp;+&nbsp;&nbsp;
+    <span>Lodging: ${fmt$(lodging)}</span>
+    &nbsp;&nbsp;=&nbsp;&nbsp;
+    <strong style="color:var(--accent);">Total: ${fmt$(calc.total)}</strong>
+    <div style="margin-top:4px;color:var(--muted);">${calc.mpg} mpg · ${miles} miles</div>
+  `;
+}
+
+function editTrip(tripId) { openTripModal(tripId); }
+
+async function saveTrip(tripId) {
+  const name = document.getElementById("m-trip-name").value.trim();
+  const tripDate = document.getElementById("m-trip-date").value || null;
+  const vehicle = document.getElementById("m-trip-vehicle").value;
+  const miles = parseFloat(document.getElementById("m-trip-miles").value)||0;
+  const fuelPrice = parseFloat(document.getElementById("m-trip-fuel-price").value)||0;
+  const manualFuel = parseFloat(document.getElementById("m-trip-manual-fuel").value)||0;
+  const lodging = parseFloat(document.getElementById("m-trip-lodging").value)||0;
+  const status = document.getElementById("m-trip-status").value;
+  if(!name || !miles) { toast("Fill in trip name and miles", true); return; }
+  const d = getData();
+  if(tripId) {
+    const trip = d.trips.find(t=>t.id===tripId);
+    if(trip) Object.assign(trip, {name, tripDate, vehicle, miles, fuelPrice, manualFuel:manualFuel||null, lodging, status});
+  } else {
+    d.trips.push({ id:"TR-"+Date.now(), name, tripDate, vehicle, miles, fuelPrice, manualFuel:manualFuel||null, lodging, status, year:currentYear });
+  }
+  await persistData();
+  closeModalDirect();
+  toast(tripId ? "Trip updated!" : "Trip added!");
+  renderTrips();
+}
+
+async function deleteTrip(tripId) {
+  if(!confirm("Delete this trip?")) return;
+  const d = getData();
+  d.trips = d.trips.filter(t=>t.id!==tripId);
+  await persistData();
+  toast("Trip deleted");
+  renderTrips();
+}
+
+/* =============================================
+   SETTINGS RENDER
+============================================= */
+function renderSettings() {
+  const d = getData();
+  const year = currentYear;
+  const ys = d.yearSettings.find(y=>y.year===year) || { year, minBalance:0, autoIncrement:0 };
+  document.getElementById("year-settings-form").innerHTML = `
+    <div class="form-row">
+      <div class="form-group">
+        <label>Year Goal / Min Balance ($)</label>
+        <input type="number" id="s-min-bal" value="${ys.minBalance||0}" min="0" step="500">
+      </div>
+      <div class="form-group">
+        <label>Auto-Increment Target ($)</label>
+        <input type="number" id="s-auto-inc" value="${ys.autoIncrement||0}" min="0" step="500">
+      </div>
+    </div>
+    <p style="font-size:12px;color:var(--muted);">These are the targets for ${year}.</p>
+  `;
+  document.getElementById("vehicle-list").innerHTML = d.vehicles.map((v,i) => `
+    <div class="account-row">
+      <div class="account-name">${v.name}</div>
+      <div class="mono" style="color:var(--muted);margin-right:8px;">${v.mpg} mpg</div>
+      <button class="btn btn-danger btn-sm" onclick="deleteVehicle(${i})">✕</button>
+    </div>
+  `).join("");
+}
+
+async function saveYearSettings() {
+  const minBalance = parseFloat(document.getElementById("s-min-bal").value)||0;
+  const autoIncrement = parseFloat(document.getElementById("s-auto-inc").value)||0;
+  const d = getData();
+  let ys = d.yearSettings.find(y=>y.year===currentYear);
+  if(!ys) { ys = {year:currentYear}; d.yearSettings.push(ys); }
+  ys.minBalance = minBalance;
+  ys.autoIncrement = autoIncrement;
+  await persistData();
+  toast("Settings saved!");
+}
+
+async function addVehicle() {
+  const name = document.getElementById("new-vehicle-name").value.trim();
+  const mpg = parseFloat(document.getElementById("new-vehicle-mpg").value)||0;
+  if(!name || !mpg) { toast("Enter name and MPG", true); return; }
+  const d = getData();
+  if(d.vehicles.find(v=>v.name===name)) { toast("Vehicle already exists", true); return; }
+  d.vehicles.push({name, mpg});
+  await persistData();
+  document.getElementById("new-vehicle-name").value = "";
+  document.getElementById("new-vehicle-mpg").value = "";
+  toast("Vehicle added!");
+  renderSettings();
+}
+
+async function deleteVehicle(idx) {
+  const d = getData();
+  d.vehicles.splice(idx, 1);
+  await persistData();
+  toast("Vehicle removed");
+  renderSettings();
+}
+
+/* =============================================
+   DATA EXPORT / IMPORT
+============================================= */
+function exportData() {
+  const d = getData();
+  const blob = new Blob([JSON.stringify(d, null, 2)], {type:"application/json"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `adventure-fund-backup-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  toast("Backup exported!");
+}
+
+async function importData(event) {
+  const file = event.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = async e => {
+    try {
+      const imported = JSON.parse(e.target.result);
+      if(!imported.accounts || !imported.categories) throw new Error("Invalid format");
+      _dataCache = imported;
+      await persistData();
+      toast("Data imported successfully!");
+      renderPage(currentPage);
+    } catch(err) {
+      toast("Import failed - invalid file", true);
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = "";
+}
+
+async function confirmReset() {
+  if(!confirm("⚠ This will permanently delete ALL your data and reset to defaults. Are you sure?")) return;
+  if(!confirm("Really sure? This cannot be undone.")) return;
+  _dataCache = getDefaultData();
+  await persistData();
+  toast("Data reset to defaults");
+  setTimeout(() => location.reload(), 1000);
+}
+
+/* =============================================
+   INIT
+============================================= */
+document.addEventListener("DOMContentLoaded", async () => {
+  await initData();
+  document.getElementById("loading-overlay").classList.add("hidden");
+  initNav();
+  renderDashboard();
+});
+</script>
 </body>
 </html>
